@@ -1,0 +1,2805 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Коммерческое предложение — Lazio Concept</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand:        #0b5fcf;
+      --brand-hover:  #0a4fb0;
+      --brand-light:  #e8f0fc;
+      --bg:           #f5f4f1;
+      --bg-alt:       #edecea;
+      --surface:      #ffffff;
+      --border:       #d8d6d0;
+      --border-light: #e8e6e1;
+      --text:         #1a1917;
+      --text-muted:   #6b6860;
+      --text-faint:   #a8a49e;
+      --success-bg:   #eaf5ee;
+      --success-text: #1a6633;
+      --radius-sm:    4px;
+      --radius-md:    6px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; font-size:14px; }
+    .container { max-width:1200px; margin:0 auto; padding:0 2rem; }
+
+    /* ── HEADER ── */
+    header { background:var(--surface); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:200; }
+    .header-row { display:flex; align-items:center; justify-content:space-between; gap:1rem; height:52px; }
+    .header-left { display:flex; align-items:center; gap:2.5rem; }
+    .logo { font-weight:800; font-size:15px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text); white-space:nowrap; }
+    .logo span { color:var(--brand); }
+    nav { display:flex; gap:1.5rem; }
+    nav a { text-decoration:none; color:var(--text-muted); font-size:13px; font-weight:500; letter-spacing:0.02em; transition:color .15s; cursor:pointer; white-space:nowrap; }
+    nav a:hover { color:var(--text); }
+    .header-meta { display:flex; gap:0.5rem; align-items:center; flex-wrap:nowrap; }
+    .meta-item { font-size:11.5px; color:var(--text-muted); padding:0.2rem 0.65rem; border:1px solid var(--border-light); border-radius:var(--radius-sm); white-space:nowrap; background:var(--bg); }
+    .meta-item strong { color:var(--text); }
+    .discount-timer { background:var(--success-bg); border-color:#b8dfc4; color:var(--success-text); font-weight:600; }
+    .discount-timer.expired { background:#fef2f2; border-color:#fca5a5; color:#991b1b; }
+
+    /* Burger */
+    .burger { display:none; flex-direction:column; gap:4px; cursor:pointer; padding:6px; background:none; border:none; }
+    .burger span { display:block; width:20px; height:2px; background:var(--text); border-radius:2px; transition:.2s; }
+    .mobile-nav { display:none; position:absolute; top:52px; left:0; right:0; background:var(--surface); border-bottom:1px solid var(--border); padding:0.75rem 0; z-index:199; }
+    .mobile-nav a { display:block; padding:0.6rem 2rem; font-size:14px; font-weight:500; color:var(--text-muted); text-decoration:none; cursor:pointer; }
+    .mobile-nav a:hover { color:var(--text); background:var(--bg); }
+    .mobile-nav.open { display:block; }
+
+    /* ── MOBILE HEADER META ── */
+    @media (max-width:768px) {
+      nav { display:none; }
+      .burger { display:flex; }
+      .header-meta { display:none; }
+      .mobile-meta { display:block; }
+    }
+    .mobile-meta { display:none; background:var(--surface); border-bottom:1px solid var(--border-light); }
+    .mobile-meta-inner { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border-light); border-bottom:1px solid var(--border-light); }
+    .mobile-meta-cell { background:var(--surface); padding:0.55rem 1rem; }
+    .mobile-meta-label { font-size:10px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-faint); margin-bottom:2px; }
+    .mobile-meta-value { font-size:12px; font-weight:600; color:var(--text); }
+    .mobile-discount { background:var(--success-bg); padding:0.55rem 1rem; display:flex; justify-content:space-between; align-items:center; }
+    .mobile-discount.expired { background:#fef2f2; }
+    .mobile-discount-label { font-size:10px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--success-text); }
+    .mobile-discount.expired .mobile-discount-label { color:#991b1b; }
+    .mobile-discount-value { font-size:13px; font-weight:700; color:var(--success-text); }
+    .mobile-discount.expired .mobile-discount-value { color:#991b1b; }
+
+    /* ── BANNER ── */
+    .banner-wrap { background:var(--surface); border-bottom:1px solid var(--border); }
+    .banner { position:relative; overflow:hidden; height:280px; }
+    .slides-container { overflow:hidden; height:100%; }
+    .slides { display:flex; transition:transform .45s ease; height:100%; }
+    .slide { flex:0 0 100%; height:100%; background-size:cover; background-position:center; display:flex; align-items:flex-end; background-color:#1a1917; }
+    .slide-caption { background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 100%); width:100%; padding:1.5rem 2rem; }
+    .slide-caption h2 { color:#fff; font-size:20px; font-weight:700; letter-spacing:-.3px; }
+    .dots { position:absolute; bottom:12px; right:16px; display:flex; gap:5px; }
+    .dot { width:6px; height:6px; background:rgba(255,255,255,.45); border-radius:50%; cursor:pointer; transition:.2s; }
+    .dot.active { background:white; width:16px; border-radius:3px; }
+
+    /* ── DISCOUNT STICKY BAR ── */
+    .discount-bar {
+      background: var(--success-bg);
+      border-bottom: 1px solid #b8dfc4;
+      position: sticky;
+      top: 52px;
+      z-index: 150;
+      transition: top .25s;
+    }
+    .discount-bar.expired { background:#fef2f2; border-color:#fca5a5; }
+    .discount-bar-inner { display:flex; align-items:center; justify-content:space-between; height:36px; gap:1rem; flex-wrap:nowrap; overflow:hidden; }
+    .discount-bar-text { font-size:12px; font-weight:600; color:var(--success-text); display:flex; align-items:center; gap:0.6rem; }
+    .discount-bar.expired .discount-bar-text { color:#991b1b; }
+    .discount-bar-timer { font-size:13px; font-weight:800; font-variant-numeric:tabular-nums; }
+
+    /* ── SECTIONS ── */
+    .section-wrap { padding:2rem 0; }
+    .section-wrap.alt { background:var(--bg-alt); border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light); }
+    .section-wrap.white { background:var(--surface); border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light); }
+    section h2 { font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); margin-bottom:1.25rem; }
+    .estimate-title { font-size:18px; font-weight:800; letter-spacing:-.2px; text-transform:none; color:var(--text); margin-bottom:1.25rem; }
+    section h2 em { display:block; font-size:20px; font-weight:700; letter-spacing:-.3px; text-transform:none; font-style:normal; color:var(--text); margin-top:2px; }
+
+    /* ── CONTACTS BAR ── */
+    .contacts-bar { display:flex; align-items:stretch; background:var(--surface); border-bottom:1px solid var(--border-light); }
+    .contacts-side { display:flex; align-items:flex-start; gap:0; padding:.5rem 1rem; flex:1; min-width:0; }
+    .contacts-side + .contacts-side { border-left:1px solid var(--border-light); }
+    /* Лейбл фиксирован — выравнивает имена */
+    .contacts-label { font-size:9px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--text-faint); white-space:nowrap; flex-shrink:0; width:82px; padding-top:2px; }
+    /* Блок с именем и строчками инфо */
+    .contacts-data { display:flex; flex-direction:column; gap:1px; min-width:0; flex:1; }
+    .contacts-name { font-size:13px; font-weight:600; color:var(--text); line-height:1.4; }
+    .contacts-plain { font-size:13px; font-weight:600; color:var(--text); line-height:1.4; }
+    /* Строчки под именем — серые, компактные */
+    .contacts-info { font-size:12px; color:var(--text-muted); line-height:1.4; }
+    a.contacts-info-link { font-size:12px; color:var(--brand); line-height:1.4; text-decoration:none; }
+    a.contacts-info-link:hover { text-decoration:underline; }
+    .contacts-messengers { display:flex; gap:.3rem; margin-top:3px; }
+    .contacts-messengers a img { width:20px; height:20px; border-radius:3px; opacity:.8; transition:opacity .15s; display:block; }
+    .contacts-messengers a img:hover { opacity:1; }
+    @media (max-width:600px) {
+      .contacts-bar { flex-direction:column; }
+      .contacts-side + .contacts-side { border-left:none; border-top:1px solid var(--border-light); }
+      .contacts-label { width:72px; }
+    }
+    .kpi-grid { display:none; }
+    .kpi-label { font-size:10px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--text-faint); margin-bottom:0.3rem; }
+    .kpi-row { margin-bottom:0.2rem; line-height:1.5; }
+    .kpi-link { color:var(--brand); text-decoration:none; font-weight:600; }
+    .messengers { display:flex; gap:.4rem; margin-top:.4rem; }
+    .messengers a img { width:22px; height:22px; border-radius:var(--radius-sm); opacity:.8; }
+
+    /* ── ESTIMATE ── */
+    .estimate-table { width:100%; border-collapse:collapse; background:var(--surface); border:1px solid var(--border); font-size:13px; }
+    .estimate-table th { background:var(--bg); font-weight:600; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); padding:.65rem .9rem; border-bottom:1px solid var(--border); text-align:left; white-space:nowrap; }
+    .estimate-table td { padding:.55rem .9rem; border-bottom:1px solid var(--border-light); vertical-align:middle; }
+    .estimate-table tbody tr:last-child td { border-bottom:1px solid var(--border-light); }
+    .estimate-table tbody tr:hover { background:#faf9f7; }
+    .item-cell { min-width:0; }
+    .item-layout { display:grid; grid-template-columns:48px 1fr; gap:.65rem; align-items:start; }
+    .item-photo { width:48px; height:48px; object-fit:cover; border-radius:var(--radius-sm); cursor:pointer; border:1px solid var(--border-light); transition:opacity .15s; flex-shrink:0; }
+    .item-photo:hover { opacity:.8; }
+    .item-photo-empty { width:48px; height:48px; flex-shrink:0; }
+    .item-text { min-width:0; display:flex; flex-direction:column; gap:2px; }
+    .item-text .item-name { font-weight:500; display:block; }
+    .item-text .alt-select { display:block; }
+    .item-text .specs-link { display:block; }
+    .old-price { text-decoration:line-through; color:var(--text-faint); font-size:11.5px; margin-right:3px; }
+    .new-price { font-weight:700; color:var(--brand); }
+    .price-expired .new-price { color:var(--text); }
+    .price-expired .old-price { display:none; }
+    .qty-control { display:flex; align-items:center; gap:3px; }
+    .qty-control button { width:24px; height:24px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); cursor:pointer; font-size:13px; color:var(--text-muted); transition:background .15s; line-height:1; }
+    .qty-control button:hover { background:var(--bg-alt); }
+    .qty-input { width:44px; text-align:center; border:1px solid var(--border); border-radius:var(--radius-sm); padding:2px 3px; font-size:13px; background:var(--surface); }
+    .delete-row { background:none; border:none; cursor:pointer; color:var(--text-faint); font-size:13px; transition:color .15s; padding:2px 4px; }
+    .delete-row:hover { color:#c0392b; }
+    .item-name { font-weight:500; }
+    .specs-text { font-size:11.5px; color:var(--text-muted); margin-top:3px; }
+    .alt-select { margin-top:3px; font-size:11.5px; border:1px solid var(--border); border-radius:var(--radius-sm); padding:2px 5px; background:var(--bg); color:var(--text); }
+    .info-btn,.specs-info-btn { background:none; border:none; cursor:pointer; font-size:11px; color:var(--text-faint); padding:0 2px; transition:color .15s; }
+    .info-btn:hover,.specs-info-btn:hover { color:var(--brand); }
+    tr.disabled-row td { color:var(--text-faint) !important; }
+    tr.disabled-row .item-name,.tr.disabled-row .new-price { color:var(--text-faint); }
+
+    /* ── TOTALS ── */
+    .totals-sticky { /* перенесено под таблицу */ }
+    .totals-inner { padding: .85rem 0; display:flex; flex-direction:column; gap:.5rem; }
+    .totals-row { display:flex; justify-content:flex-end; align-items:baseline; gap:.75rem; }
+    .totals-label { font-size:12px; color:var(--text-muted); min-width:120px; text-align:right; }
+    .totals-value { font-size:14px; font-weight:600; min-width:110px; text-align:right; font-variant-numeric:tabular-nums; }
+    .totals-value.big { font-size:20px; font-weight:800; color:var(--text); letter-spacing:-.5px; }
+    .totals-value.discount { color:var(--brand); }
+    .totals-divider { border:none; border-top:1px solid var(--border-light); margin:0; }
+    .totals-actions { display:flex; justify-content:flex-end; gap:.75rem; margin-top:.35rem; flex-wrap:wrap; }
+    .delivery-info { font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:.4rem; margin-top:.5rem; padding-bottom:.85rem; justify-content:flex-end; }
+    .delivery-info button { background:none; border:none; cursor:pointer; color:var(--text-faint); font-size:12px; transition:color .15s; }
+    .delivery-info button:hover { color:var(--brand); }
+
+    /* ── BUTTONS ── */
+    .btn { background:var(--brand); color:#fff; border:none; border-radius:var(--radius-md); padding:.5rem 1.1rem; font-size:13px; font-weight:600; cursor:pointer; transition:background .15s; letter-spacing:.01em; }
+    .btn:hover { background:var(--brand-hover); }
+    .btn-secondary { background:var(--surface); color:var(--text); border:1px solid var(--border); }
+    .btn-secondary:hover { background:var(--bg); }
+    .btn-outline { background:transparent; border:1px solid var(--brand); color:var(--brand); }
+    .btn-outline:hover { background:var(--brand-light); }
+
+    /* ── PRODUCTS GRID ── */
+    .products-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1px; background:var(--border-light); border:1px solid var(--border-light); }
+    .product-card { background:var(--surface); transition:background .15s; display:flex; flex-direction:column; }
+    .product-card:hover { background:#faf9f7; }
+    .product-card .card-img { width:100%; height:160px; object-fit:contain; background:#ffffff; display:block; padding:4px; }
+    .card-content { padding:.9rem 1.1rem; flex:1; display:flex; flex-direction:column; }
+    .card-content h4 { font-size:13.5px; font-weight:600; margin-bottom:.25rem; }
+    .card-content p { color:var(--text-muted); font-size:12.5px; margin-bottom:.7rem; flex:1; }
+
+    /* ── PROJECTS GRID ── */
+    .projects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1px; background:var(--border-light); border:1px solid var(--border-light); }
+    .project-card { background:var(--surface); overflow:hidden; }
+    .project-img-wrap { overflow:hidden; height:200px; }
+    .project-img-wrap img { width:100%; height:100%; object-fit:cover; transition:transform .6s ease; will-change:transform; }
+    .project-card .card-content { padding:.9rem 1.1rem; }
+
+    /* ── ABOUT (redesigned) ── */
+    .about-block { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+    /* Left: text + facts */
+    .about-left { display: flex; flex-direction: column; gap: 1.5rem; }
+    .about-desc { font-size: 14px; color: var(--text-muted); line-height: 1.75; }
+    .about-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); border-radius: var(--radius-md); overflow: hidden; }
+    .about-fact { background: var(--surface); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.2rem; transition: background .2s; }
+    .about-fact:hover { background: var(--bg); }
+    .about-fact-icon { font-size: 18px; line-height: 1; margin-bottom: .1rem; }
+    .about-fact-title { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .about-fact-sub { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+    /* Right: video thumbnail */
+    .about-right { position: relative; }
+    .about-video-thumb {
+      position: relative; border-radius: var(--radius-md); overflow: hidden;
+      cursor: pointer; background: #111;
+      aspect-ratio: 16/9;
+      box-shadow: 0 8px 32px rgba(0,0,0,.15);
+    }
+    .about-video-thumb img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .5s ease, opacity .3s;
+    }
+    .about-video-thumb:hover img { transform: scale(1.04); opacity: .85; }
+    .about-play-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,.25);
+      transition: background .25s;
+    }
+    .about-video-thumb:hover .about-play-overlay { background: rgba(0,0,0,.38); }
+    .about-play-btn-big {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(255,255,255,.92);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
+      transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s;
+      padding-left: 4px;
+    }
+    .about-video-thumb:hover .about-play-btn-big {
+      transform: scale(1.1);
+      background: #fff;
+    }
+    .about-play-btn-big svg { display: block; }
+    .about-video-caption {
+      margin-top: .75rem; font-size: 12px; color: var(--text-muted);
+      text-align: center; line-height: 1.5;
+    }
+    @media (max-width: 768px) {
+      .about-block { grid-template-columns: 1fr; gap: 1.5rem; }
+      .about-right { order: -1; }
+      .about-facts { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 420px) {
+      .about-facts { grid-template-columns: 1fr; }
+    }
+
+    /* ── INFOGRAPHIC ── */
+    .infographic { display:flex; background:var(--border-light); border:1px solid var(--border-light); }
+    .infographic-item { flex:1; text-align:center; padding:1.25rem .75rem; background:var(--surface); border-right:1px solid var(--border-light); transition:background .2s; }
+    .infographic-item:last-child { border-right:none; }
+    .infographic-item.active { background:var(--bg-alt); }
+    .infographic-icon { font-size:22px; margin-bottom:.4rem; display:block; }
+    .infographic-label { font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-muted); }
+    .infographic-item.active .infographic-label { color:var(--text); }
+
+    /* ── MANAGER POPUP ── */
+    .manager-popup {
+      position:fixed; bottom:calc(1.5rem + 30px); right:1.5rem; z-index:300;
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:var(--radius-md); box-shadow:0 8px 32px rgba(0,0,0,.14);
+      width:280px; padding:1.1rem 1.25rem;
+      transform:translateY(120%); opacity:0;
+      transition:transform .35s cubic-bezier(.16,1,.3,1), opacity .35s ease;
+      pointer-events:none;
+    }
+    .manager-popup.visible { transform:translateY(0); opacity:1; pointer-events:auto; }
+    .manager-popup.hidden { display:none; }
+    .popup-close { position:absolute; top:.6rem; right:.75rem; background:none; border:none; cursor:pointer; color:var(--text-faint); font-size:16px; line-height:1; }
+    .popup-close:hover { color:var(--text); }
+    .popup-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:.3rem; padding-right:1.2rem; line-height:1.4; }
+    .popup-sub { font-size:12px; color:var(--text-muted); margin-bottom:.85rem; line-height:1.5; }
+    .popup-name { font-size:13px; font-weight:600; margin-bottom:.2rem; }
+    .popup-phone { font-size:13px; color:var(--brand); font-weight:500; cursor:pointer; margin-bottom:.5rem; }
+    .popup-messengers { display:flex; gap:.4rem; }
+    .popup-messengers img { width:28px; height:28px; border-radius:var(--radius-sm); opacity:.85; transition:opacity .15s; }
+    .popup-messengers img:hover { opacity:1; }
+    .brand-stripe { height:3px; background:var(--brand); border-radius:var(--radius-sm) var(--radius-sm) 0 0; position:absolute; top:0; left:0; right:0; }
+
+    /* ── FOOTER ── */
+    footer { background: #111210; color: #9c9890; }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
+      gap: 0;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .footer-col {
+      padding: 2rem 2rem 2rem;
+      border-right: 1px solid rgba(255,255,255,.06);
+    }
+    .footer-col:last-child { border-right: none; }
+    .footer-col-label {
+      font-size: 9.5px; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.3);
+      margin-bottom: 1rem; display: block;
+    }
+    /* Brand col */
+    .footer-brand-name {
+      font-size: 16px; font-weight: 800; letter-spacing: .08em;
+      text-transform: uppercase; color: #fff; margin-bottom: .5rem;
+    }
+    .footer-brand-name span { color: var(--brand); }
+    .footer-brand-desc {
+      font-size: 12.5px; color: rgba(255,255,255,.38);
+      line-height: 1.7; margin-bottom: 1.1rem; max-width: 220px;
+    }
+    .footer-social { display: flex; gap: .4rem; }
+    .footer-social a { display: block; }
+    .footer-social img {
+      width: 28px; height: 28px; border-radius: var(--radius-sm);
+      opacity: .45; transition: opacity .15s;
+    }
+    .footer-social img:hover { opacity: 1; }
+    /* Nav links */
+    .footer-nav { display: flex; flex-direction: column; gap: .5rem; }
+    .footer-nav a {
+      font-size: 13px; color: rgba(255,255,255,.52);
+      text-decoration: none; transition: color .15s;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .footer-nav a::before {
+      content: '';
+      display: inline-block;
+      width: 12px; height: 1px;
+      background: rgba(255,255,255,.2);
+      flex-shrink: 0;
+      transition: width .2s, background .2s;
+    }
+    .footer-nav a:hover { color: #fff; }
+    .footer-nav a:hover::before { width: 18px; background: var(--brand); }
+    /* Contacts col */
+    .footer-contact-row {
+      display: flex; align-items: flex-start; gap: .6rem;
+      margin-bottom: .75rem;
+    }
+    .footer-contact-icon {
+      font-size: 14px; flex-shrink: 0; margin-top: 1px; opacity: .6;
+    }
+    .footer-contact-text { display: flex; flex-direction: column; gap: 1px; }
+    .footer-contact-label {
+      font-size: 10px; font-weight: 600; letter-spacing: .07em;
+      text-transform: uppercase; color: rgba(255,255,255,.25);
+    }
+    .footer-contact-val {
+      font-size: 13px; color: rgba(255,255,255,.65);
+      text-decoration: none; transition: color .15s;
+    }
+    a.footer-contact-val:hover { color: #fff; }
+    /* Map col */
+    .footer-map-frame {
+      width: 100%; height: 120px;
+      border-radius: var(--radius-md); overflow: hidden;
+      background: rgba(255,255,255,.05);
+      margin-bottom: .75rem;
+      position: relative;
+    }
+    .footer-map-frame iframe {
+      width: 100%; height: 100%; border: none; display: block;
+      filter: grayscale(1) invert(1) brightness(.7);
+    }
+    .footer-map-addr {
+      font-size: 12px; color: rgba(255,255,255,.4);
+      margin-bottom: .65rem; line-height: 1.5;
+    }
+    .footer-route-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: 12px; font-weight: 600;
+      color: var(--brand); background: rgba(11,95,207,.15);
+      border: 1px solid rgba(11,95,207,.3);
+      border-radius: var(--radius-sm);
+      padding: .35rem .85rem;
+      cursor: pointer; text-decoration: none;
+      transition: background .15s, border-color .15s;
+      font-family: inherit;
+    }
+    .footer-route-btn:hover {
+      background: rgba(11,95,207,.28);
+      border-color: rgba(11,95,207,.55);
+    }
+    /* Manager card */
+    .footer-manager-card {
+      display: flex; align-items: center; gap: .75rem;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius-md);
+      padding: .75rem .9rem;
+      margin-bottom: .85rem;
+    }
+    .footer-manager-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--brand); display: flex; align-items: center;
+      justify-content: center; font-size: 16px; flex-shrink: 0;
+    }
+    .footer-manager-name { font-size: 13px; font-weight: 700; color: #fff; }
+    .footer-manager-role { font-size: 11px; color: rgba(255,255,255,.35); margin-top: 1px; }
+    .footer-manager-phone {
+      font-size: 13.5px; font-weight: 700; color: #fff;
+      text-decoration: none; display: block; margin-bottom: .55rem;
+      transition: color .15s;
+    }
+    .footer-manager-phone:hover { color: var(--brand); }
+    .footer-manager-msg { display: flex; gap: .4rem; }
+    .footer-manager-msg a {
+      display: flex; align-items: center; gap: .35rem;
+      font-size: 12px; font-weight: 600;
+      padding: .3rem .75rem;
+      border-radius: var(--radius-sm);
+      text-decoration: none; transition: opacity .15s;
+    }
+    .footer-manager-msg a:hover { opacity: .85; }
+    .footer-manager-msg a img { width: 16px; height: 16px; border-radius: 3px; }
+    .footer-msg-tg { background: rgba(40,160,240,.18); color: #60c0f0; border: 1px solid rgba(40,160,240,.2); }
+    .footer-msg-wa { background: rgba(37,211,102,.15); color: #4ed480; border: 1px solid rgba(37,211,102,.2); }
+    /* Bottom bar */
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .footer-copy { font-size: 11.5px; color: rgba(255,255,255,.22); }
+    .footer-bottom-links { display: flex; gap: 1.25rem; }
+    .footer-bottom-links a {
+      font-size: 11.5px; color: rgba(255,255,255,.25);
+      text-decoration: none; transition: color .15s;
+    }
+    .footer-bottom-links a:hover { color: rgba(255,255,255,.55); }
+    @media (max-width: 1024px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-col { border-bottom: 1px solid rgba(255,255,255,.06); }
+      .footer-col:nth-child(2n) { border-right: none; }
+    }
+    @media (max-width: 600px) {
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-col { border-right: none; padding: 1.5rem 1.25rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: .5rem; }
+    }
+
+    /* ── MODALS ── */
+    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); align-items:center; justify-content:center; z-index:400; backdrop-filter:blur(2px); }
+    .modal-content { background:var(--surface); max-width:460px; width:90%; padding:1.5rem; border-radius:var(--radius-md); border:1px solid var(--border); text-align:left; }
+    .modal-content h3 { font-size:15px; font-weight:700; margin-bottom:.65rem; }
+    .modal-content p { font-size:13px; color:var(--text-muted); line-height:1.6; margin-bottom:1.1rem; }
+
+    /* ── MOBILE ── */
+    @media (max-width:768px) {
+      .container { padding:0 1rem; }
+      .kpi-grid { grid-template-columns:1fr; }
+      .manager-popup { width:calc(100% - 2rem); right:1rem; left:1rem; }
+      .totals-row { flex-wrap:wrap; }
+      .infographic-label { font-size:10px; }
+
+      /* Смета + Итого + Товары — на всю ширину без боковых отступов */
+      #estimate-wrap .estimate-table-container,
+      #products-wrap .container { padding-left:0; padding-right:0; }
+      #estimate-wrap .totals-sticky { padding-left:0; padding-right:0; }
+      #estimate-wrap section h2,
+      #products-wrap section h2 { padding-left:1rem; padding-right:1rem; }
+      #estimate-wrap .estimate-table tbody tr { border-left:none; border-right:none; }
+      #products-wrap .container { padding:0; }
+    }
+    @media (max-width:480px) {
+      .totals-actions { flex-direction:column; }
+      .totals-actions .btn { width:100%; text-align:center; }
+    }
+
+
+    /* === СМЕТА МОБАЙЛ: карточный вид === */
+    /* Элементы только для мобиле/десктопа */
+    .mobile-only { display:none; }
+    .desktop-only { display:inline; }
+    .desktop-block { display:block; }
+
+    @media (max-width:768px) {
+      .mobile-only { display:block; }
+      .desktop-only { display:none !important; }
+      .desktop-block { display:none !important; }
+
+      .products-grid { grid-template-columns:repeat(2,1fr); }
+      .estimate-table { min-width:unset !important; border:none !important; }
+      .estimate-table thead tr { display:none; }
+      .estimate-table, .estimate-table tbody, .estimate-table tr, .estimate-table td { display:block; width:100%; }
+      .estimate-table tbody tr { border:1px solid var(--border); border-radius:0; margin-bottom:0; background:var(--surface); overflow:hidden; }
+      .estimate-table tbody tr + tr { border-top:1px solid var(--border); }
+      .estimate-table tbody tr:last-child { margin-bottom:0; }
+      .estimate-table td { border-bottom:1px solid var(--border-light); padding:.55rem .9rem; display:flex; align-items:center; gap:.6rem; min-height:34px; }
+      .estimate-table td:last-child { border-bottom:none; }
+      .estimate-table td[data-label=""]:not(.item-cell) { display:none; min-height:0; padding:0; }
+      .estimate-table td[data-label="Вкл"]:empty { display:none; min-height:0; padding:0; }
+      .estimate-table td::before { content:attr(data-label); font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--text-faint); min-width:72px; flex-shrink:0; }
+      .estimate-table td[data-label=""]::before { display:none; }
+      .estimate-table td.photo-cell::before { display:none; }
+
+      /* Фото крупнее на мобиле */
+      .item-photo { width:64px !important; height:64px !important; }
+      .item-photo-empty { width:64px !important; height:64px !important; }
+      .item-layout { grid-template-columns:64px 1fr !important; }
+
+      /* Выключенная строка — серый фон */
+      .estimate-table tbody tr.disabled-row { background:#f6f5f3 !important; }
+      .estimate-table tbody tr.disabled-row td { color:var(--text-faint) !important; opacity:.7; }
+
+      /* Toggle вместо checkbox */
+      .toggle { position:relative; display:inline-block; width:34px; height:20px; flex-shrink:0; vertical-align:middle; }
+      .toggle input { opacity:0; width:0; height:0; position:absolute; }
+      .toggle-slider { position:absolute; inset:0; background:var(--border); border-radius:20px; cursor:pointer; transition:background .2s; }
+      .toggle-slider:before { content:""; position:absolute; width:14px; height:14px; left:3px; top:3px; background:white; border-radius:50%; transition:transform .2s; box-shadow:0 1px 3px rgba(0,0,0,.2); }
+      .toggle input:checked + .toggle-slider { background:var(--brand); }
+      .toggle input:checked + .toggle-slider:before { transform:translateX(14px); }
+
+      /* Кнопка Удалить */
+      .delete-row-text { background:none; border:1px solid var(--border-light); border-radius:var(--radius-sm); cursor:pointer; color:var(--text-faint); font-size:12px; font-weight:500; padding:3px 8px; transition:color .15s, border-color .15s, background .15s; font-family:inherit; }
+      .delete-row-text:hover { color:#c0392b; border-color:#fca5a5; background:#fef2f2; }
+
+      /* Строка с toggle и удалить */
+      .row-actions-mobile { display:flex; align-items:center; gap:10px; }
+
+      /* Radio options */
+      .alt-options-mobile { display:flex; flex-direction:column; gap:4px; margin-top:5px; }
+      .alt-option-mobile { display:flex; align-items:center; gap:7px; cursor:pointer; font-size:12px; color:var(--text-muted); padding:2px 0; }
+      .alt-option-mobile input[type="radio"] { accent-color:var(--brand); width:15px; height:15px; cursor:pointer; flex-shrink:0; }
+      .alt-option-mobile.selected { color:var(--text); font-weight:500; }
+    }
+    /* ── PRINT ── */
+    @media print {
+      header,.banner-wrap,.discount-bar,.mobile-meta,
+      #counters-wrap,#steps-wrap,#faq-wrap,#cta-wrap,#products-wrap,#about-wrap,#projects-wrap,.infographic-wrap,
+      footer,#deliveryModal,#infoModal,#confirmOrderModal,#productPopup,.delivery-info,
+      .delete-row,.qty-control button,#orderBtn,#printBtn,
+      .info-btn,.specs-info-btn,.row-enable,.alt-select,.alt-options-desktop,
+      .messengers,.manager-popup,.totals-sticky { display:none !important; }
+      *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      body { background:white; font-size:10pt; color:#000; }
+      .container { max-width:100%; padding:0; }
+      .section-wrap,.section-wrap.alt,.section-wrap.white { background:white; border:none; padding:0; }
+      .print-header { display:flex !important; justify-content:space-between; align-items:flex-start; margin-bottom:1.25rem; padding-bottom:.85rem; border-bottom:2px solid var(--brand); }
+      .print-logo { font-weight:800; font-size:14pt; color:var(--brand); letter-spacing:.08em; }
+      .print-meta { text-align:right; font-size:8pt; color:#6b6860; line-height:1.7; }
+      .contacts-bar { flex-direction:row; border:1px solid #d8d6d0; margin-bottom:1rem; }
+      .contacts-side { padding:.4rem .7rem; }
+      .contacts-label { font-size:7pt; width:60px; }
+      .contacts-name, .contacts-plain { font-size:9pt; }
+      .contacts-info, .contacts-info-link { font-size:8pt; }
+      .contacts-messengers { display:none !important; }
+      .estimate-table { border:1px solid #d8d6d0; font-size:8.5pt; min-width:unset !important; width:100%; border-collapse:collapse; }
+      .estimate-table, .estimate-table thead, .estimate-table tbody, .estimate-table tr, .estimate-table td, .estimate-table th { display:table-row; }
+      .estimate-table { display:table; }
+      .estimate-table thead { display:table-header-group; }
+      .estimate-table tbody { display:table-row-group; }
+      .estimate-table tr { display:table-row; }
+      .estimate-table td, .estimate-table th { display:table-cell; }
+      .estimate-table td::before { display:none !important; }
+      .estimate-table thead tr { display:table-row !important; }
+      .estimate-table th { font-size:7pt; padding:.4rem .7rem; background:#f5f4f1 !important; }
+      .estimate-table td { padding:.4rem .7rem; }
+      .item-photo,.item-photo-empty { display:none !important; } .item-layout { display:block !important; } .estimate-table td:last-child,.estimate-table th:last-child { display:none !important; }
+      .new-price { color:var(--brand); font-weight:700; }
+      .old-price { text-decoration:line-through; color:#a8a49e; }
+      .price-expired .new-price { color:#000; }
+      .price-expired .old-price { display:none !important; }
+      tr.disabled-row td { color:#a8a49e !important; text-decoration:line-through; }
+      .print-totals { display:block !important; margin-top:.75rem; padding-top:.75rem; border-top:1px solid #d8d6d0; text-align:right; font-size:10pt; }
+      .qty-input { border:none; width:auto; }
+      .print-footer { display:block !important; margin-top:1.5rem; padding-top:.85rem; border-top:1px solid #d8d6d0; font-size:7.5pt; color:#6b6860; text-align:center; }
+      section h2 em { font-size:14pt; margin-bottom:.5rem; }
+      section h2 { font-size:7.5pt; }
+    }
+
+    /* ── ALT OPTIONS DESKTOP ── */
+    .alt-options-desktop { display:flex; flex-direction:column; gap:4px; margin-top:4px; }
+    .alt-option-desktop { display:flex; align-items:center; gap:7px; cursor:pointer; font-size:12px; color:var(--text-muted); padding:2px 0; }
+    .alt-option-desktop input[type="radio"] { accent-color:var(--brand); width:14px; height:14px; cursor:pointer; flex-shrink:0; }
+    .alt-option-desktop.selected { color:var(--text); font-weight:500; }
+
+    /* specs-link */
+    .specs-link { font-size:11.5px; color:var(--brand); cursor:pointer; text-decoration:underline dotted; background:none; border:none; padding:0; display:inline; font-family:inherit; }
+    .specs-link:hover { color:var(--brand-hover); }
+    .print-header { display:none; }
+    .print-totals { display:none; }
+    .print-footer { display:none; }
+
+    /* ── TOAST NOTIFICATION ── */
+    .toast-notify {
+      position: fixed;
+      top: 4.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(-8px);
+      background: var(--text);
+      color: var(--bg);
+      font-size: 13px;
+      font-weight: 500;
+      padding: .6rem 1.25rem;
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 16px rgba(0,0,0,.18);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease, transform .22s ease;
+      z-index: 9999;
+      white-space: nowrap;
+    }
+    .toast-notify.toast-show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .toast-notify.toast-success { background: var(--text); }
+    .toast-notify.toast-error   { background: #a12c2c; }
+
+
+    /* ── INSTALLMENT CALCULATOR ── */
+    .inst-toggle-row { display:flex; align-items:center; gap:.65rem; }
+    .inst-toggle-label { font-size:13px; font-weight:600; color:var(--text); }
+    .inst-row { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.4rem 0; }
+    .inst-label { font-size:13px; color:var(--text-muted); }
+    .inst-checkbox-label { display:flex; align-items:center; gap:.5rem; font-size:13px; color:var(--text-muted); cursor:pointer; }
+    .inst-checkbox-label input[type="checkbox"] { accent-color:var(--brand); width:15px; height:15px; cursor:pointer; }
+    .inst-months { display:flex; gap:.4rem; flex-wrap:wrap; }
+    .inst-month-btn { padding:.3rem .75rem; font-size:12px; font-weight:600; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--surface); color:var(--text-muted); cursor:pointer; transition:all .15s; }
+    .inst-month-btn:hover { border-color:var(--brand); color:var(--brand); }
+    .inst-month-btn.active { background:var(--brand); border-color:var(--brand); color:#fff; }
+    .inst-input { width:120px; padding:.35rem .6rem; border:1px solid var(--border); border-radius:var(--radius-sm); font-size:13px; font-family:inherit; color:var(--text); background:var(--surface); }
+    .inst-input:focus { outline:2px solid var(--brand); outline-offset:1px; }
+    .inst-result-row { display:flex; align-items:center; justify-content:space-between; padding:.5rem 0 0; border-top:1px solid var(--border-light); margin-top:.35rem; }
+    .inst-result-label { font-size:13px; font-weight:700; color:var(--text); }
+    .inst-result-value { font-size:18px; font-weight:800; color:var(--brand); font-variant-numeric:tabular-nums; }
+
+
+    /* ── REVIEWS ── */
+    .reviews-slider-wrap { position:relative; overflow:hidden; }
+    .reviews-track { display:flex; gap:1rem; transition:transform .4s ease; will-change:transform; padding-bottom:.25rem; }
+    .review-card {
+      flex: 0 0 calc(33.333% - .67rem);
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      min-width: 0;
+    }
+    .review-stars { color: #f5a623; font-size: 15px; letter-spacing: 1px; }
+    .review-header { display:flex; align-items:baseline; justify-content:space-between; gap:.5rem; flex-wrap:wrap; }
+    .review-author { font-size:13px; font-weight:700; color:var(--text); }
+    .review-date { font-size:11px; color:var(--text-faint); white-space:nowrap; }
+    .review-text { font-size:13px; color:var(--text-muted); line-height:1.6; }
+    .reviews-dots { display:flex; justify-content:center; gap:5px; margin-top:.85rem; }
+    .reviews-dot { width:6px; height:6px; border-radius:50%; background:var(--border); cursor:pointer; transition:.2s; border:none; padding:0; }
+    .reviews-dot.active { background:var(--brand); width:16px; border-radius:3px; }
+    @media (max-width:768px) {
+      .review-card { flex: 0 0 calc(100% - 2rem); }
+    }
+    @media (min-width:769px) and (max-width:1024px) {
+      .review-card { flex: 0 0 calc(50% - .5rem); }
+    }
+
+
+
+    /* ── ABOUT POPUP ── */
+    .about-slide-clickable { cursor: pointer; position: relative; }
+    .about-slide-clickable:hover .about-play-btn { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+    .about-play-btn {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%) scale(.85);
+      width: 52px; height: 52px;
+      background: rgba(0,0,0,.55);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      opacity: 0;
+      transition: opacity .2s, transform .2s;
+      pointer-events: none;
+      padding-left: 3px;
+    }
+    .about-popup-content {
+      max-width: 680px;
+      width: 100%;
+      padding: 0;
+      overflow: hidden;
+    }
+    .about-popup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .9rem 1.25rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .about-popup-header h3 { font-size: 15px; font-weight: 700; margin: 0; }
+    .about-popup-close {
+      background: none; border: none; font-size: 16px;
+      color: var(--text-muted); cursor: pointer; padding: .25rem .5rem;
+      border-radius: var(--radius-sm); transition: background .15s;
+    }
+    .about-popup-close:hover { background: var(--border-light); }
+    .about-popup-video-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 */
+      background: #000;
+    }
+    .about-popup-video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+    .about-popup-desc {
+      padding: 1rem 1.25rem;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+
+    /* ── PROJECT POPUP ── */
+    .proj-popup-content {
+      max-width: 640px; width: 100%; padding: 0; overflow: hidden;
+    }
+    .proj-main-wrap {
+      width: 100%; height: 320px; background: #111; overflow: hidden;
+    }
+    .proj-main-wrap img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: opacity .25s;
+    }
+    .proj-thumbs-row {
+      display: flex; gap: 6px; padding: .6rem 1rem;
+      background: var(--bg); overflow-x: auto;
+    }
+    .proj-thumb {
+      width: 72px; height: 52px; object-fit: cover; border-radius: var(--radius-sm);
+      cursor: pointer; opacity: .55; border: 2px solid transparent;
+      transition: opacity .15s, border-color .15s; flex-shrink: 0;
+    }
+    .proj-thumb.active, .proj-thumb:hover { opacity: 1; border-color: var(--brand); }
+    .proj-popup-info { padding: 1rem 1.25rem 1.25rem; }
+    .proj-popup-desc {
+      font-size: 13px; color: var(--text-muted); line-height: 1.65;
+      margin: 0 0 .85rem;
+    }
+    .proj-cost-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; padding: .65rem .9rem;
+      background: var(--brand-light, #eef6f5);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+    }
+    .proj-cost-label { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+    .proj-cost-value { font-size: 15px; font-weight: 800; color: var(--brand); white-space: nowrap; }
+    @media (max-width: 768px) {
+      .proj-main-wrap { height: 220px; }
+    }
+
+  
+    /* ── COMPANY COUNTERS ── */
+    .counters-wrap { background: var(--surface); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+    .counters-inner { display: flex; justify-content: center; align-items: stretch; flex-wrap: nowrap; }
+    .counter-item {
+      flex: 1 1 0;
+      min-width: 140px;
+      max-width: 280px;
+      text-align: center;
+      padding: 2.25rem 1.5rem 2rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+    .counter-item::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 20%; height: 60%; width: 1px;
+      background: var(--border-light);
+    }
+    .counter-item:last-child::after { display: none; }
+    .counter-value {
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 800;
+      color: var(--brand);
+      line-height: 1;
+      letter-spacing: -1.5px;
+      font-variant-numeric: tabular-nums;
+      display: flex;
+      align-items: baseline;
+      gap: 1px;
+    }
+    .counter-suffix {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      font-weight: 700;
+      color: var(--brand);
+      opacity: 0.7;
+    }
+    .counter-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+      line-height: 1.4;
+      max-width: 140px;
+    }
+    @keyframes counterPulse {
+      0%   { transform: scale(0.8); opacity: 0; }
+      60%  { transform: scale(1.07); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .counter-item.cnt-animated .counter-value {
+      animation: counterPulse 0.45s cubic-bezier(.34,1.56,.64,1);
+    }
+    @media (max-width: 600px) {
+      .counters-inner { flex-wrap: wrap; }
+      .counter-item { flex: 1 1 calc(50% - 1px); min-width: 120px; padding: 1.5rem 0.75rem; }
+      .counter-item::after { top: auto; bottom: 0; left: 15%; width: 70%; height: 1px; right: auto; }
+      .counter-item:nth-last-child(-n+1):nth-child(odd)::after,
+      .counter-item:last-child::after { display: none; }
+    }
+
+  
+    /* ── FAQ ── */
+    .faq-list { display: flex; flex-direction: column; gap: .55rem; }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .faq-item:hover { border-color: var(--border); }
+    .faq-item.open {
+      border-color: var(--brand);
+      box-shadow: 0 2px 14px rgba(11,95,207,.09);
+    }
+    .faq-question {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 1.25rem;
+      font-family: inherit; font-size: 14px; font-weight: 600;
+      color: var(--text); text-align: left; gap: 1rem;
+      transition: color .18s;
+    }
+    .faq-question:hover { color: var(--brand); }
+    .faq-item.open .faq-question { color: var(--brand); }
+    .faq-q-left { display: flex; align-items: center; gap: .85rem; flex: 1; min-width: 0; }
+    .faq-num {
+      flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+      background: var(--bg); border: 1.5px solid var(--border-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: var(--text-faint);
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .faq-item.open .faq-num { background: var(--brand); border-color: var(--brand); color: #fff; }
+    .faq-icon {
+      flex-shrink: 0; width: 22px; height: 22px;
+      border-radius: 50%; border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1), border-color .2s, background .2s, color .2s;
+      color: var(--text-muted);
+    }
+    .faq-icon svg { display: block; transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+    .faq-item.open .faq-icon { background: var(--brand); border-color: var(--brand); color: #fff; }
+    .faq-item.open .faq-icon svg { transform: rotate(45deg); }
+    .faq-answer { overflow: hidden; max-height: 0; transition: max-height .38s cubic-bezier(.4,0,.2,1); }
+    .faq-answer-inner {
+      margin: 0 1.25rem 1.1rem 4rem;
+      padding-top: .75rem;
+      border-top: 1px solid var(--border-light);
+      font-size: 13.5px; color: var(--text-muted); line-height: 1.75;
+    }
+    .faq-item.open .faq-answer { max-height: 400px; }
+    @media (max-width: 600px) {
+      .faq-answer-inner { margin-left: 1.25rem; }
+      .faq-num { display: none; }
+    }
+
+  
+    /* ── STEPS ── */
+    .steps-wrap { }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+      position: relative;
+    }
+    .step-item {
+      position: relative;
+      padding: 1.75rem 1.5rem 1.75rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-right: none;
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+      transition: background .2s;
+      overflow: hidden;
+    }
+    .step-item:last-child { border-right: 1px solid var(--border-light); }
+    .step-item:hover { background: var(--bg); }
+    /* Синяя полоска сверху при hover */
+    .step-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--brand);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .3s ease;
+    }
+    .step-item:hover::before { transform: scaleX(1); }
+    /* Коннектор-стрелка между шагами */
+    .step-item:not(:last-child)::after {
+      content: '›';
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: var(--border);
+      z-index: 2;
+      line-height: 1;
+    }
+    .step-num {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--brand);
+      opacity: .7;
+    }
+    .step-icon {
+      font-size: 26px;
+      line-height: 1;
+      margin-bottom: .1rem;
+    }
+    .step-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .step-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    @media (max-width: 768px) {
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+      .step-item {
+        border-right: 1px solid var(--border-light);
+        border-bottom: none;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.1rem 1.25rem;
+      }
+      .step-item:last-child { border-bottom: 1px solid var(--border-light); }
+      .step-item::after {
+        content: '↓';
+        right: auto; left: 50%;
+        top: auto; bottom: -12px;
+        transform: translateX(-50%);
+      }
+      .step-item:last-child::after { display: none; }
+      .step-icon { font-size: 22px; flex-shrink: 0; margin-top: .15rem; }
+      .step-item-body { display: flex; flex-direction: column; gap: .25rem; }
+      .step-item::before { height: 0; width: 3px; top: 0; bottom: 0; right: auto; transform: scaleY(0); transform-origin: top; }
+      .step-item:hover::before { transform: scaleY(1); }
+    }
+
+  
+    /* ── CTA FINAL ── */
+    .cta-wrap {
+      background: linear-gradient(135deg, #0b3d8a 0%, var(--brand) 55%, #1a7fd4 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 90% 50%, rgba(255,255,255,.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(0,0,0,.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    /* Декоративные круги */
+    .cta-wrap::after {
+      content: '';
+      position: absolute;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.07);
+      top: -120px; right: -80px;
+      pointer-events: none;
+    }
+    .cta-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 3rem 0;
+    }
+    .cta-left { display: flex; flex-direction: column; gap: .75rem; }
+    .cta-kicker {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.65);
+    }
+    .cta-kicker::before {
+      content: '';
+      display: inline-block;
+      width: 18px; height: 1.5px;
+      background: rgba(255,255,255,.5);
+    }
+    .cta-title {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      letter-spacing: -.5px;
+    }
+    .cta-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,.72);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+    .cta-badges {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+      margin-top: .25rem;
+    }
+    .cta-badge {
+      display: flex; align-items: center; gap: .35rem;
+      font-size: 12px; font-weight: 600;
+      color: rgba(255,255,255,.85);
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 20px;
+      padding: .25rem .75rem;
+      backdrop-filter: blur(4px);
+    }
+    .cta-badge-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #6ee7a0; flex-shrink: 0;
+    }
+    .cta-right {
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: .85rem;
+      flex-shrink: 0;
+    }
+    .cta-btn-primary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: #fff; color: var(--brand);
+      border: none; border-radius: var(--radius-md);
+      padding: .85rem 1.75rem;
+      font-family: inherit; font-size: 14px; font-weight: 700;
+      cursor: pointer; white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,.2);
+      transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
+    }
+    .cta-btn-primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 28px rgba(0,0,0,.28);
+    }
+    .cta-btn-secondary {
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,.65);
+      display: flex; align-items: center; gap: .3rem;
+      padding: 0; transition: color .18s;
+    }
+    .cta-btn-secondary:hover { color: #fff; }
+    .cta-guarantee {
+      font-size: 11.5px; color: rgba(255,255,255,.45);
+      text-align: right; line-height: 1.5;
+    }
+    @media (max-width: 768px) {
+      .cta-inner {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+        padding: 2.25rem 0;
+      }
+      .cta-right { align-items: flex-start; }
+      .cta-btn-primary { width: 100%; justify-content: center; }
+      .cta-guarantee { text-align: left; }
+      .cta-title { font-size: 1.5rem; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container header-row">
+    <div class="header-left">
+      <div class="logo">Lazio<span>.</span>Concept</div>
+      <nav>
+        <a href="#estimate" class="nav-link">Смета</a>
+        <a href="#products-wrap" class="nav-link">Товары</a>
+        <a href="#projects-wrap" class="nav-link">Проекты</a>
+        <a href="#contacts" class="nav-link">Контакты</a>
+      </nav>
+    </div>
+    <div class="header-meta">
+      <div class="meta-item">Создано: <strong id="dateCreated"></strong></div>
+      <div class="meta-item">До: <strong id="dateValid"></strong></div>
+      <div class="meta-item discount-timer" id="discountTimer">Скидка: --:--</div>
+    </div>
+    <button class="burger" id="burgerBtn" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#estimate" class="nav-link">Смета</a>
+    <a href="#products-wrap" class="nav-link">Товары</a>
+    <a href="#projects-wrap" class="nav-link">Проекты</a>
+    <a href="#contacts" class="nav-link">Контакты</a>
+  </nav>
+</header>
+
+<!-- MOBILE META (below header on mobile) -->
+<div class="mobile-meta" id="mobileMeta">
+  <div class="mobile-meta-inner">
+    <div class="mobile-meta-cell">
+      <div class="mobile-meta-label">КП создано</div>
+      <div class="mobile-meta-value" id="mobileDateCreated"></div>
+    </div>
+    <div class="mobile-meta-cell">
+      <div class="mobile-meta-label">Действительно до</div>
+      <div class="mobile-meta-value" id="mobileDateValid"></div>
+    </div>
+  </div>
+  <div class="mobile-discount" id="mobileDiscount">
+    <div class="mobile-discount-label">Скидка действует</div>
+    <div class="mobile-discount-value" id="mobileDiscountTimer">--:--</div>
+  </div>
+</div>
+
+<!-- DISCOUNT STICKY BAR -->
+<div class="discount-bar" id="discountBar">
+  <div class="container discount-bar-inner">
+    <div class="discount-bar-text">
+      <span>🔖 Специальная цена действует ещё</span>
+    </div>
+    <span class="discount-bar-timer" id="discountBarTimer">--:--:--</span>
+  </div>
+</div>
+
+<!-- BANNER -->
+<div class="banner-wrap">
+  <div class="banner" id="banner">
+    <div class="slides-container"><div class="slides" id="bannerSlides"></div></div>
+    <div class="dots" id="bannerDots"></div>
+  </div>
+</div>
+
+<!-- CLIENT / MANAGER -->
+<div class="contacts-bar">
+  <div class="contacts-side">
+    <span class="contacts-label">Клиент</span>
+    <div class="contacts-data">
+      <span class="contacts-plain" id="clientPhoneLink">Иван Иванов</span>
+      <span class="contacts-info" id="clientPhoneDisplay">+375 29 123-45-67</span>
+      <span class="contacts-info" data-editable="client_address">г. Минск, ул. Пушкина, 10</span>
+    </div>
+  </div>
+  <div class="contacts-side">
+    <span class="contacts-label">Менеджер</span>
+    <div class="contacts-data">
+      <span class="contacts-name" data-editable="manager_name">Артём SELLERTAB</span>
+      <a id="managerPhone" class="contacts-info-link" href="tel:+375293182088">+375 29 318-20-88</a>
+      <div class="contacts-messengers">
+        <a href="https://t.me/sellertab" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" width="20" height="20"></a>
+        <a href="https://wa.me/375293182088" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png" alt="WhatsApp" width="20" height="20"></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ESTIMATE -->
+<div class="section-wrap" id="estimate-wrap">
+  <div class="container estimate-table-container">
+    <div class="print-header">
+      <div class="print-logo">LAZIO CONCEPT</div>
+      <div class="print-meta">Коммерческое предложение<br>Создано: <span id="printDateCreated"></span><br>До: <span id="printDateValid"></span></div>
+    </div>
+    <section id="estimate">
+      <h2 class="estimate-title">Коммерческое предложение</h2>
+            <div style="overflow-x:auto">
+        <table class="estimate-table" id="estimateTable">
+          <thead>
+            <tr>
+              <th></th><th>Кол-во</th>
+              <th>Цена, BYN</th><th>Сумма, BYN</th><th>Вкл</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="estimateBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- TOTALS (под таблицей) -->
+  <div class="container">
+    <div style="border-top:1px solid var(--border-light); padding:.75rem 0 0;">
+      <div class="totals-inner">
+        <div class="totals-row">
+          <div class="totals-label">Итого (без скидки)</div>
+          <div class="totals-value" id="totalBase">0,00 BYN</div>
+        </div>
+        <div class="totals-row" id="discountRow">
+          <div class="totals-label" style="color:var(--brand)">Скидка</div>
+          <div class="totals-value discount" id="totalDiscountAmt">–0,00 BYN</div>
+        </div>
+        <hr class="totals-divider" style="margin:.35rem 0;">
+        <div class="totals-row">
+          <div class="totals-label" style="font-weight:700;color:var(--text)">Итого</div>
+          <div class="totals-value big" id="totalSum">0,00 <span style="font-size:14px;font-weight:500;color:var(--text-muted)">BYN</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+<!-- INSTALLMENT CALCULATOR -->
+<div class="container" id="installmentWrap">
+  <div style="border-top:1px solid var(--border-light); padding:.75rem 0;">
+
+    <!-- Toggle row -->
+    <div class="inst-toggle-row">
+      <label class="toggle">
+        <input type="checkbox" id="installmentEnabled">
+        <span class="toggle-slider"></span>
+      </label>
+      <span class="inst-toggle-label">Рассрочка</span>
+    </div>
+
+    <!-- Calculator body (hidden until enabled) -->
+    <div id="installmentBody" style="display:none; margin-top:.75rem;">
+
+      <!-- Без первоначального взноса -->
+      <div class="inst-row">
+        <label class="inst-checkbox-label">
+          <input type="checkbox" id="noDownPayment" checked>
+          <span>Без первоначального взноса</span>
+        </label>
+      </div>
+
+      <!-- Первоначальный взнос (показывается если галочка снята) -->
+      <div id="downPaymentRow" class="inst-row" style="display:none;">
+        <span class="inst-label">Первоначальный взнос, BYN</span>
+        <input type="number" id="downPaymentAmt" class="inst-input" min="0" placeholder="0">
+      </div>
+
+      <!-- Количество месяцев -->
+      <div class="inst-row">
+        <span class="inst-label">Срок рассрочки</span>
+        <div class="inst-months">
+          <button class="inst-month-btn active" data-months="3">3 мес</button>
+          <button class="inst-month-btn" data-months="6">6 мес</button>
+          <button class="inst-month-btn" data-months="12">12 мес</button>
+          <button class="inst-month-btn" data-months="24">24 мес</button>
+        </div>
+      </div>
+
+      <!-- Результат -->
+      <div class="inst-result-row">
+        <span class="inst-result-label">Ежемесячный платёж</span>
+        <span class="inst-result-value" id="monthlyPayment">— BYN</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ACTIONS (не sticky, под таблицей) -->
+  <div class="container">
+    <div class="totals-actions" style="padding:.85rem 0 .5rem;">
+      <button class="btn btn-secondary" id="printBtn" onclick="printSpec()">↓ Спецификация PDF</button>
+      <button class="btn btn-secondary" id="excelBtn" onclick="exportExcel()">↓ Скачать Excel</button>
+      <button class="btn" id="orderBtn">Оформить заказ</button>
+    </div>
+    <div class="delivery-info" style="padding-bottom:.85rem;">
+      <span>Доставка по городу — бесплатно от 500 BYN</span>
+      <button id="infoBtn" title="Подробнее">ℹ</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRINT TOTALS (only in print) -->
+<div class="container">
+  <div class="print-totals" id="printTotals"></div>
+  <div class="print-footer">© 2026 Lazio Concept · г. Минск, ул. Сурганова 61 · +375 (29) 178-20-78 · info@lazio.by</div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="section-wrap alt" id="products-wrap">
+  <div class="container">
+    <section id="products">
+      <h2><em>Вам также может пригодиться</em></h2>
+      <div class="products-grid" id="productsGrid"></div>
+    </section>
+  </div>
+</div>
+
+<!-- COMPANY COUNTERS -->
+<div class="counters-wrap" id="counters-wrap">
+  <div class="container">
+    <div class="counters-inner" id="countersInner"></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="section-wrap white" id="about-wrap">
+  <div class="container">
+    <section id="about">
+      <h2><em>О компании</em></h2>
+      <div class="about-block" id="aboutBlock">
+        <!-- left -->
+        <div class="about-left">
+          <p class="about-desc" id="aboutDesc"></p>
+          <div class="about-facts" id="aboutFacts"></div>
+        </div>
+        <!-- right: video -->
+        <div class="about-right">
+          <div class="about-video-thumb" id="aboutVideoThumb">
+            <img id="aboutThumbImg" src="" alt="О компании — видео" loading="lazy" width="640" height="360">
+            <div class="about-play-overlay">
+              <div class="about-play-btn-big">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--brand)"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+          </div>
+          <p class="about-video-caption" id="aboutVideoCaption"></p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+
+<!-- STEPS -->
+<div class="section-wrap alt" id="steps-wrap">
+  <div class="container">
+    <section id="steps">
+      <h2><em>Как мы работаем</em></h2>
+      <div class="steps-grid" id="stepsGrid"></div>
+    </section>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="section-wrap white" id="faq-wrap" style="padding:2.5rem 0;">
+  <div class="container">
+    <section id="faq">
+      <h2><em>Часто задаваемые вопросы</em></h2>
+      <div class="faq-list" id="faqList"></div>
+    </section>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<div class="section-wrap alt" id="reviews-wrap">
+  <div class="container">
+    <section id="reviews">
+      <h2><em>Отзывы клиентов</em></h2>
+      <div class="reviews-slider-wrap">
+        <div class="reviews-track" id="reviewsTrack"></div>
+        <div class="reviews-dots" id="reviewsDots"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="section-wrap" id="projects-wrap">
+  <div class="container">
+    <section id="projects">
+      <h2><em>Наши проекты</em></h2>
+      <div class="projects-grid" id="projectsGrid"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ADVANTAGES -->
+<div class="section-wrap alt infographic-wrap">
+  <div class="container">
+    <div class="infographic" id="infographic"></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-wrap" id="cta-wrap">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-left">
+        <span class="cta-kicker">Готовы начать?</span>
+        <h2 class="cta-title">Получите точный расчёт<br>под ваш проект</h2>
+        <p class="cta-sub">Выезд замерщика бесплатно. Смету готовим в день замера. Менеджер на связи на каждом этапе — от первого звонка до финального монтажа.</p>
+        <div class="cta-badges">
+          <span class="cta-badge"><span class="cta-badge-dot"></span>Замер бесплатно</span>
+          <span class="cta-badge"><span class="cta-badge-dot"></span>Гарантия 5 лет</span>
+          <span class="cta-badge"><span class="cta-badge-dot"></span>Рассрочка 0%</span>
+          <span class="cta-badge"><span class="cta-badge-dot"></span>Работаем под ключ</span>
+        </div>
+      </div>
+      <div class="cta-right">
+        <button class="cta-btn-primary" id="ctaOrderBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Оформить заказ
+        </button>
+        <button class="cta-btn-secondary" id="ctaCallBtn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.64A2 2 0 012 .99h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Или позвоните нам
+        </button>
+        <p class="cta-guarantee">Без предоплаты до замера<br>Отвечаем в течение 30 минут</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="contacts">
+  <div class="container">
+    <div class="footer-top">
+
+      <!-- 1. Brand -->
+      <div class="footer-col">
+        <span class="footer-col-label">О компании</span>
+        <div class="footer-brand-name">Lazio<span>.</span>Concept</div>
+        <p class="footer-brand-desc">Производство и монтаж раздвижных систем, скрытых дверей и стеклянных перегородок в Минске. С 2015 года.</p>
+        <div class="footer-social">
+          <a href="https://t.me/sellertab" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram"></a>
+          <a href="https://wa.me/375293182088" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png" alt="WhatsApp"></a>
+          <a href="https://instagram.com/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+        </div>
+      </div>
+
+      <!-- 2. Catalogue links -->
+      <div class="footer-col">
+        <span class="footer-col-label">Каталог</span>
+        <nav class="footer-nav">
+          <a href="https://lazio.by/dveri" target="_blank">Скрытые двери</a>
+          <a href="https://lazio.by/peregorodki" target="_blank">Перегородки</a>
+          <a href="https://lazio.by/razdvizhnye" target="_blank">Раздвижные системы</a>
+          <a href="https://lazio.by/paneli" target="_blank">Стеновые панели</a>
+          <a href="https://lazio.by/aksessuary" target="_blank">Аксессуары</a>
+        </nav>
+      </div>
+
+      <!-- 3. Info links + contacts -->
+      <div class="footer-col">
+        <span class="footer-col-label">Информация</span>
+        <nav class="footer-nav" style="margin-bottom:1.25rem">
+          <a href="https://lazio.by/o-kompanii" target="_blank">О компании</a>
+          <a href="https://lazio.by/proekty" target="_blank">Наши проекты</a>
+          <a href="https://lazio.by/garantiya" target="_blank">Гарантия и сервис</a>
+          <a href="https://lazio.by/dostavka" target="_blank">Доставка и монтаж</a>
+          <a href="https://lazio.by/kontakty" target="_blank">Контакты</a>
+        </nav>
+        <div class="footer-contact-row">
+          <span class="footer-contact-icon">📍</span>
+          <div class="footer-contact-text">
+            <span class="footer-contact-label">Адрес</span>
+            <span class="footer-contact-val">г. Минск, ул. Сурганова 61</span>
+          </div>
+        </div>
+        <div class="footer-contact-row">
+          <span class="footer-contact-icon">📞</span>
+          <div class="footer-contact-text">
+            <span class="footer-contact-label">Телефон</span>
+            <a href="tel:+375291782078" class="footer-contact-val">+375 (29) 178-20-78</a>
+          </div>
+        </div>
+        <div class="footer-contact-row">
+          <span class="footer-contact-icon">✉️</span>
+          <div class="footer-contact-text">
+            <span class="footer-contact-label">Email</span>
+            <a href="mailto:info@lazio.by" class="footer-contact-val">info@lazio.by</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Manager + Map -->
+      <div class="footer-col">
+        <span class="footer-col-label">Ваш менеджер</span>
+        <div class="footer-manager-card">
+          <div class="footer-manager-avatar">👤</div>
+          <div>
+            <div class="footer-manager-name" data-editable="manager_name">Артём SELLERTAB</div>
+            <div class="footer-manager-role">Менеджер по продажам</div>
+          </div>
+        </div>
+        <a href="tel:+375293182088" class="footer-manager-phone">+375 29 318-20-88</a>
+        <div class="footer-manager-msg">
+          <a href="https://t.me/sellertab" target="_blank" class="footer-msg-tg">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="TG"> Telegram
+          </a>
+          <a href="https://wa.me/375293182088" target="_blank" class="footer-msg-wa">
+            <img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png" alt="WA"> WhatsApp
+          </a>
+        </div>
+        <div style="margin-top:1rem">
+          <div class="footer-map-frame">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.5!2d27.5766!3d53.9045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTPCsDU0JzE2LjIiTiAyN8KwMzQnMzUuOCJF!5e0!3m2!1sru!2sby!4v1"
+              allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+          <p class="footer-map-addr">г. Минск, ул. Сурганова 61</p>
+          <a class="footer-route-btn" id="routeBtn"
+            href="https://www.google.com/maps/dir/?api=1&destination=53.9045,27.5766"
+            target="_blank">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+            Построить маршрут
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /footer-top -->
+  </div>
+
+  <div class="container">
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Lazio Concept. Все права защищены.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Публичная оферта</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- MANAGER POPUP -->
+<div class="manager-popup" id="managerPopup">
+  <div class="brand-stripe"></div>
+  <button class="popup-close" id="popupClose">✕</button>
+  <div class="popup-title">Появились вопросы или пожелания?</div>
+  <div class="popup-sub">Свяжитесь со мной удобным способом — отвечу быстро.</div>
+  <div class="popup-name">Артём SELLERTAB</div>
+  <div class="popup-phone" id="popupPhone">+375 29 318-20-88</div>
+  <div class="popup-messengers">
+    <a href="https://t.me/sellertab" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram"></a>
+    <a href="https://wa.me/375293182088" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png" alt="WhatsApp"></a>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div id="confirmOrderModal" class="modal" style="display:none">
+  <div class="modal-content" style="max-width:420px">
+    <h3 style="margin-bottom:.75rem">Подтвердить заказ</h3>
+    <p style="color:var(--text-muted);font-size:13px;margin-bottom:.35rem">Итоговая сумма:</p>
+    <p style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:.75rem" id="confirmOrderTotal"></p>
+
+    <!-- Блок рассрочки (показывается если включена) -->
+    <div id="confirmInstBlock" style="display:none;background:var(--brand-light);border-radius:var(--radius-md);padding:.75rem 1rem;margin-bottom:1rem;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--brand);margin-bottom:.3rem">Рассрочка</div>
+      <div style="font-size:13px;font-weight:600;color:var(--text)" id="confirmInstDetails"></div>
+    </div>
+
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:1.25rem">После подтверждения менеджер свяжется с вами для согласования деталей.</p>
+    <div style="display:flex;flex-direction:column;gap:.5rem">
+      <!-- Кнопка рассрочки (только если включена) -->
+      <button class="btn" id="confirmInstBtn" style="display:none;background:var(--brand)">Оформить в рассрочку</button>
+      <button class="btn btn-secondary" id="confirmOrderBtn">Полная стоимость</button>
+      <button class="btn btn-secondary" style="margin-top:.25rem" onclick="document.getElementById('confirmOrderModal').style.display='none'">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<div id="productPopup" class="modal" style="display:none">
+  <div class="modal-content" style="max-width:440px;padding:0;overflow:hidden">
+    <!-- Photo -->
+    <img id="ppPhoto" src="" alt="" style="width:100%;max-height:260px;object-fit:contain;background:#fff;display:block;padding:1rem">
+    <!-- Content -->
+    <div style="padding:1rem 1.25rem 1.25rem">
+      <h3 id="ppName" style="font-size:16px;font-weight:700;margin-bottom:.5rem"></h3>
+      <p id="ppPrice" style="font-size:15px;font-weight:700;margin-bottom:.75rem"></p>
+      <p id="ppDesc" style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:1rem"></p>
+      <!-- Qty + Add -->
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <div class="qty-control" style="flex-shrink:0">
+          <button onclick="const q=document.getElementById('ppQty');q.value=Math.max(1,parseInt(q.value)-1)">−</button>
+          <input type="number" id="ppQty" value="1" min="1" style="width:44px">
+          <button onclick="const q=document.getElementById('ppQty');q.value=parseInt(q.value)+1">+</button>
+        </div>
+        <button class="btn" id="ppAddBtn" style="flex:1" data-idx="0">+ Добавить</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('productPopup').style.display='none'">✕</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- PROJECT POPUP -->
+<div id="projectPopup" class="modal" style="display:none" onclick="if(event.target===this)this.style.display='none'">
+  <div class="modal-content proj-popup-content">
+    <div class="about-popup-header">
+      <h3 id="projPopupTitle"></h3>
+      <button class="about-popup-close" onclick="document.getElementById('projectPopup').style.display='none'">✕</button>
+    </div>
+    <!-- Main photo -->
+    <div class="proj-main-wrap">
+      <img id="projMainPhoto" src="" alt="" loading="lazy">
+    </div>
+    <!-- Thumbnails -->
+    <div id="projThumbs" class="proj-thumbs-row"></div>
+    <!-- Description + Cost -->
+    <div class="proj-popup-info">
+      <p id="projPopupDesc" class="proj-popup-desc"></p>
+      <div class="proj-cost-row">
+        <span class="proj-cost-label">Ориентировочная стоимость</span>
+        <span class="proj-cost-value" id="projPopupCost"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT POPUP -->
+<div id="aboutPopup" class="modal" style="display:none" onclick="if(event.target===this)closeAboutPopup()">
+  <div class="modal-content about-popup-content">
+    <div class="about-popup-header">
+      <h3 id="aboutPopupTitle"></h3>
+      <button class="about-popup-close" onclick="closeAboutPopup()">✕</button>
+    </div>
+    <div class="about-popup-video-wrap">
+      <iframe id="aboutPopupVideo" src="" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+    <p id="aboutPopupDesc" class="about-popup-desc"></p>
+  </div>
+</div>
+
+<div id="deliveryModal" class="modal">
+  <div class="modal-content"><h3>Условия доставки</h3><p>Доставка в пределах Минска — бесплатно при заказе от 500 BYN. Время доставки согласовывается с менеджером. Гарантия на монтаж — 12 месяцев.</p><button id="closeModal" class="btn">Закрыть</button></div>
+</div>
+<div id="infoModal" class="modal">
+  <div class="modal-content"><h3>Подробная информация</h3><div id="infoModalContent" style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:1.1rem;text-align:left"></div><button id="closeInfoModal" class="btn">Закрыть</button></div>
+</div>
+
+<script>
+  const estimateItems = {{ESTIMATE_JSON}};
+  const extraProducts  = {{EXTRA_JSON}};
+
+  const CLIENT_ID  = "{{CLIENT_ID}}";
+  const WEBAPP_URL = "{{WEBAPP_URL}}";
+
+  const clientPhoneNumber  = "+375291234567";
+  const managerPhoneNumber = "+375293182088";
+
+  // ── DISCOUNT: 5 часов от момента генерации ──
+  // Apps Script подставляет реальный timestamp вместо плейсхолдера {{GENERATED_AT}}
+  // Если плейсхолдер не заменён — используем window.name для сохранения между сессиями
+  const DISCOUNT_DURATION = 5 * 60 * 60 * 1000; // 5 часов
+  (function(){
+    const RAW_TS = "{{GENERATED_AT}}";
+    const isPlaceholder = RAW_TS.indexOf("{{") !== -1;
+    let deadline;
+    if (!isPlaceholder) {
+      // Apps Script подставил реальный timestamp
+      deadline = parseInt(RAW_TS, 10) + DISCOUNT_DURATION;
+    } else {
+      // Fallback: сохраняем дедлайн в window.name (переживает перезагрузку вкладки)
+      const KEY = "lazio_cp_deadline";
+      let stored = null;
+      try { stored = window.name ? JSON.parse(window.name)[KEY] : null; } catch(e){}
+      if (stored && stored > Date.now()) {
+        deadline = stored;
+      } else {
+        deadline = Date.now() + DISCOUNT_DURATION;
+        try {
+          const obj = {}; try { Object.assign(obj, JSON.parse(window.name)); } catch(e){}
+          obj[KEY] = deadline;
+          window.name = JSON.stringify(obj);
+        } catch(e){}
+      }
+    }
+    window._discountDeadline = deadline;
+  })();
+  const discountDeadline = window._discountDeadline;
+  let discountActive = true;
+
+  function getDiscountRemaining() { return Math.max(0, discountDeadline - Date.now()); }
+
+  function formatCountdown(ms) {
+    if (ms <= 0) return "00:00:00";
+    const h = Math.floor(ms / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    const s = Math.floor((ms % 60000) / 1000);
+    return [h,m,s].map(n => String(n).padStart(2,'0')).join(':');
+  }
+
+  function updateTimers() {
+    const rem = getDiscountRemaining();
+    const wasActive = discountActive;
+    discountActive = rem > 0;
+
+    const timerStr = discountActive ? formatCountdown(rem) : "Скидка истекла";
+    const shortStr = discountActive ? formatCountdown(rem) : "истекла";
+
+    // header desktop
+    const dt = document.getElementById("discountTimer");
+    dt.textContent = "Скидка: " + shortStr;
+    dt.classList.toggle("expired", !discountActive);
+
+    // mobile
+    const md = document.getElementById("mobileDiscount");
+    document.getElementById("mobileDiscountTimer").textContent = formatCountdown(rem);
+    md.classList.toggle("expired", !discountActive);
+
+    // sticky bar
+    const bar = document.getElementById("discountBar");
+    document.getElementById("discountBarTimer").textContent = timerStr;
+    bar.classList.toggle("expired", !discountActive);
+
+    // Таймер в блоке итогов
+    const ttd = document.getElementById("totalsTimerDisplay");
+    const ttr = document.getElementById("totalTimerRow");
+    if (ttd) {
+      ttd.textContent = discountActive ? formatCountdown(rem) : "Скидка истекла";
+      if (ttr) { ttr.style.color = discountActive ? "" : "#991b1b"; }
+    }
+    // если статус изменился — перерисовать цены
+    if (wasActive !== discountActive) renderEstimateTable();
+  }
+
+  setInterval(updateTimers, 1000);
+  updateTimers();
+
+  // ── АНАЛИТИКА ──
+  (function() {
+    if (!CLIENT_ID || !WEBAPP_URL || CLIENT_ID.indexOf("{{") !== -1) return;
+
+    function ping(action, value) {
+      const url = WEBAPP_URL + "?id=" + encodeURIComponent(CLIENT_ID)
+        + "&action=" + action
+        + (value !== undefined ? "&value=" + encodeURIComponent(value) : "");
+      try { fetch(url, { method: "GET", mode: "no-cors" }); } catch(e) {}
+    }
+
+    // Открытие
+    ping("open");
+
+    // Блоки для отслеживания: id → читаемое название
+    const BLOCKS = [
+      { id: "estimate-wrap",   name: "Смета" },
+      { id: "products-wrap",   name: "Каталог" },
+      { id: "counters-wrap",   name: "О компании (цифры)" },
+      { id: "about-wrap",      name: "О компании" },
+      { id: "steps-wrap",      name: "Этапы работы" },
+      { id: "faq-wrap",        name: "FAQ" },
+      { id: "reviews-wrap",    name: "Отзывы" },
+      { id: "projects-wrap",   name: "Проекты" },
+      { id: "cta-wrap",        name: "CTA (финал)" },
+      { id: "contacts",        name: "Футер" }
+    ];
+
+    // Для каждого блока: был ли виден впервые + сколько раз возвращался
+    const blockState = {};
+    BLOCKS.forEach(function(b) {
+      blockState[b.id] = { seen: false, inside: false };
+    });
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        var id = entry.target.id;
+        var state = blockState[id];
+        var block = BLOCKS.find(function(b) { return b.id === id; });
+        if (!block || !state) return;
+
+        if (entry.isIntersecting) {
+          if (!state.seen) {
+            // Первый просмотр
+            state.seen = true;
+            ping("block_view", block.name);
+          } else if (!state.inside) {
+            // Вернулся к блоку
+            ping("block_return", block.name);
+          }
+          state.inside = true;
+        } else {
+          state.inside = false;
+        }
+      });
+    }, { threshold: 0.25 }); // блок считается просмотренным когда видно 25%
+
+    // Подключаем observer после загрузки DOM
+    function attachObserver() {
+      BLOCKS.forEach(function(b) {
+        var el = document.getElementById(b.id);
+        if (el) observer.observe(el);
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", attachObserver);
+    } else {
+      attachObserver();
+    }
+
+    // Уход — записываем последний просмотренный блок
+    document.addEventListener("visibilitychange", function() {
+      if (document.visibilityState === "hidden") {
+        var last = null;
+        BLOCKS.forEach(function(b) {
+          if (blockState[b.id].seen) last = b.name;
+        });
+        if (last) ping("scroll_max", last);
+      }
+    });
+
+    // Кнопки — один раз за сессию
+    const btnReached = {};
+    function trackBtn(id, action) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener("click", function() {
+        if (!btnReached[action]) {
+          btnReached[action] = true;
+          ping(action);
+        }
+      });
+    }
+    function attachBtns() {
+      trackBtn("orderBtn",    "btn_order");
+      trackBtn("ctaOrderBtn", "btn_order");
+      trackBtn("printBtn",    "btn_pdf");
+      trackBtn("excelBtn",    "btn_excel");
+      trackBtn("ctaCallBtn",  "btn_call");
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", attachBtns);
+    } else {
+      attachBtns();
+    }
+
+  })();
+
+  const bannerSlides = [
+    { image:"https://static.tildacdn.biz/tild3764-3736-4739-a366-373761656137/_-1.jpg", title:"Скрытые двери FlashDoors" },
+    { image:"https://static.tildacdn.biz/tild3535-3134-4031-b366-316533643636/1.jpg", title:"Перегородки AluDoors" },
+    { image:"https://static.tildacdn.biz/tild3963-3865-4232-a632-343432323136/88.jpg", title:"Двери Invisible Frame" }
+  ];
+  const aboutSlides = [
+    { image:"https://static.tildacdn.biz/tild3630-3638-4438-b963-326336353262/__.jpg", text:"Современное производство" },
+    { image:"https://static.tildacdn.biz/tild3062-3432-4931-b466-633834343965/ban-03.png", text:"Премиум материалы" },
+    { image:"https://static.tildacdn.biz/tild6436-3630-4630-a135-363732626261/Paspartu2_2.jpg", text:"Скрытый монтаж" }
+  ];
+  const projects = [
+    {
+      image:"https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80",
+      title:"ЖК «Замковый»", desc:"Скрытые двери в 45 квартирах", link:"#",
+      photos:[
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80",
+        "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=600&q=80",
+        "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80",
+        "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=600&q=80"
+      ],
+      fullDesc:"Комплексный проект по оснащению 45 квартир жилого комплекса скрытыми дверями FlashDoors. Двери выполнены в отделке под покраску, интегрированы в стены без наличников. Монтаж завершён в срок, все работы согласованы с дизайн-проектами квартир.",
+      cost:"от 1 200 до 3 500 BYN"
+    },
+    {
+      image:"https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=600&q=80",
+      title:"Офис IT-компании", desc:"Стеклянные перегородки", link:"#",
+      photos:[
+        "https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=600&q=80",
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80",
+        "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=600&q=80",
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80"
+      ],
+      fullDesc:"Зонирование open-space офиса площадью 320 м² с помощью алюминиевых перегородок AluDoors со стеклянными панелями. Перегородки создают ощущение открытого пространства и обеспечивают акустическую изоляцию переговорных зон.",
+      cost:"от 8 500 BYN"
+    },
+    {
+      image:"https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80",
+      title:"Ресторан Panorama", desc:"Стеновые панели и перегородки", link:"#",
+      photos:[
+        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80",
+        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80",
+        "https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=600&q=80"
+      ],
+      fullDesc:"Отделка интерьера ресторана стеновыми панелями Lazio в шпоне ореха и раздвижными перегородками для зонирования банкетных залов. Проект выполнен по индивидуальному дизайн-проекту, все панели изготовлены под нестандартные габариты помещения.",
+      cost:"от 14 000 BYN"
+    }
+  ];
+  const advantages = [
+    { icon:"✦", label:"Качество" },{ icon:"◈", label:"Надёжность" },
+    { icon:"◻", label:"Дизайн" },{ icon:"◎", label:"Гарантия" }
+  ];
+
+  // ── BURGER ──
+  const burgerBtn = document.getElementById("burgerBtn");
+  const mobileNav = document.getElementById("mobileNav");
+  burgerBtn.addEventListener("click", () => mobileNav.classList.toggle("open"));
+  document.querySelectorAll(".nav-link").forEach(a => {
+    a.addEventListener("click", function(e) {
+      e.preventDefault();
+      mobileNav.classList.remove("open");
+      const el = document.querySelector(this.getAttribute("href"));
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 80, behavior:"smooth" });
+    });
+  });
+
+  // ── DATES ──
+  const today = new Date();
+  const ds = today.toLocaleDateString("ru-RU");
+  const vs = new Date(Date.now() + 30*86400000).toLocaleDateString("ru-RU");
+  ["dateCreated","mobileDateCreated","printDateCreated"].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=ds; });
+  ["dateValid","mobileDateValid","printDateValid"].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=vs; });
+
+  // ── PHONES ──
+  document.getElementById("clientPhoneLink").addEventListener("click", () => window.location.href="tel:"+clientPhoneNumber);
+  const cpd = document.getElementById("clientPhoneDisplay");
+  cpd.style.cursor="pointer"; cpd.addEventListener("click", ()=>window.location.href="tel:"+clientPhoneNumber);
+  const mp = document.getElementById("managerPhone");
+  mp.style.cursor="pointer"; mp.addEventListener("click", ()=>window.location.href="tel:"+managerPhoneNumber);
+  document.getElementById("popupPhone").addEventListener("click", ()=>window.location.href="tel:"+managerPhoneNumber);
+
+  // ── BANNER ──
+  function initBanner() {
+    const sc=document.getElementById("bannerSlides"), dc=document.getElementById("bannerDots");
+    bannerSlides.forEach((s,i)=>{
+      const slide=document.createElement("div"); slide.className="slide"; slide.style.backgroundImage="url("+s.image+")";
+      const cap=document.createElement("div"); cap.className="slide-caption"; cap.innerHTML="<h2>"+s.title+"</h2>";
+      slide.appendChild(cap); sc.appendChild(slide);
+      const dot=document.createElement("div"); dot.className="dot"; dot.dataset.index=i; dc.appendChild(dot);
+    });
+    let idx=0,timer=null; const total=bannerSlides.length, dots=dc.querySelectorAll(".dot");
+    function show(i){idx=(i+total)%total; sc.style.transform="translateX("+(-idx*100)+"%)"; dots.forEach((d,di)=>d.classList.toggle("active",di===idx));}
+    dots.forEach(d=>d.addEventListener("click",e=>{clearInterval(timer);show(parseInt(e.target.dataset.index));}));
+    let sx=0;
+    sc.addEventListener("touchstart",e=>{sx=e.touches[0].clientX;});
+    sc.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40){clearInterval(timer);show(dx<0?idx+1:idx-1);}});
+    show(0); timer=setInterval(()=>show(idx+1),4500);
+  }
+
+  // ── PRODUCTS ──
+  function renderExtraProducts() {
+    const grid=document.getElementById("productsGrid"); grid.innerHTML="";
+    extraProducts.forEach((p,i)=>{
+      const ph=(p.oldPrice&&p.price!==p.oldPrice)
+        ?"<span class='old-price'>"+p.oldPrice+"</span> <span class='new-price'>"+p.price+"</span>"
+        :"<span class='new-price'>"+p.price+"</span>";
+      const card=document.createElement("div"); card.className="product-card";
+      card.style.cursor="pointer";
+      card.innerHTML="<img class='card-img' src='"+(p.photo||'')+"' alt='"+escHtml(p.name)+"' loading='lazy'>"
+        +"<div class='card-content'><h4>"+escHtml(p.name)+"</h4>"
+        +"<p>"+ph+" BYN"+(p.unit?" / "+p.unit:"")+"</p>"
+        +"<button class='btn btn-outline add-to-est' data-idx='"+i+"'>+ Добавить</button>"
+        +"</div>";
+      // Click on card (not button) opens popup
+      card.addEventListener("click", e => {
+        if (!e.target.closest(".add-to-est")) openProductPopup(i);
+      });
+      grid.appendChild(card);
+    });
+    document.querySelectorAll(".add-to-est").forEach(btn=>btn.addEventListener("click", e=>{
+      e.stopPropagation();
+      const p = extraProducts[parseInt(btn.dataset.idx)];
+      addEstimateRow({name:p.name,basePrice:parseFloat(p.price),altOptions:[],unit:p.unit,photo:p.photo||'',description:"",specs:""});
+      btn.textContent="✓ Добавлено"; btn.disabled=true; btn.style.opacity="0.6";
+    }));
+  }
+
+  function openProductPopup(idx) {
+    const p = extraProducts[idx];
+    const ph=(p.oldPrice&&p.price!==p.oldPrice)
+      ?"<span class='old-price'>"+p.oldPrice+"</span> <span class='new-price'>"+p.price+"</span>"
+      :"<span class='new-price'>"+p.price+"</span>";
+    const desc = p.description || "Этот товар прекрасно дополнит ваш основной комплект. Отличное качество и стильный дизайн сделают его идеальным выбором для вашего интерьера.";
+    document.getElementById("ppPhoto").src = p.photo || '';
+    document.getElementById("ppPhoto").style.display = p.photo ? "block" : "none";
+    document.getElementById("ppName").textContent = p.name;
+    document.getElementById("ppPrice").innerHTML = ph + " BYN" + (p.unit ? " / " + p.unit : "");
+    document.getElementById("ppDesc").textContent = desc;
+    document.getElementById("ppQty").value = 1;
+    document.getElementById("ppAddBtn").dataset.idx = idx;
+    document.getElementById("ppAddBtn").textContent = "+ Добавить";
+    document.getElementById("ppAddBtn").disabled = false;
+    document.getElementById("ppAddBtn").style.opacity = "1";
+    document.getElementById("productPopup").style.display = "flex";
+  }
+
+  // ── REVIEWS ──
+  const reviewsData = [
+    { stars:5, author:"Анна К.", date:"12.03.2025", text:"Заказывали раздвижные двери в гостиную. Качество исполнения на высоте — всё чисто, аккуратно, в срок. Менеджер на связи был на каждом этапе. Однозначно рекомендую!" },
+    { stars:5, author:"Дмитрий В.", date:"28.01.2025", text:"Обратились за перегородкой в офис. Результат превзошёл ожидания: красиво, функционально, и цена оказалась разумной. Lazio Concept знают своё дело." },
+    { stars:5, author:"Светлана М.", date:"05.04.2025", text:"Скрытые двери в коридоре — мечта! Теперь стена выглядит монолитно. Монтаж прошёл быстро и без лишней пыли. Спасибо команде за профессионализм." },
+    { stars:4, author:"Игорь Р.", date:"17.02.2025", text:"Хороший сервис и качественный продукт. Чуть задержали доставку, но в итоге всё сделали как надо. Буду обращаться снова для второго объекта." },
+    { stars:5, author:"Елена Ф.", date:"09.05.2025", text:"Стеклянная перегородка в ванную — это просто космос! Лёгкая, элегантная, и уход минимальный. Очень довольна выбором и работой мастеров." },
+    { stars:5, author:"Павел Т.", date:"22.04.2025", text:"Второй раз заказываем у Lazio. В этот раз — двери Invisible Frame для спальни. Результат безупречный. Цена соответствует качеству, советую всем!" }
+  ];
+
+  let reviewsPage = 0;
+
+  function getReviewsPerPage() {
+    if (window.innerWidth <= 768) return 1;
+    if (window.innerWidth <= 1024) return 2;
+    return 3;
+  }
+
+  function renderReviews() {
+    const track = document.getElementById("reviewsTrack");
+    const dots  = document.getElementById("reviewsDots");
+    if (!track) return;
+    track.innerHTML = "";
+    reviewsData.forEach(r => {
+      const stars = "★".repeat(r.stars) + "☆".repeat(5 - r.stars);
+      const card = document.createElement("div");
+      card.className = "review-card";
+      card.innerHTML = "<div class='review-stars'>" + stars + "</div>"
+        + "<div class='review-header'><span class='review-author'>" + r.author + "</span><span class='review-date'>" + r.date + "</span></div>"
+        + "<p class='review-text'>" + r.text + "</p>";
+      track.appendChild(card);
+    });
+    const perPage = getReviewsPerPage();
+    const total = Math.ceil(reviewsData.length / perPage);
+    reviewsPage = Math.min(reviewsPage, total - 1);
+    dots.innerHTML = "";
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement("button");
+      d.className = "reviews-dot" + (i === reviewsPage ? " active" : "");
+      d.addEventListener("click", () => { reviewsPage = i; updateReviewsPos(); });
+      dots.appendChild(d);
+    }
+    updateReviewsPos();
+  }
+
+  function updateReviewsPos() {
+    const track = document.getElementById("reviewsTrack");
+    const dots  = document.getElementById("reviewsDots");
+    if (!track) return;
+    const perPage = getReviewsPerPage();
+    const cardW = track.querySelector(".review-card")?.offsetWidth || 0;
+    const gap = 16;
+    track.style.transform = "translateX(-" + reviewsPage * (cardW + gap) * perPage + "px)";
+    dots.querySelectorAll(".reviews-dot").forEach((d, i) => d.classList.toggle("active", i === reviewsPage));
+  }
+
+  window.addEventListener("resize", renderReviews);
+
+  // ── ABOUT (redesigned) ──
+  const aboutData = {
+    desc: "Lazio Concept — производство и монтаж раздвижных систем, скрытых дверей и стеклянных перегородок в Минске. Работаем с 2015 года. Каждый проект — от замера до финального монтажа — ведём под ключ: без посредников, с фиксированными сроками и письменной гарантией.",
+    videoId: "lTQJ77wvCUI",
+    videoCaption: "Смотрите, как мы работаем — от замера до монтажа",
+    facts: [
+      { icon: "🏆", title: "С 2015 года",          sub: "Более 11 лет на рынке" },
+      { icon: "🔑", title: "Под ключ",              sub: "Замер, производство, монтаж" },
+      { icon: "🛡️", title: "Гарантия 5 лет",        sub: "На все виды монтажных работ" },
+      { icon: "📐", title: "Индивидуальный подход", sub: "Нестандартные размеры и решения" }
+    ]
+  };
+
+  function renderAbout() {
+    const desc = document.getElementById("aboutDesc");
+    const factsEl = document.getElementById("aboutFacts");
+    const thumbImg = document.getElementById("aboutThumbImg");
+    const caption = document.getElementById("aboutVideoCaption");
+    const thumb = document.getElementById("aboutVideoThumb");
+    if (!desc) return;
+
+    desc.textContent = aboutData.desc;
+    caption.textContent = aboutData.videoCaption;
+
+    // YouTube thumbnail
+    const vid = aboutData.videoId;
+    thumbImg.src = "https://img.youtube.com/vi/" + vid + "/maxresdefault.jpg";
+    thumbImg.onerror = function() { this.src = "https://img.youtube.com/vi/" + vid + "/hqdefault.jpg"; };
+    thumb.addEventListener("click", () => openAboutPopup(0));
+
+    // Facts with icons
+    factsEl.innerHTML = "";
+    aboutData.facts.forEach(f => {
+      const el = document.createElement("div");
+      el.className = "about-fact";
+      el.innerHTML =
+        "<span class='about-fact-icon'>" + f.icon + "</span>" +
+        "<span class='about-fact-title'>" + f.title + "</span>" +
+        "<span class='about-fact-sub'>" + f.sub + "</span>";
+      factsEl.appendChild(el);
+    });
+  }
+
+  function renderAboutSlides() { renderAbout(); }
+
+  function openAboutPopup(idx) {
+    const vid = aboutData.videoId;
+    document.getElementById("aboutPopupTitle").textContent = "О компании";
+    document.getElementById("aboutPopupDesc").textContent = aboutData.desc;
+    document.getElementById("aboutPopupVideo").src =
+      "https://www.youtube.com/embed/" + vid + "?autoplay=1&rel=0";
+    document.getElementById("aboutPopup").style.display = "flex";
+  }
+
+  function closeAboutPopup() {
+    document.getElementById("aboutPopup").style.display = "none";
+    document.getElementById("aboutPopupVideo").src = "";
+  }
+
+  // ── PROJECTS + SCROLL ZOOM ──
+  function renderProjects(){
+    const grid=document.getElementById("projectsGrid"); grid.innerHTML="";
+    projects.forEach((p,i)=>{
+      const card=document.createElement("div"); card.className="project-card"; card.style.cursor="pointer";
+      card.innerHTML="<div class='project-img-wrap'><img src='"+p.image+"' alt='"+p.title+"' loading='lazy'></div>"
+        +"<div class='card-content'><h4>"+p.title+"</h4><p>"+p.desc+"</p>"
+        +"<span class='btn btn-outline'>Подробнее →</span></div>";
+      card.addEventListener("click", ()=>openProjectPopup(i));
+      grid.appendChild(card);
+    });
+    setupProjectZoom();
+  }
+
+  let projPopupActive = 0;
+  function openProjectPopup(idx) {
+    const p = projects[idx];
+    projPopupActive = 0;
+    document.getElementById("projPopupTitle").textContent = p.title;
+    document.getElementById("projPopupDesc").textContent = p.fullDesc || p.desc;
+    document.getElementById("projPopupCost").textContent = p.cost || "По запросу";
+    renderProjGallery(p.photos || [p.image]);
+    document.getElementById("projectPopup").style.display = "flex";
+  }
+
+  function renderProjGallery(photos) {
+    const main = document.getElementById("projMainPhoto");
+    const thumbs = document.getElementById("projThumbs");
+    main.src = photos[0];
+    thumbs.innerHTML = "";
+    photos.forEach((src, i) => {
+      const img = document.createElement("img");
+      img.src = src; img.alt = ""; img.loading = "lazy";
+      img.className = "proj-thumb" + (i===0?" active":"");
+      img.addEventListener("click", ()=>{
+        main.src = src;
+        thumbs.querySelectorAll(".proj-thumb").forEach(th=>th.classList.remove("active"));
+        img.classList.add("active");
+      });
+      thumbs.appendChild(img);
+    });
+  }
+
+  function setupProjectZoom(){
+    const imgs = document.querySelectorAll(".project-img-wrap img");
+    function onScroll(){
+      imgs.forEach(img=>{
+        const wrap=img.parentElement;
+        const rect=wrap.getBoundingClientRect();
+        const wh=window.innerHeight;
+        // visible progress 0→1 as card enters viewport
+        const progress = Math.min(1, Math.max(0, 1 - (rect.top / wh)));
+        const scale = 1 + progress * 0.06; // max +6%
+        img.style.transform = "scale("+scale.toFixed(4)+")";
+      });
+    }
+    window.addEventListener("scroll", onScroll, {passive:true});
+    onScroll();
+  }
+
+  // ── ADVANTAGES ──
+  function renderAdvantages(){
+    const c=document.getElementById("infographic"); c.innerHTML="";
+    advantages.forEach(adv=>{const item=document.createElement("div");item.className="infographic-item";item.innerHTML="<span class='infographic-icon'>"+adv.icon+"</span><div class='infographic-label'>"+adv.label+"</div>";c.appendChild(item);});
+    let i=0; const items=c.querySelectorAll(".infographic-item");
+    setInterval(()=>{items.forEach(it=>it.classList.remove("active"));items[i%items.length].classList.add("active");i++;},1500);
+  }
+
+  // ── MANAGER POPUP ──
+  let popupShown = false;
+  function setupManagerPopup(){
+    const popup = document.getElementById("managerPopup");
+
+    setTimeout(()=>{
+      if (!popupShown) {
+        popupShown = true;
+        popup.classList.add("visible");
+        setTimeout(()=>{ if(popup.classList.contains("visible")) popup.classList.remove("visible"); }, 8000);
+      }
+    }, 15000);
+
+    document.getElementById("popupClose").addEventListener("click",()=>{
+      popup.classList.remove("visible");
+      setTimeout(()=>popup.classList.add("hidden"), 350);
+    });
+  }
+
+  // ── ESTIMATE ──
+  let currentEstimateRows = [];
+
+  function addEstimateRow(item){
+    currentEstimateRows.push({name:item.name,allOptions:[{name:item.name,price:item.basePrice}].concat(item.altOptions||[]),selectedIndex:0,quantity:item.quantity||1,enabled:true,editable:true,unit:item.unit||"шт",photo:item.photo||"",description:item.description||"",specs:item.specs||"",oldPrice:item.oldPrice||null});
+    renderEstimateTable();
+  }
+
+  function fmt(n){ return n.toFixed(2).replace('.',','); }
+
+  function renderEstimateTable(){
+    const tbody=document.getElementById("estimateBody"); tbody.innerHTML="";
+    let totalBase=0, totalDiscount=0;
+    const isMobile = window.innerWidth <= 768;
+
+    currentEstimateRows.forEach((row,idx)=>{
+      const opt=row.allOptions[row.selectedIndex];
+      const price=opt.price;
+      const sum=row.enabled?row.quantity*price:0;
+      const effectiveOldPrice = opt.oldPrice != null ? opt.oldPrice : (row.selectedIndex === 0 ? row.oldPrice : null);
+      totalBase += row.enabled ? row.quantity*(effectiveOldPrice||price) : 0;
+      totalDiscount += discountActive && effectiveOldPrice && effectiveOldPrice !== price && row.enabled ? row.quantity*(effectiveOldPrice-price) : 0;
+
+      const tr=document.createElement("tr"); tr.setAttribute("data-index",idx);
+      if(!row.enabled) tr.classList.add("disabled-row");
+
+      // Цена
+      let priceHtml;
+      if(!discountActive){
+        const showPrice = effectiveOldPrice||price;
+        priceHtml="<span class='new-price' style='color:var(--text)'>"+showPrice+"</span>";
+      } else if(effectiveOldPrice&&effectiveOldPrice!==price){
+        priceHtml="<span class='old-price'>"+effectiveOldPrice+"</span> <span class='new-price'>"+price+"</span>";
+      } else {
+        priceHtml="<span class='new-price'>"+price+"</span>";
+      }
+      const displaySum = row.enabled ? (discountActive ? row.quantity*price : row.quantity*(effectiveOldPrice||price)) : 0;
+
+      let specsHtml="";
+      if(row.specs||row.description){
+        const label=row.specs?escHtml(row.specs.length>55?row.specs.substring(0,55)+"…":row.specs):"Подробнее";
+        const specsIndent = row.allOptions.length>1 ? " style='padding-left:21px'" : "";
+        specsHtml="<button class='specs-link'"+specsIndent+" data-desc='"+escHtml(row.description)+"' data-specs='"+escHtml(row.specs)+"'>"+label+"</button>";
+      }
+
+      const qtyCtrl=row.editable?"<div class='qty-control'><button class='qty-minus'>−</button><input type='number' class='qty-input' value='"+row.quantity+"' min='1'><button class='qty-plus'>+</button></div>":"<span>"+row.quantity+"</span>";
+      const photoBlock=row.photo?"<img src='"+row.photo+"' alt='' onclick=\"window.open('"+row.photo+"','_blank')\" class='item-photo'>"+"":"<div class='item-photo-empty'></div>";
+
+      // ── ДЕСКТОП: radio-кнопки (аналог мобильного) ──
+      let selDesktop="";
+      if(row.allOptions.length>1){
+        selDesktop="<div class='alt-options-desktop desktop-block'>";
+        row.allOptions.forEach((o,i)=>{
+          selDesktop+="<label class='alt-option-desktop"+(i===row.selectedIndex?" selected":"")+"'>"
+            +"<input type='radio' name='alt_d_"+idx+"' value='"+i+"'"+(i===row.selectedIndex?" checked":"")+" class='radio-alt-desktop'> "
+            +escHtml(o.name)+" — "+o.price+" BYN</label>";
+        });
+        selDesktop+="</div>";
+      }
+      const chkDesktop=row.editable?"<span class='desktop-only'><input type='checkbox' class='row-enable row-enable-desktop'"+(row.enabled?" checked":"")+"></span>":"";
+      const delDesktop=row.editable?"<button class='delete-row desktop-only' title='Удалить'>✕</button>":"";
+
+      // ── МОБИЛЕ: radio + toggle + кнопка Удалить ──
+      let radioMobile="";
+      if(row.allOptions.length>1){
+        radioMobile="<div class='alt-options-mobile mobile-only'>";
+        row.allOptions.forEach((o,i)=>{
+          radioMobile+="<label class='alt-option-mobile"+(i===row.selectedIndex?" selected":"")+"'>"
+            +"<input type='radio' name='alt_m_"+idx+"' value='"+i+"'"+(i===row.selectedIndex?" checked":"")+" class='radio-alt'> "
+            +escHtml(o.name)+" — "+o.price+" BYN</label>";
+        });
+        radioMobile+="</div>";
+      }
+      const toggleMobile=row.editable
+        ?"<label class='toggle mobile-only'><input type='checkbox' class='row-enable row-enable-mobile'"+(row.enabled?" checked":"")+"><span class='toggle-slider'></span></label>"
+        :"";
+      const delMobile=row.editable?"<button class='delete-row-text mobile-only'>Удалить</button>":"";
+      const rowActionsMobile=row.editable?"<div class='row-actions-mobile mobile-only'>"+toggleMobile+delMobile+"</div>":"";
+
+      tr.innerHTML="<td data-label='' class='item-cell'>"
+        +"<div class='item-layout'>"+photoBlock
+        +"<div class='item-text'>"
+        +(row.allOptions.length>1 ? "": "<span class='item-name'>"+escHtml(opt.name)+"</span>")
+        +selDesktop+radioMobile+specsHtml
+        +"</div></div></td>"
+        +"<td data-label='Кол-во'>"+qtyCtrl+"</td>"
+        +"<td data-label='Цена'>"+priceHtml+(row.unit?" BYN / "+escHtml(row.unit):" BYN")+"</td>"
+        +"<td data-label='Сумма'>"+displaySum.toFixed(2)+" BYN</td>"
+        +"<td data-label='Вкл'>"+chkDesktop+rowActionsMobile+"</td>"
+        +"<td data-label=''>"+delDesktop+"</td>";
+      tbody.appendChild(tr);
+    });
+
+    // Обновляем итоги
+    document.getElementById("totalBase").textContent=fmt(totalBase)+" BYN";
+    if (document.getElementById("installmentEnabled").checked) calcInstallment();
+    const disc=totalBase-totalDiscount;
+    const finalTotal = discountActive ? disc : totalBase;
+    document.getElementById("totalSum").innerHTML=fmt(finalTotal)+" <span style='font-size:14px;font-weight:500;color:var(--text-muted)'>BYN</span>";
+
+    const discRow=document.getElementById("discountRow");
+    if(discRow){
+      if(totalDiscount>0&&discountActive){discRow.style.display="flex";document.getElementById("totalDiscountAmt").textContent="–"+fmt(totalDiscount)+" BYN";}
+      else{discRow.style.display="none";}
+    }
+
+    // Привязка событий
+    tbody.querySelectorAll(".row-enable").forEach(chk=>{
+      const tr=chk.closest("tr"); const i=parseInt(tr.getAttribute("data-index"));
+      chk.addEventListener("change",()=>{
+        currentEstimateRows[i].enabled=chk.checked;
+        // синхронизируем оба чекбокса (desktop + mobile)
+        tr.querySelectorAll(".row-enable").forEach(c=>c.checked=chk.checked);
+        if(!chk.checked) tr.classList.add("disabled-row"); else tr.classList.remove("disabled-row");
+        renderEstimateTable();
+      });
+    });
+    tbody.querySelectorAll(".qty-minus").forEach(btn=>{
+      const i=parseInt(btn.closest("tr").getAttribute("data-index"));
+      btn.addEventListener("click",()=>{if(currentEstimateRows[i].quantity>1){currentEstimateRows[i].quantity--;renderEstimateTable();}});
+    });
+    tbody.querySelectorAll(".qty-plus").forEach(btn=>{
+      const i=parseInt(btn.closest("tr").getAttribute("data-index"));
+      btn.addEventListener("click",()=>{currentEstimateRows[i].quantity++;renderEstimateTable();});
+    });
+    tbody.querySelectorAll(".qty-input").forEach(inp=>{
+      const i=parseInt(inp.closest("tr").getAttribute("data-index"));
+      inp.addEventListener("change",()=>{let v=parseInt(inp.value);if(isNaN(v)||v<1)v=1;currentEstimateRows[i].quantity=v;renderEstimateTable();});
+    });
+    tbody.querySelectorAll(".delete-row,.delete-row-text").forEach(btn=>{
+      const i=parseInt(btn.closest("tr").getAttribute("data-index"));
+      btn.addEventListener("click",()=>{currentEstimateRows.splice(i,1);renderEstimateTable();});
+    });
+    tbody.querySelectorAll(".alt-select").forEach(sel=>{
+      const i=parseInt(sel.closest("tr").getAttribute("data-index"));
+      sel.addEventListener("change",()=>{currentEstimateRows[i].selectedIndex=parseInt(sel.value);renderEstimateTable();});
+    });
+    tbody.querySelectorAll(".radio-alt, .radio-alt-desktop").forEach(radio=>{
+      const i=parseInt(radio.closest("tr").getAttribute("data-index"));
+      radio.addEventListener("change",()=>{currentEstimateRows[i].selectedIndex=parseInt(radio.value);renderEstimateTable();});
+    });
+    tbody.querySelectorAll(".specs-link").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        const desc=btn.dataset.desc||"",specs=btn.dataset.specs||"";
+        let out="";
+        if(desc) out+="<strong>Описание:</strong><br>"+desc.replace(/\n/g,"<br>")+"<br><br>";
+        out+="<strong>Характеристики:</strong><br>"+specs.replace(/\n/g,"<br>");
+        document.getElementById("infoModalContent").innerHTML=out;
+        document.getElementById("infoModal").style.display="flex";
+      });
+    });
+  }
+
+  
+  function initEstimate(){
+    currentEstimateRows=[];
+    estimateItems.forEach(item=>{
+      currentEstimateRows.push({name:item.name,allOptions:[{name:item.name,price:item.price}].concat(item.altOptions||[]),selectedIndex:0,quantity:item.qty||1,enabled:true,editable:item.editable,unit:item.unit||"шт",photo:item.photo||"",description:item.description||"",specs:item.specs||"",oldPrice:item.oldPrice||null});
+    });
+    renderEstimateTable();
+  }
+
+  // ── STICKY DISCOUNT BAR + TOTALS ──
+  // discount-bar: sticky под шапкой (top = headerH)
+  // totals: sticky под discount-bar (top = headerH + discBarH)
+  function setupStickyInteraction(){
+    const header  = document.querySelector("header");
+    const discBar = document.getElementById("discountBar");
+
+    function updateTops(){
+      const headerH  = header.offsetHeight;
+      discBar.style.top = headerH + "px";
+    }
+    updateTops();
+    window.addEventListener("resize", updateTops, {passive:true});
+    window.addEventListener("scroll", updateTops, {passive:true});
+  }
+
+  // ── PRINT ──
+  function printSpec(){
+    document.querySelectorAll('#estimateBody tr').forEach((tr,i)=>{
+      if(currentEstimateRows[i]&&!currentEstimateRows[i].enabled) tr.classList.add('disabled-row');
+      else tr.classList.remove('disabled-row');
+    });
+    window.print();
+  }
+
+  // ── MODALS ──
+  document.getElementById("infoBtn").addEventListener("click",()=>document.getElementById("deliveryModal").style.display="flex");
+  document.getElementById("closeModal").addEventListener("click",()=>document.getElementById("deliveryModal").style.display="none");
+  document.getElementById("closeInfoModal").addEventListener("click",()=>document.getElementById("infoModal").style.display="none");
+  document.getElementById("orderBtn").addEventListener("click", () => {
+    const confirmed = currentEstimateRows
+      .filter(r => r.enabled)
+      .map(r => {
+        const opt = r.allOptions[r.selectedIndex];
+        return { num: r.num||"", name: opt.name, qty: r.quantity, unit: r.unit, price: opt.price };
+      });
+    const total = confirmed.reduce((s, r) => s + r.qty * r.price, 0);
+    const instEnabled = document.getElementById("installmentEnabled").checked;
+
+    // Обновляем попап
+    document.getElementById("confirmOrderTotal").textContent = fmt(total) + " BYN";
+
+    // Показываем или скрываем блок рассрочки в попапе
+    const instBlock = document.getElementById("confirmInstBlock");
+    if (instEnabled) {
+      const noDown = document.getElementById("noDownPayment").checked;
+      const downAmt = noDown ? 0 : (parseFloat(document.getElementById("downPaymentAmt").value) || 0);
+      const monthly = Math.max(0, total - downAmt) / installmentMonths;
+      document.getElementById("confirmInstDetails").textContent =
+        installmentMonths + " мес · " + fmt(monthly) + " BYN/мес" + (downAmt > 0 ? " · взнос " + fmt(downAmt) + " BYN" : "");
+      instBlock.style.display = "block";
+      document.getElementById("confirmInstBtn").style.display = "block";
+      document.getElementById("confirmOrderBtn").textContent = "Полная стоимость";
+    } else {
+      instBlock.style.display = "none";
+      document.getElementById("confirmInstBtn").style.display = "none";
+      document.getElementById("confirmOrderBtn").textContent = "Подтвердить";
+    }
+
+    document.getElementById("confirmOrderModal").style.display = "flex";
+
+    function doConfirm(paymentType) {
+      document.getElementById("confirmOrderModal").style.display = "none";
+      const orderData = {
+        items: confirmed,
+        paymentType: paymentType
+      };
+      if (instEnabled && paymentType === "installment") {
+        const noDown = document.getElementById("noDownPayment").checked;
+        orderData.installment = {
+          months: installmentMonths,
+          downPayment: noDown ? 0 : (parseFloat(document.getElementById("downPaymentAmt").value) || 0)
+        };
+      }
+      if (CLIENT_ID && WEBAPP_URL && CLIENT_ID.indexOf("{{") === -1) {
+        try {
+          fetch(WEBAPP_URL
+            + "?action=confirm"
+            + "&id=" + encodeURIComponent(CLIENT_ID)
+            + "&total=" + total.toFixed(2)
+            + "&order=" + encodeURIComponent(JSON.stringify(orderData)));
+        } catch(e) {}
+      }
+      const btn = document.getElementById("orderBtn");
+      btn.textContent = "✓ Заказ оформлен";
+      btn.disabled = true;
+      btn.style.opacity = "0.6";
+      btn.style.cursor = "default";
+    }
+
+    document.getElementById("confirmOrderBtn").onclick = () => doConfirm("full");
+    document.getElementById("confirmInstBtn").onclick  = () => doConfirm("installment");
+  });
+
+  // ── INSTALLMENT CALCULATOR ──
+  let installmentMonths = 3;
+
+  function calcInstallment() {
+    const total = parseFloat(document.getElementById("totalSum").textContent.replace(/[^0-9.,]/g,'').replace(',','.')) || 0;
+    const noDown = document.getElementById("noDownPayment").checked;
+    const downAmt = noDown ? 0 : (parseFloat(document.getElementById("downPaymentAmt").value) || 0);
+    const base = Math.max(0, total - downAmt);
+    const monthly = base / installmentMonths;
+    document.getElementById("monthlyPayment").textContent = fmt(monthly) + " BYN";
+  }
+
+  document.getElementById("installmentEnabled").addEventListener("change", function() {
+    document.getElementById("installmentBody").style.display = this.checked ? "block" : "none";
+    if (this.checked) calcInstallment();
+  });
+
+  document.getElementById("noDownPayment").addEventListener("change", function() {
+    document.getElementById("downPaymentRow").style.display = this.checked ? "none" : "flex";
+    calcInstallment();
+  });
+
+  document.getElementById("downPaymentAmt").addEventListener("input", calcInstallment);
+
+  document.querySelectorAll(".inst-month-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".inst-month-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      installmentMonths = parseInt(btn.dataset.months);
+      calcInstallment();
+    });
+  });
+
+  document.getElementById("routeBtn").addEventListener("click",()=>window.open("https://yandex.ru/maps/?text=Минск%2C%20ул.%20Сурганова%2061","_blank"));
+  [document.getElementById("deliveryModal"),document.getElementById("infoModal")].forEach(m=>m.addEventListener("click",e=>{if(e.target===e.currentTarget)e.currentTarget.style.display="none";}));
+
+  function escHtml(str){if(!str)return"";return String(str).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
+  // ── EXPORT EXCEL ──
+  function exportExcel() {
+    const rows = currentEstimateRows.filter(r => r.enabled);
+    if (!rows.length) { showToast("Нет позиций для экспорта", "error"); return; }
+    let csv = "\uFEFF";
+    csv += "Наименование\tКол-во\tЕд. изм.\tЦена (BYN)\tСумма (BYN)\n";
+    rows.forEach(r => {
+      const opt = r.allOptions[r.selectedIndex];
+      const price = discountActive ? opt.price : (r.oldPrice || opt.price);
+      const sum = (r.quantity * price).toFixed(2);
+      csv += [escHtml(r.name), r.quantity, r.unit, price, sum].join("\t") + "\n";
+    });
+    let total = 0;
+    rows.forEach(r => {
+      const opt = r.allOptions[r.selectedIndex];
+      const price = discountActive ? opt.price : (r.oldPrice || opt.price);
+      total += r.quantity * price;
+    });
+    csv += "\t\t\tИТОГО:\t" + total.toFixed(2) + "\n";
+    const blob = new Blob([csv], { type: "text/tab-separated-values;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "smeta_lazio.xls";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    window.scrollTo({top: 0, behavior: "smooth"});
+    showToast("↓ Файл скачивается…", "success");
+  }
+
+  function showToast(msg, type) {
+    let toast = document.getElementById("toastNotify");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "toastNotify";
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.className = "toast-notify toast-" + (type || "success") + " toast-show";
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => { toast.classList.remove("toast-show"); }, 3000);
+  }
+
+  // ── INIT ──
+  initBanner();
+  renderExtraProducts();
+  renderAboutSlides();
+  renderProjects();
+  renderAdvantages();
+  initEstimate();
+  setupStickyInteraction();
+  renderReviews();
+
+
+  // popup запускаем после рендера товаров
+  requestAnimationFrame(()=>setupManagerPopup());
+
+  // ── PRODUCT POPUP ADD BTN ──
+  document.getElementById("ppAddBtn").addEventListener("click", () => {
+    const idx = parseInt(document.getElementById("ppAddBtn").dataset.idx);
+    const qty = Math.max(1, parseInt(document.getElementById("ppQty").value) || 1);
+    const p = extraProducts[idx];
+    addEstimateRow({name:p.name, basePrice:parseFloat(p.price), altOptions:[], unit:p.unit, photo:p.photo||'', description:"", specs:"", quantity: qty});
+    document.getElementById("ppAddBtn").textContent = "✓ Добавлено";
+    document.getElementById("ppAddBtn").disabled = true;
+    document.getElementById("ppAddBtn").style.opacity = "0.6";
+    setTimeout(()=>document.getElementById("productPopup").style.display="none", 800);
+    // Also update the card button
+    const cardBtns = document.querySelectorAll(".add-to-est");
+    cardBtns.forEach(btn => { if(parseInt(btn.dataset.idx)===idx){ btn.textContent="✓ Добавлено"; btn.disabled=true; btn.style.opacity="0.6"; }});
+  });
+
+  // ── REVIEWS SWIPE ──
+  (function(){
+    const el = document.getElementById("reviewsTrack");
+    if (!el) return;
+    let startX = 0;
+    el.addEventListener("touchstart", e => { startX = e.touches[0].clientX; }, {passive:true});
+    el.addEventListener("touchend", e => {
+      const diff = startX - e.changedTouches[0].clientX;
+      const perPage = getReviewsPerPage();
+      const total = Math.ceil(reviewsData.length / perPage);
+      if (Math.abs(diff) > 40) {
+        reviewsPage = diff > 0
+          ? Math.min(reviewsPage + 1, total - 1)
+          : Math.max(reviewsPage - 1, 0);
+        updateReviewsPos();
+      }
+    }, {passive:true});
+  })();
+
+  // Close popup on backdrop click
+  document.getElementById("productPopup").addEventListener("click", e => {
+    if (e.target === document.getElementById("productPopup"))
+      document.getElementById("productPopup").style.display = "none";
+  });
+
+  // ── COMPANY COUNTERS ──
+  const countersData = [
+    { value: 11,   suffix: "+",   label: "лет на рынке" },
+    { value: 1200, suffix: "+",   label: "реализованных проектов" },
+    { value: 5,    suffix: " лет", label: "гарантия на монтаж" },
+    { value: 98,   suffix: "%",   label: "довольных клиентов" }
+  ];
+
+  function renderCounters() {
+    const inner = document.getElementById("countersInner");
+    if (!inner) return;
+    inner.innerHTML = "";
+    countersData.forEach((c, i) => {
+      const item = document.createElement("div");
+      item.className = "counter-item";
+      item.dataset.idx = i;
+      item.innerHTML =
+        "<div class='counter-value'>" +
+        "<span class='counter-num' id='cnum_" + i + "'>0</span>" +
+        "<span class='counter-suffix'>" + c.suffix + "</span>" +
+        "</div>" +
+        "<div class='counter-label'>" + c.label + "</div>";
+      inner.appendChild(item);
+    });
+    initCounterObserver();
+  }
+
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function animateCounter(el, target, duration) {
+    const startTime = performance.now();
+    function tick(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const val = Math.round(easeOutCubic(progress) * target);
+      el.textContent = val.toLocaleString("ru-RU");
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toLocaleString("ru-RU");
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function initCounterObserver() {
+    const items = document.querySelectorAll(".counter-item[data-idx]");
+    if (!items.length) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.counted) {
+          entry.target.dataset.counted = "1";
+          const i = parseInt(entry.target.dataset.idx);
+          const c = countersData[i];
+          setTimeout(() => {
+            entry.target.classList.add("cnt-animated");
+            animateCounter(document.getElementById("cnum_" + i), c.value, 1500);
+          }, i * 100);
+        }
+      });
+    }, { threshold: 0.25 });
+    items.forEach(item => obs.observe(item));
+  }
+
+  renderCounters();
+
+
+  // ── FAQ ──
+  const faqData = [
+    {
+      q: "Какие сроки изготовления и монтажа?",
+      a: "Стандартный срок изготовления составляет 10–14 рабочих дней с момента замера и подписания договора. Монтаж занимает 1–2 дня в зависимости от объёма работ. Точные сроки согласовываются с менеджером индивидуально."
+    },
+    {
+      q: "Есть ли гарантия на продукцию и монтаж?",
+      a: "Да. На все изделия предоставляется гарантия производителя — от 2 до 5 лет в зависимости от серии. На выполненный нами монтаж — 5 лет. Все гарантийные случаи решаем оперативно, без бюрократии."
+    },
+    {
+      q: "Возможен ли монтаж в уже отделанном помещении?",
+      a: "Да, мы работаем как в ремонтируемых помещениях, так и в готовых интерьерах. Наши мастера устанавливают скрытые двери и перегородки с минимальным вмешательством в существующую отделку. При необходимости — выполним восстановительные штукатурные работы."
+    },
+    {
+      q: "Как происходит оплата?",
+      a: "Оплата в два этапа: 50% предоплата при заключении договора, оставшиеся 50% — после завершения монтажа. Доступна рассрочка на 3, 6, 12 или 24 месяца — см. калькулятор в смете."
+    },
+    {
+      q: "Можно ли заказать нестандартные размеры?",
+      a: "Все изделия изготавливаются по индивидуальным размерам. Проёмы нестандартной высоты, ширины, арочные и радиусные конфигурации — всё это в рамках нашего производства. Замерщик выедет бесплатно в удобное для вас время."
+    }
+  ];
+
+  function renderFaq() {
+    const list = document.getElementById("faqList");
+    if (!list) return;
+    list.innerHTML = "";
+    faqData.forEach((item, i) => {
+      const el = document.createElement("div");
+      el.className = "faq-item";
+      el.innerHTML =
+        "<button class='faq-question' aria-expanded='false' data-faq='" + i + "'>" +
+        "<span class='faq-q-left'>" +
+        "<span class='faq-num'>" + (i + 1) + "</span>" +
+        "<span>" + item.q + "</span>" +
+        "</span>" +
+        "<span class='faq-icon'><svg width='10' height='10' viewBox='0 0 10 10' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round'><line x1='5' y1='1' x2='5' y2='9'/><line x1='1' y1='5' x2='9' y2='5'/></svg></span>" +
+        "</button>" +
+        "<div class='faq-answer' id='faq-ans-" + i + "'>" +
+        "<div class='faq-answer-inner'>" + item.a + "</div>" +
+        "</div>";
+      list.appendChild(el);
+    });
+
+    list.querySelectorAll(".faq-question").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const parentItem = btn.parentElement;
+        const isOpen = parentItem.classList.contains("open");
+        list.querySelectorAll(".faq-item.open").forEach(it => {
+          it.classList.remove("open");
+          it.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+        });
+        if (!isOpen) {
+          parentItem.classList.add("open");
+          btn.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+  }
+
+  renderFaq();
+
+
+  // ── STEPS ──
+  const stepsData = [
+    {
+      icon: "📞",
+      title: "Заявка и консультация",
+      desc: "Оставляете заявку или звоните. Менеджер связывается в течение 30 минут, выясняет задачу и бюджет."
+    },
+    {
+      icon: "📏",
+      title: "Бесплатный замер",
+      desc: "Выезжаем на объект в удобное время. Замерщик фиксирует все проёмы и особенности помещения."
+    },
+    {
+      icon: "🎨",
+      title: "Дизайн и расчёт",
+      desc: "Готовим визуализацию и точную смету. Согласовываем материалы, цвет и конфигурацию изделий."
+    },
+    {
+      icon: "🏭",
+      title: "Производство",
+      desc: "Изготавливаем изделия на собственном производстве. Стандартный срок — 10–14 рабочих дней."
+    },
+    {
+      icon: "🔧",
+      title: "Монтаж",
+      desc: "Монтажная бригада устанавливает и регулирует изделия. Убираем за собой, вы принимаете результат."
+    }
+  ];
+
+  function renderSteps() {
+    const grid = document.getElementById("stepsGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    stepsData.forEach((s, i) => {
+      const el = document.createElement("div");
+      el.className = "step-item";
+      el.innerHTML =
+        "<span class='step-num'>Шаг " + (i + 1) + "</span>" +
+        "<div class='step-item-body'>" +
+        "<span class='step-icon'>" + s.icon + "</span>" +
+        "<span class='step-title'>" + s.title + "</span>" +
+        "<span class='step-desc'>" + s.desc + "</span>" +
+        "</div>";
+      grid.appendChild(el);
+    });
+  }
+
+  renderSteps();
+
+
+  // ── CTA ──
+  (function() {
+    const orderBtn = document.getElementById("ctaOrderBtn");
+    const callBtn  = document.getElementById("ctaCallBtn");
+    if (orderBtn) orderBtn.addEventListener("click", () => {
+      document.getElementById("orderBtn").click();
+    });
+    if (callBtn) callBtn.addEventListener("click", () => {
+      window.location.href = "tel:" + managerPhoneNumber;
+    });
+  })();
+
+</script>
+
+</body>
+</html>
