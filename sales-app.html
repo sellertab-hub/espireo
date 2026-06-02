@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESPIREO — Продажи</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f3ee;
+      --surface: #fdfaf7;
+      --surface-2: #f1ebe4;
+      --line: #dfd4c8;
+      --text: #4b3d30;
+      --muted: #8a7c70;
+      --accent: #5a4535;
+      --accent-2: #7c624d;
+      --danger: #9d4a43;
+      --success: #506b52;
+      --radius: 18px;
+      --shadow: 0 12px 40px rgba(75, 61, 48, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 0 28px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 28px;
+    }
+
+    .brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .topbar-note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .card-inner {
+      padding: 22px;
+    }
+
+    .section-title {
+      margin: 0 0 16px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 600;
+      line-height: 0.95;
+    }
+
+    .hero p {
+      margin: 8px 0 0;
+      max-width: 480px;
+      color: var(--muted);
+    }
+
+    .grid-2, .grid-3 {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    input, select, textarea, button {
+      font: inherit;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fffdfa;
+      color: var(--text);
+      border-radius: 14px;
+      padding: 13px 14px;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 4px rgba(124, 98, 77, 0.10);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 13px 18px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: #3f3125; }
+
+    .btn-secondary {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-2);
+    }
+
+    .item-card, .payment-row {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      background: #fffdfa;
+    }
+
+    .item-card + .item-card,
+    .payment-row + .payment-row {
+      margin-top: 14px;
+    }
+
+    .item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 14px;
+    }
+
+    .item-num {
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .ghost-danger {
+      background: transparent;
+      border: 1px solid #e6d3ce;
+      color: var(--danger);
+      padding: 10px 14px;
+    }
+
+    .ghost-danger:hover {
+      background: #fbf1ef;
+    }
+
+    .product-preview {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .preview-box {
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background: var(--surface);
+    }
+
+    .preview-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .preview-value {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 12px;
+    }
+
+    .summary-line strong {
+      font-size: 20px;
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      display: none;
+      font-size: 14px;
+    }
+
+    .status.show { display: block; }
+    .status.ok {
+      background: #edf4ee;
+      color: var(--success);
+      border: 1px solid #cfe0d1;
+    }
+    .status.error {
+      background: #fbf0ef;
+      color: var(--danger);
+      border: 1px solid #e7cfcb;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .grid-2, .grid-3, .product-preview {
+        grid-template-columns: 1fr;
+      }
+      .hero {
+        flex-direction: column;
+        align-items: start;
+      }
+      .hero h1 {
+        font-size: 38px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">ESPIREO</div>
+      <div class="topbar-note">Ввод продаж • подключение к Google Sheets через Apps Script</div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Новый день продаж</h1>
+        <p>Добавляйте товары, указывайте способы оплаты и сохраняйте продажу в таблицу. Остатки на складе в этой версии не изменяются.</p>
+      </div>
+      <div class="btn-row">
+        <button class="btn-secondary" id="reloadStockBtn">Обновить сток</button>
+        <button class="btn-primary" id="addItemBtn">Добавить товар</button>
+      </div>
+    </section>
+
+    <div class="layout">
+      <main class="card">
+        <div class="card-inner">
+          <h2 class="section-title">Продажа</h2>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="saleDate">Дата</label>
+              <input type="date" id="saleDate">
+            </div>
+            <div class="field">
+              <label for="cashAtStart">Деньги в кассе на начало</label>
+              <input type="number" id="cashAtStart" min="0" step="0.01" placeholder="0">
+            </div>
+          </div>
+
+          <div style="height: 22px;"></div>
+
+          <div id="itemsContainer"></div>
+
+          <div style="height: 18px;"></div>
+
+          <div class="btn-row">
+            <button class="btn-secondary" id="addItemBtnBottom">Добавить ещё товар</button>
+          </div>
+
+          <div style="height: 28px;"></div>
+
+          <h2 class="section-title">Оплаты</h2>
+          <div id="paymentsContainer"></div>
+
+          <div style="height: 16px;"></div>
+
+          <div class="btn-row">
+            <button class="btn-secondary" id="addPaymentBtn">Добавить тип оплаты</button>
+          </div>
+
+          <div style="height: 28px;"></div>
+
+          <div class="field">
+            <label for="comment">Комментарий</label>
+            <textarea id="comment" placeholder="Комментарий к продаже, если нужен"></textarea>
+          </div>
+
+          <div style="height: 24px;"></div>
+
+          <div class="btn-row">
+            <button class="btn-primary" id="saveBtn">Сохранить продажу</button>
+          </div>
+
+          <div class="status" id="statusBox"></div>
+        </div>
+      </main>
+
+      <aside class="card">
+        <div class="card-inner">
+          <h2 class="section-title">Итоги</h2>
+
+          <div class="summary-list">
+            <div class="summary-line">
+              <span>Товаров в продаже</span>
+              <span id="itemsCount">0</span>
+            </div>
+            <div class="summary-line">
+              <span>Сумма товаров</span>
+              <span id="totalAmount">0.00</span>
+            </div>
+            <div class="summary-line">
+              <span>Сумма оплат</span>
+              <span id="paymentsTotal">0.00</span>
+            </div>
+            <div class="summary-line">
+              <span>Получено</span>
+              <span id="receivedPreview">0.00</span>
+            </div>
+            <div class="summary-line">
+              <span>Наличная часть</span>
+              <span id="cashPartPreview">0.00</span>
+            </div>
+            <div class="summary-line">
+              <strong>Сдача</strong>
+              <strong id="changeAmount">0.00</strong>
+            </div>
+          </div>
+
+          <div style="height: 24px;"></div>
+
+          <div class="field">
+            <label for="received">Сколько денег получено от клиента</label>
+            <input type="number" id="received" min="0" step="0.01" placeholder="0">
+          </div>
+
+          <div style="height: 16px;"></div>
+
+          <div class="muted">
+            Сдача считается по наличной части оплаты: сумма “получено” минус сумма оплат с типом “нал”.
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzFJMJu4rlfyeTq3q9ijNsVGsgBwUNL-WDsF8vt_px19H9lPEvU35kZ9h3fs2Rfn280AQ/exec';
+
+    const state = {
+      stock: [],
+      paymentTypes: [],
+      items: [],
+      payments: []
+    };
+
+    const els = {
+      saleDate: document.getElementById('saleDate'),
+      cashAtStart: document.getElementById('cashAtStart'),
+      itemsContainer: document.getElementById('itemsContainer'),
+      paymentsContainer: document.getElementById('paymentsContainer'),
+      totalAmount: document.getElementById('totalAmount'),
+      paymentsTotal: document.getElementById('paymentsTotal'),
+      itemsCount: document.getElementById('itemsCount'),
+      received: document.getElementById('received'),
+      receivedPreview: document.getElementById('receivedPreview'),
+      cashPartPreview: document.getElementById('cashPartPreview'),
+      changeAmount: document.getElementById('changeAmount'),
+      comment: document.getElementById('comment'),
+      statusBox: document.getElementById('statusBox')
+    };
+
+    function setToday() {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      els.saleDate.value = `${yyyy}-${mm}-${dd}`;
+    }
+
+    function showStatus(message, type = 'ok') {
+      els.statusBox.textContent = message;
+      els.statusBox.className = `status show ${type}`;
+    }
+
+    function clearStatus() {
+      els.statusBox.className = 'status';
+      els.statusBox.textContent = '';
+    }
+
+    async function loadStock() {
+      clearStatus();
+      const res = await fetch(`${API_URL}?action=stock`);
+      const data = await res.json();
+
+      if (!data.ok) throw new Error(data.error || 'Ошибка загрузки стока');
+
+      state.stock = data.stock || [];
+      state.paymentTypes = data.paymentTypes || [];
+
+      if (!state.items.length) addItem();
+      if (!state.payments.length) addPayment();
+
+      renderItems();
+      renderPayments();
+      calculateTotals();
+    }
+
+    function uid() {
+      return Math.random().toString(36).slice(2, 10);
+    }
+
+    function addItem() {
+      state.items.push({
+        id: uid(),
+        article: '',
+        title: '',
+        color: '',
+        price: 0,
+        size: '',
+        sizeOptions: []
+      });
+      renderItems();
+      calculateTotals();
+    }
+
+    function removeItem(id) {
+      state.items = state.items.filter(item => item.id !== id);
+      renderItems();
+      calculateTotals();
+    }
+
+    function addPayment() {
+      state.payments.push({
+        id: uid(),
+        type: state.paymentTypes[0] || '',
+        amount: 0
+      });
+      renderPayments();
+      calculateTotals();
+    }
+
+    function removePayment(id) {
+      state.payments = state.payments.filter(p => p.id !== id);
+      renderPayments();
+      calculateTotals();
+    }
+
+    function getStockByArticle(article) {
+      return state.stock.find(item => item.article === article);
+    }
+
+    function renderItems() {
+      els.itemsContainer.innerHTML = '';
+
+      state.items.forEach((item, index) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'item-card';
+
+        const articleOptions = ['<option value="">Выберите артикул</option>']
+          .concat(
+            state.stock.map(product =>
+              `<option value="${escapeHtml(product.article)}" ${product.article === item.article ? 'selected' : ''}>
+                ${escapeHtml(product.article)} — ${escapeHtml(product.title)} / ${escapeHtml(product.color)}
+              </option>`
+            )
+          ).join('');
+
+        const sizeOptions = ['<option value="">Выберите размер</option>']
+          .concat(
+            (item.sizeOptions || []).map(s =>
+              `<option value="${escapeHtml(s.size)}" ${s.size === item.size ? 'selected' : ''}>
+                ${escapeHtml(s.size)}${s.stockLabel ? ' (' + escapeHtml(s.stockLabel) + ')' : ''}
+              </option>`
+            )
+          ).join('');
+
+        wrap.innerHTML = `
+          <div class="item-top">
+            <div class="item-num">Позиция ${index + 1}</div>
+            <button type="button" class="ghost-danger" ${state.items.length === 1 ? 'disabled' : ''}>Удалить</button>
+          </div>
+
+          <div class="grid-3">
+            <div class="field" style="grid-column: span 2;">
+              <label>Артикул</label>
+              <select data-role="article">${articleOptions}</select>
+            </div>
+
+            <div class="field">
+              <label>Размер</label>
+              <select data-role="size">${sizeOptions}</select>
+            </div>
+          </div>
+
+          <div style="height: 14px;"></div>
+
+          <div class="grid-3">
+            <div class="field">
+              <label>Изделие</label>
+              <input data-role="title" value="${escapeAttr(item.title)}" readonly>
+            </div>
+            <div class="field">
+              <label>Цвет</label>
+              <input data-role="color" value="${escapeAttr(item.color)}" readonly>
+            </div>
+            <div class="field">
+              <label>Цена</label>
+              <input data-role="price" type="number" min="0" step="0.01" value="${Number(item.price || 0)}">
+            </div>
+          </div>
+
+          <div class="product-preview">
+            <div class="preview-box">
+              <div class="preview-label">Артикул</div>
+              <div class="preview-value">${item.article || '—'}</div>
+            </div>
+            <div class="preview-box">
+              <div class="preview-label">Группа</div>
+              <div class="preview-value">${escapeHtml((getStockByArticle(item.article) || {}).group || '—')}</div>
+            </div>
+            <div class="preview-box">
+              <div class="preview-label">Размер / остаток</div>
+              <div class="preview-value">${formatSizePreview(item)}</div>
+            </div>
+          </div>
+        `;
+
+        const removeBtn = wrap.querySelector('.ghost-danger');
+        removeBtn.addEventListener('click', () => removeItem(item.id));
+
+        const articleSelect = wrap.querySelector('[data-role="article"]');
+        const sizeSelect = wrap.querySelector('[data-role="size"]');
+        const priceInput = wrap.querySelector('[data-role="price"]');
+
+        articleSelect.addEventListener('change', (e) => {
+          const product = getStockByArticle(e.target.value);
+          item.article = product ? product.article : '';
+          item.title = product ? product.title : '';
+          item.color = product ? product.color : '';
+          item.price = product ? product.price : 0;
+          item.size = '';
+          item.sizeOptions = product ? product.sizes : [];
+          renderItems();
+          calculateTotals();
+        });
+
+        sizeSelect.addEventListener('change', (e) => {
+          item.size = e.target.value;
+          calculateTotals();
+        });
+
+        priceInput.addEventListener('input', (e) => {
+          item.price = Number(e.target.value || 0);
+          calculateTotals();
+        });
+
+        els.itemsContainer.appendChild(wrap);
+      });
+
+      els.itemsCount.textContent = String(state.items.length);
+    }
+
+    function renderPayments() {
+      els.paymentsContainer.innerHTML = '';
+
+      state.payments.forEach((payment) => {
+        const row = document.createElement('div');
+        row.className = 'payment-row';
+
+        const typeOptions = state.paymentTypes.map(type =>
+          `<option value="${escapeHtml(type)}" ${type === payment.type ? 'selected' : ''}>${escapeHtml(type)}</option>`
+        ).join('');
+
+        row.innerHTML = `
+          <div class="grid-3">
+            <div class="field" style="grid-column: span 2;">
+              <label>Тип оплаты</label>
+              <select data-role="type">${typeOptions}</select>
+            </div>
+            <div class="field">
+              <label>Сумма</label>
+              <input data-role="amount" type="number" min="-999999" step="0.01" value="${Number(payment.amount || 0)}">
+            </div>
+          </div>
+          <div style="height: 12px;"></div>
+          <div class="btn-row">
+            <button type="button" class="ghost-danger" ${state.payments.length === 1 ? 'disabled' : ''}>Удалить оплату</button>
+          </div>
+        `;
+
+        row.querySelector('[data-role="type"]').addEventListener('change', (e) => {
+          payment.type = e.target.value;
+          calculateTotals();
+        });
+
+        row.querySelector('[data-role="amount"]').addEventListener('input', (e) => {
+          payment.amount = Number(e.target.value || 0);
+          calculateTotals();
+        });
+
+        row.querySelector('.ghost-danger').addEventListener('click', () => {
+          removePayment(payment.id);
+        });
+
+        els.paymentsContainer.appendChild(row);
+      });
+    }
+
+    function formatSizePreview(item) {
+      if (!item.size) return '—';
+      const found = (item.sizeOptions || []).find(s => s.size === item.size);
+      if (!found) return item.size;
+      return found.stockLabel ? `${found.size} (${found.stockLabel})` : found.size;
+    }
+
+    function calculateTotals() {
+      const total = state.items.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      const paymentsTotal = state.payments.reduce((sum, p) => sum + Number(p.amount || 0), 0);
+      const received = Number(els.received.value || 0);
+
+      const cashPart = state.payments
+        .filter(p => p.type === 'нал')
+        .reduce((sum, p) => sum + Number(p.amount || 0), 0);
+
+      const change = received - cashPart;
+
+      els.totalAmount.textContent = total.toFixed(2);
+      els.paymentsTotal.textContent = paymentsTotal.toFixed(2);
+      els.receivedPreview.textContent = received.toFixed(2);
+      els.cashPartPreview.textContent = cashPart.toFixed(2);
+      els.changeAmount.textContent = change.toFixed(2);
+    }
+
+    function validateForm() {
+      if (!els.saleDate.value) throw new Error('Укажите дату продажи');
+
+      if (!state.items.length) throw new Error('Добавьте хотя бы один товар');
+
+      state.items.forEach((item, idx) => {
+        if (!item.article) throw new Error(`Выберите артикул у позиции ${idx + 1}`);
+        if (!item.size) throw new Error(`Выберите размер у позиции ${idx + 1}`);
+      });
+
+      if (!state.payments.length) throw new Error('Добавьте хотя бы один тип оплаты');
+
+      return true;
+    }
+
+    async function saveSale() {
+      validateForm();
+      clearStatus();
+
+      const total = state.items.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      const received = Number(els.received.value || 0);
+      const cashPart = state.payments
+        .filter(p => p.type === 'нал')
+        .reduce((sum, p) => sum + Number(p.amount || 0), 0);
+      const change = received - cashPart;
+
+      const payload = {
+        date: els.saleDate.value,
+        cashAtStart: Number(els.cashAtStart.value || 0),
+        total,
+        received,
+        change,
+        comment: els.comment.value.trim(),
+        items: state.items.map(item => ({
+          article: item.article,
+          title: item.title,
+          color: item.color,
+          size: item.size,
+          price: Number(item.price || 0)
+        })),
+        payments: state.payments.map(p => ({
+          type: p.type,
+          amount: Number(p.amount || 0)
+        }))
+      };
+
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'Ошибка при сохранении');
+
+      showStatus(`Продажа сохранена. ID: ${data.result.saleId}. Строк записано: ${data.result.savedRows}`, 'ok');
+
+      state.items = [];
+      state.payments = [];
+      els.received.value = '';
+      els.comment.value = '';
+      addItem();
+      addPayment();
+      calculateTotals();
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function escapeAttr(str) {
+      return escapeHtml(str);
+    }
+
+    document.getElementById('addItemBtn').addEventListener('click', addItem);
+    document.getElementById('addItemBtnBottom').addEventListener('click', addItem);
+    document.getElementById('addPaymentBtn').addEventListener('click', addPayment);
+    document.getElementById('reloadStockBtn').addEventListener('click', loadStock);
+    document.getElementById('saveBtn').addEventListener('click', saveSale);
+    els.received.addEventListener('input', calculateTotals);
+
+    setToday();
+    loadStock().catch(err => showStatus(err.message, 'error'));
+  </script>
+</body>
+</html>
