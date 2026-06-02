@@ -157,6 +157,44 @@
       display: inline-flex; align-items: center; gap: 4px;
     }
 
+    /* ── Payment type colors ── */
+    .pt-cash     { background:#e8f4e8; border-color:#a8d5a8; color:#2e6b2e; }
+    .pt-card     { background:#e8eef8; border-color:#a8bce0; color:#2a4a8c; }
+    .pt-transfer { background:#eef0fb; border-color:#b0b8ef; color:#3040a0; }
+    .pt-barter   { background:#fdf3e3; border-color:#e8c87a; color:#8a5a00; }
+    .pt-return   { background:#fde8e8; border-color:#e0a0a0; color:#9d3030; }
+    .pt-service  { background:#f3ece8; border-color:#d4b8a8; color:#5c3a20; }
+    .pt-delivery { background:#e8f8f8; border-color:#90d0d0; color:#1a6060; }
+    .pt-other    { background:#f3f0f8; border-color:#c0b0d8; color:#4a3070; }
+
+    /* ── Sale checkboxes ── */
+    .sale-checks {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: 10px; padding-top: 10px;
+      border-top: 1px solid var(--color-divider);
+    }
+    .check-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; cursor: pointer;
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      user-select: none;
+      transition: background 120ms, border-color 120ms;
+    }
+    .check-label:hover { background: var(--color-surface-2); }
+    .check-label input[type=checkbox] {
+      width: 14px; height: 14px; flex-shrink: 0;
+      border-radius: 4px; padding: 0; cursor: pointer;
+      accent-color: var(--color-primary);
+    }
+    .check-label.checked {
+      background: var(--color-success-bg);
+      border-color: var(--color-success);
+      color: var(--color-success);
+    }
+
     /* ── Days list ── */
     .days-list { display: grid; gap: 8px; }
 
@@ -544,6 +582,19 @@
         <input type="text" id="comment" placeholder="необязательно">
       </div>
 
+      <!-- Sale checks -->
+      <div class="sale-checks" id="saleChecks">
+        <label class="check-label" id="checkVychteno">
+          <input type="checkbox" id="cbVychteno"> Вычтено
+        </label>
+        <label class="check-label" id="checkDovesheno">
+          <input type="checkbox" id="cbDovesheno"> Довешено
+        </label>
+        <label class="check-label" id="checkBirka">
+          <input type="checkbox" id="cbBirka"> Бирка довешена
+        </label>
+      </div>
+
       <hr class="divider">
 
       <!-- Items -->
@@ -623,6 +674,12 @@
     headerSub:      document.getElementById('headerSub'),
     reloadBtn:      document.getElementById('reloadBtn'),
     addDayBtn:      document.getElementById('addDayBtn'),
+    cbVychteno:     document.getElementById('cbVychteno'),
+    cbDovesheno:    document.getElementById('cbDovesheno'),
+    cbBirka:        document.getElementById('cbBirka'),
+    checkVychteno:  document.getElementById('checkVychteno'),
+    checkDovesheno: document.getElementById('checkDovesheno'),
+    checkBirka:     document.getElementById('checkBirka'),
     mainStatus:     document.getElementById('mainStatus'),
     daysList:       document.getElementById('daysList'),
 
@@ -788,13 +845,17 @@
       openNewSale(day.date);
     });
 
-    // Delegate clicks inside body (edit/delete sale)
+    // Delegate clicks inside body
     body.addEventListener('click', async (e) => {
+      // edit button — always wins, stops propagation
       const editBtn = e.target.closest('[data-action="edit-sale"]');
       if (editBtn) {
+        e.stopPropagation();
         openEditSale(editBtn.dataset.saleid);
         return;
       }
+      // don't toggle if click inside action buttons area
+      if (e.target.closest('.sale-row-actions')) return;
       // toggle sale row
       const saleHead = e.target.closest('[data-sale-toggle]');
       if (saleHead) {
@@ -837,7 +898,7 @@
                   ${sale.paymentTypes ? `<span class="chip">${escapeHtml(sale.paymentTypes)}</span>` : ''}
                 </div>
               </div>
-              <div class="sale-row-actions" onclick="event.stopPropagation()">
+              <div class="sale-row-actions">
                 <button class="btn btn-secondary btn-xs" type="button" data-action="edit-sale" data-saleid="${escapeHtml(sale.saleId)}">Изменить</button>
               </div>
             </div>
@@ -871,11 +932,25 @@
       });
       html += '</tbody></table>';
     }
+    // Parse payment types for colored chips
+    const ptypes = (sale.paymentTypes || '').split('|').map(s => s.trim()).filter(Boolean);
+    const ptypesHtml = ptypes.map(t =>
+      `<span class="chip ${paymentTypeClass(t)}">${escapeHtml(t)}</span>`
+    ).join('');
+    // Parse check flags from comment
+    const cf = parseChecksFromComment(sale.comment || '');
+    const flagsHtml = [
+      cf.vychteno  ? `<span class="chip" style="background:#e8f0e7;color:#2d5a2c;">Вычтено</span>` : '',
+      cf.dovesheno ? `<span class="chip" style="background:#fef9e7;color:#7d6608;">Довешено</span>` : '',
+      cf.birka     ? `<span class="chip" style="background:#e8f4f8;color:#1a5276;">Бирка довешена</span>` : ''
+    ].filter(Boolean).join('');
     html += `<div class="sale-totals">
       <span class="chip">Итого: <b>${formatMoney(sale.total || 0)}</b></span>
       <span class="chip">Получено: ${formatMoney(sale.received || 0)}</span>
       <span class="chip">Сдача: ${formatMoney(sale.change || 0)}</span>
-      ${sale.comment ? `<span class="chip">${escapeHtml(sale.comment)}</span>` : ''}
+      ${ptypesHtml}
+      ${cf.cleanComment ? `<span class="chip">${escapeHtml(cf.cleanComment)}</span>` : ''}
+      ${flagsHtml}
     </div>`;
     return html;
   }
@@ -909,6 +984,47 @@
   }
 
   // ─────────────────────────────────────────────
+  // SALE CHECKS
+  // ─────────────────────────────────────────────
+  const CHECK_FLAGS = ['Вычтено', 'Довешено', 'Бирка довешена'];
+
+  function parseChecksFromComment(raw) {
+    const parts = (raw || '').split('|').map(s => s.trim());
+    let vychteno = false, dovesheno = false, birka = false;
+    const textParts = [];
+    parts.forEach(p => {
+      if (p === 'Вычтено')          { vychteno  = true; }
+      else if (p === 'Довешено')       { dovesheno = true; }
+      else if (p === 'Бирка довешена') { birka     = true; }
+      else if (p) textParts.push(p);
+    });
+    return { vychteno, dovesheno, birka, cleanComment: textParts.join(' | ') };
+  }
+
+  function resetChecks() {
+    els.cbVychteno.checked  = false;
+    els.cbDovesheno.checked = false;
+    els.cbBirka.checked     = false;
+    els.checkVychteno.classList.remove('checked');
+    els.checkDovesheno.classList.remove('checked');
+    els.checkBirka.classList.remove('checked');
+  }
+
+  function setChecks(v, d, b) {
+    els.cbVychteno.checked  = v;
+    els.cbDovesheno.checked = d;
+    els.cbBirka.checked     = b;
+    els.checkVychteno.classList.toggle('checked', v);
+    els.checkDovesheno.classList.toggle('checked', d);
+    els.checkBirka.classList.toggle('checked', b);
+  }
+
+  // Checkbox wiring
+  els.cbVychteno.addEventListener('change',  () => els.checkVychteno.classList.toggle('checked',  els.cbVychteno.checked));
+  els.cbDovesheno.addEventListener('change', () => els.checkDovesheno.classList.toggle('checked', els.cbDovesheno.checked));
+  els.cbBirka.addEventListener('change',     () => els.checkBirka.classList.toggle('checked',     els.cbBirka.checked));
+
+  // ─────────────────────────────────────────────
   // SALE EDIT PANEL
   // ─────────────────────────────────────────────
   function openNewSale(date) {
@@ -918,6 +1034,7 @@
     els.received.value    = '';
     els.comment.value     = '';
     els.changeInput.value = '';
+    resetChecks();
     state.items    = [emptyItem()];
     state.payments = [emptyPayment()];
     renderItems();
@@ -946,8 +1063,10 @@
 
       els.saleDate.value    = sale.date;
       els.received.value    = Number(sale.received || 0);
-      els.comment.value     = sale.comment || '';
       els.changeInput.value = sale.change != null ? Number(sale.change || 0) : '';
+      const flags = parseChecksFromComment(sale.comment || '');
+      els.comment.value = flags.cleanComment;
+      setChecks(flags.vychteno, flags.dovesheno, flags.birka);
 
       state.items = (sale.items || []).map(item => ({
         id:          uid(),
@@ -1200,6 +1319,18 @@
   // ─────────────────────────────────────────────
   // PAYMENTS RENDER
   // ─────────────────────────────────────────────
+  function paymentTypeClass(type) {
+    const t = String(type || '').toLowerCase();
+    if (t.startsWith('нал'))                               return 'pt-cash';
+    if (t === 'терминал' || t === 'сотрудник терминал' || t === 'обмен выдача и терминал') return 'pt-card';
+    if (t === 'перевод' || t === 'сотрудник с зп' || t === 'обмен выдача и перевод')  return 'pt-transfer';
+    if (t === 'бартер' || t === 'возврат бартер' || t === 'сертификат' || t === 'подарок')         return 'pt-barter';
+    if (t.startsWith('возврат') || t.startsWith('отмена') || t.startsWith('вернуть') || t.startsWith('деньги вернули') || t.startsWith('оплатили ниже')) return 'pt-return';
+    if (t === 'съёмка' || t === 'образец' || t === 'ремонт')                     return 'pt-service';
+    if (t.startsWith('доставка') || t === 'наложен пл')                return 'pt-delivery';
+    return 'pt-other';
+  }
+
   function renderPayments() {
     els.paymentsContainer.innerHTML = '';
     state.payments.forEach(p => {
@@ -1207,7 +1338,7 @@
       div.className = 'payment-card';
       div.innerHTML = `
         <div class="payment-card-head">
-          <span class="kicker">Оплата</span>
+          <span class="chip ${paymentTypeClass(p.type)}" data-role="type-chip">${escapeHtml(p.type || '—')}</span>
           <button type="button" class="btn btn-danger btn-xs">Удалить</button>
         </div>
         <div class="field-row">
@@ -1226,7 +1357,14 @@
         </div>
       `;
       div.querySelector('.btn-danger').addEventListener('click', () => removePayment(p.id));
-      div.querySelector('[data-role="type"]').addEventListener('change', e => { p.type = e.target.value; calculateTotals(); });
+      const typeSelect = div.querySelector('[data-role="type"]');
+      const typeChip   = div.querySelector('[data-role="type-chip"]');
+      typeSelect.addEventListener('change', e => {
+        p.type = e.target.value;
+        typeChip.textContent = p.type || '—';
+        typeChip.className = `chip ${paymentTypeClass(p.type)}`;
+        calculateTotals();
+      });
       div.querySelector('[data-role="amount"]').addEventListener('input', e => { p.amount = Number(e.target.value || 0); calculateTotals(); });
       els.paymentsContainer.appendChild(div);
     });
@@ -1293,11 +1431,19 @@
       const received = Number(els.received.value || 0);
       const change   = Number(els.changeInput.value || 0);
 
+      const checkFlags = [
+        els.cbVychteno.checked  ? 'Вычтено'          : '',
+        els.cbDovesheno.checked ? 'Довешено'       : '',
+        els.cbBirka.checked     ? 'Бирка довешена' : ''
+      ].filter(Boolean);
+      const baseComment = els.comment.value.trim();
+      const fullComment = [baseComment, ...checkFlags].filter(Boolean).join(' | ');
+
       const payload = {
         saleId:   state.editSaleId || undefined,
         date:     state.editDay,
         total, received, change,
-        comment:  els.comment.value || '',
+        comment:  fullComment,
         items:    state.items.map(i => ({
           article: i.article, title: i.title, color: i.color,
           size: i.size, price: Number(i.price || 0)
