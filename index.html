@@ -550,7 +550,6 @@
     </header>
 
     <main class="main">
-      <!-- Экран: список дней -->
       <section class="screen active" data-screen="days">
         <div class="panel">
           <div class="panel-inner">
@@ -567,7 +566,6 @@
         </div>
       </section>
 
-      <!-- Экран: продажи внутри дня -->
       <section class="screen" data-screen="daySales">
         <div class="panel">
           <div class="panel-inner">
@@ -584,7 +582,6 @@
         </div>
       </section>
 
-      <!-- Экран: создание / редактирование продажи -->
       <section class="screen" data-screen="saleEdit">
         <div class="panel">
           <div class="panel-inner">
@@ -675,7 +672,6 @@
     </main>
   </div>
 
-  <!-- Модалка: день -->
   <div class="modal-backdrop" id="dayModal">
     <div class="modal">
       <div class="modal-head">
@@ -1022,7 +1018,7 @@
             <button type="button" class="btn btn-danger btn-sm">Удалить</button>
           </div>
           <div class="field-row">
-            <div class="field">
+            <div class="field" style="position:relative;">
               <label>Поиск товара</label>
               <input type="text" data-role="query" value="${escapeHtml(item.query)}" placeholder="Артикул, название или цвет">
               <div class="search-results"></div>
@@ -1096,7 +1092,7 @@
             resultsBox.innerHTML = html;
             Object.assign(resultsBox.style, {
               position: 'absolute',
-              zIndex: 5,
+              zIndex: 10,
               background: 'var(--color-surface)',
               border: '1px solid var(--color-border)',
               borderRadius: '14px',
@@ -1112,6 +1108,7 @@
         resultsBox.addEventListener('click', (e) => {
           const btn = e.target.closest('button[data-article]');
           if (!btn) return;
+          console.log('CLICK ON RESULT', btn.getAttribute('data-article'));
           const article = btn.getAttribute('data-article');
           const product = state.stock.find(p => p.article === article);
           if (!product) return;
