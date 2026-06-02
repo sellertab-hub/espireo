@@ -567,32 +567,9 @@
     <div class="edit-panel-body">
       <div id="editStatus" class="status-box"></div>
 
-      <div class="field-row" style="margin-bottom:14px;">
-        <div class="field">
-          <label>Дата (фиксирована)</label>
-          <input type="date" id="saleDate" readonly>
-        </div>
-        <div class="field">
-          <label>Получено от клиента</label>
-          <input type="number" id="received" step="0.01" placeholder="0">
-        </div>
-      </div>
       <div class="field" style="margin-bottom:14px;">
-        <label>Комментарий</label>
-        <input type="text" id="comment" placeholder="необязательно">
-      </div>
-
-      <!-- Sale checks -->
-      <div class="sale-checks" id="saleChecks">
-        <label class="check-label" id="checkVychteno">
-          <input type="checkbox" id="cbVychteno"> Вычтено
-        </label>
-        <label class="check-label" id="checkDovesheno">
-          <input type="checkbox" id="cbDovesheno"> Довешено
-        </label>
-        <label class="check-label" id="checkBirka">
-          <input type="checkbox" id="cbBirka"> Бирка довешена
-        </label>
+        <label>Дата (фиксирована)</label>
+        <input type="date" id="saleDate" readonly>
       </div>
 
       <hr class="divider">
@@ -628,12 +605,35 @@
         <div class="summary-row"><span>Сумма оплат</span><span id="paymentsTotal">0.00</span></div>
         <div class="summary-row"><span>Наличная часть</span><span id="cashPartPreview">0.00</span></div>
         <div class="summary-row">
+          <span>Получено</span>
+          <input type="number" id="received" step="0.01" placeholder="0" style="max-width:110px;text-align:right;">
+        </div>
+        <div class="summary-row">
           <span>Сдача</span>
           <input type="number" id="changeInput" step="0.01" style="max-width:110px;text-align:right;">
         </div>
       </div>
       <div class="check-chips">
         <div class="chip" id="paymentsCheckChip">Проверка оплат</div>
+      </div>
+
+      <hr class="divider">
+
+      <!-- Comment + Checks -->
+      <div class="field" style="margin-bottom:10px;">
+        <label>Комментарий</label>
+        <input type="text" id="comment" placeholder="необязательно">
+      </div>
+      <div class="sale-checks" id="saleChecks">
+        <label class="check-label" id="checkVychteno">
+          <input type="checkbox" id="cbVychteno"> Вычтено
+        </label>
+        <label class="check-label" id="checkDovesheno">
+          <input type="checkbox" id="cbDovesheno"> Довешено
+        </label>
+        <label class="check-label" id="checkBirka">
+          <input type="checkbox" id="cbBirka"> Бирка довешена
+        </label>
       </div>
     </div>
     <div class="edit-panel-foot">
@@ -820,7 +820,7 @@
         <div class="day-metrics">
           <span class="chip"><b>${formatMoney(day.total || 0)}</b>&nbsp;руб.</span>
           <span class="chip">Продаж: ${day.salesCount || 0}</span>
-          <span class="chip">Товаров: ${day.itemsCount || 0}</span>
+          <span class="chip">Товаров: ${Number.isFinite(Number(day.itemsCount)) ? Number(day.itemsCount) : 0}</span>
         </div>
       </div>
       <div class="day-actions">
@@ -1460,14 +1460,11 @@
 
       if (!data.ok) throw new Error(data.error || 'Ошибка сохранения');
 
-      state.editSaleId = data.result.saleId;
-      setStatus(els.editStatus, isUpdate ? 'Продажа обновлена' : 'Продажа создана', 'ok');
-      els.editPanelTitle.textContent = 'Редактирование продажи';
-      els.editPanelSub.textContent   = data.result.saleId + ' · ' + formatDateDisplay(state.editDay);
-      els.deleteSaleBtn.classList.remove('hidden');
+      const savedDay = state.editDay;
 
-      // Refresh day data silently
-      await refreshDay(state.editDay);
+      // Refresh day data, then close panel
+      await refreshDay(savedDay);
+      closeEditPanel();
 
     } catch (err) {
       setStatus(els.editStatus, err.message || String(err), 'error');
