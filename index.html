@@ -2,17 +2,39 @@
 <html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <title>Espireo · Продажи по дням</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Espireo Sales v2</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root, [data-theme="light"] {
       --font-body: 'Manrope', system-ui, sans-serif;
+      --font-display: 'Manrope', system-ui, sans-serif;
+      --text-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.82rem + 0.2vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.2vw, 1.05rem);
+      --text-lg: clamp(1.125rem, 1.02rem + 0.25vw, 1.25rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 0.7vw, 2rem);
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --radius-sm: 0.5rem;
+      --radius-md: 0.75rem;
+      --radius-lg: 1rem;
+      --radius-xl: 1.25rem;
+      --radius-full: 9999px;
       --color-bg: #f7f3ee;
       --color-surface: #fcfaf7;
       --color-surface-2: #f3ede6;
+      --color-surface-offset: #efe7de;
       --color-border: #ddd1c3;
       --color-divider: #e5dacd;
       --color-text: #3f3329;
@@ -21,29 +43,25 @@
       --color-text-inverse: #fffdf9;
       --color-primary: #5b4636;
       --color-primary-hover: #433225;
+      --color-primary-highlight: #e8ddd2;
       --color-success: #536b52;
-      --color-success-bg: #e8f0e7;
-      --color-error: #9d4b43;
-      --color-error-bg: #f7e7e4;
+      --color-success-highlight: #e8f0e7;
       --color-warning: #8d5e2d;
-      --color-warning-bg: #f4eadc;
-      --shadow-sm: 0 1px 2px rgba(63, 51, 41, 0.06);
+      --color-warning-highlight: #f4eadc;
+      --color-error: #9d4b43;
+      --color-error-highlight: #f7e7e4;
+      --color-blue: #6c7d97;
+      --color-blue-highlight: #e8edf6;
+      --shadow-sm: 0 1px 2px rgba(63, 51, 41, 0.05);
       --shadow-md: 0 10px 24px rgba(63, 51, 41, 0.08);
       --shadow-lg: 0 24px 48px rgba(63, 51, 41, 0.12);
-      --radius-md: 16px;
-      --radius-lg: 22px;
-      --radius-pill: 999px;
-      --space-2: 0.5rem;
-      --space-3: 0.75rem;
-      --space-4: 1rem;
-      --space-5: 1.25rem;
-      --space-6: 1.5rem;
-      --space-8: 2rem;
+      --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
     }
     [data-theme="dark"] {
       --color-bg: #181512;
       --color-surface: #221d19;
       --color-surface-2: #2a241f;
+      --color-surface-offset: #302922;
       --color-border: #403730;
       --color-divider: #342d27;
       --color-text: #ebe2d8;
@@ -52,57 +70,62 @@
       --color-text-inverse: #1e1814;
       --color-primary: #cbb29d;
       --color-primary-hover: #dfc8b6;
+      --color-primary-highlight: #40342b;
       --color-success: #8ab07c;
-      --color-success-bg: #2e392e;
-      --color-error: #de8d85;
-      --color-error-bg: #402824;
+      --color-success-highlight: #2e392e;
       --color-warning: #d5a96c;
-      --color-warning-bg: #403225;
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.25);
-      --shadow-md: 0 10px 24px rgba(0,0,0,0.35);
-      --shadow-lg: 0 24px 48px rgba(0,0,0,0.45);
+      --color-warning-highlight: #403225;
+      --color-error: #de8d85;
+      --color-error-highlight: #402824;
+      --color-blue: #98abc5;
+      --color-blue-highlight: #2b313d;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.45);
     }
     *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; height: 100%; }
+    html, body { margin: 0; height: 100%; overflow: hidden; }
     body {
       font-family: var(--font-body);
-      font-size: 14px;
+      font-size: var(--text-base);
       background: var(--color-bg);
       color: var(--color-text);
+      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
     button, input, select, textarea { font: inherit; color: inherit; }
     button { cursor: pointer; }
     input, select, textarea {
       width: 100%;
-      border-radius: 14px;
       border: 1px solid var(--color-border);
       background: var(--color-surface);
-      padding: 10px 12px;
+      border-radius: 14px;
+      padding: 13px 14px;
       outline: none;
-      transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      transition: border-color var(--transition-interactive), box-shadow var(--transition-interactive), background var(--transition-interactive);
     }
     input:focus, select:focus, textarea:focus {
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(91,70,54,0.18);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 14%, transparent);
     }
-    textarea { min-height: 90px; resize: vertical; }
-
+    textarea { min-height: 92px; resize: vertical; }
     .app {
       display: grid;
-      grid-template-columns: 260px minmax(0,1fr);
+      grid-template-columns: 284px minmax(0,1fr);
       grid-template-rows: auto 1fr;
-      height: 100vh;
+      height: 100dvh;
     }
     .sidebar {
       grid-row: 1 / -1;
-      padding: var(--space-6);
-      border-right: 1px solid var(--color-divider);
-      background: color-mix(in srgb, var(--color-surface) 80%, var(--color-bg));
       display: flex;
       flex-direction: column;
       gap: var(--space-6);
+      padding: var(--space-6);
+      border-right: 1px solid var(--color-divider);
+      background: color-mix(in srgb, var(--color-surface) 85%, var(--color-bg));
       overflow-y: auto;
+      overscroll-behavior: contain;
     }
     .brand {
       display: flex;
@@ -110,446 +133,189 @@
       justify-content: space-between;
       gap: var(--space-4);
     }
-    .brand-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-    }
     .brand-mark {
-      width: 38px;
-      height: 38px;
+      width: 42px;
+      height: 42px;
       border-radius: 14px;
-      background: #e4d7c8;
+      background: var(--color-primary-highlight);
       display: grid;
       place-items: center;
-      box-shadow: var(--shadow-sm);
       color: var(--color-primary);
-      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      flex: 0 0 auto;
     }
-    .brand-copy strong {
-      display: block;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      font-size: 11px;
-    }
-    .brand-copy span {
-      display: block;
-      font-size: 11px;
-      color: var(--color-text-muted);
-      margin-top: 2px;
-    }
+    .brand-copy strong { display: block; font-size: var(--text-sm); letter-spacing: 0.14em; text-transform: uppercase; }
+    .brand-copy span { display: block; color: var(--color-text-muted); font-size: var(--text-xs); margin-top: 2px; }
     .theme-toggle {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      border: 1px solid var(--color-border);
-      display: grid;
-      place-items: center;
-      background: var(--color-surface);
+      width: 44px; height: 44px; border-radius: 14px; border: 1px solid var(--color-border); background: var(--color-surface);
+      display: grid; place-items: center;
     }
-    .nav {
-      display: grid;
-      gap: 8px;
-    }
+    .nav { display: grid; gap: 10px; }
     .nav button {
-      border-radius: 14px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--color-text-muted);
-      padding: 10px 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      display: flex; align-items: center; gap: 12px;
+      width: 100%; min-height: 48px; padding: 12px 14px;
+      border-radius: 14px; border: 1px solid transparent; background: transparent; color: var(--color-text-muted);
       text-align: left;
     }
     .nav button.active {
-      border-color: var(--color-border);
       background: var(--color-surface);
+      border-color: var(--color-border);
       color: var(--color-text);
       box-shadow: var(--shadow-sm);
     }
-    .sidebar-note {
-      font-size: 11px;
-      color: var(--color-text-muted);
-      border-radius: 16px;
-      border: 1px solid var(--color-border);
-      padding: 12px;
+    .sidebar-card {
       background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 18px;
+      padding: 16px;
       box-shadow: var(--shadow-sm);
     }
-
+    .sidebar-card h3 { margin: 0 0 8px; font-size: var(--text-sm); }
+    .sidebar-card p { margin: 0; font-size: var(--text-xs); color: var(--color-text-muted); }
     .header {
       grid-column: 2;
+      position: sticky; top: 0; z-index: 5;
+      display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
       padding: var(--space-5) var(--space-6);
       border-bottom: 1px solid var(--color-divider);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-4);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
       background: color-mix(in srgb, var(--color-bg) 88%, transparent);
-      position: sticky;
-      top: 0;
-      z-index: 5;
     }
-    .header-title h1 {
-      margin: 0;
-      font-size: 20px;
-      font-weight: 600;
-    }
-    .header-title p {
-      margin: 5px 0 0;
-      font-size: 12px;
-      color: var(--color-text-muted);
-    }
-    .header-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      border-radius: var(--radius-pill);
-      border: 1px solid transparent;
-      padding: 9px 14px;
-      background: transparent;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      transition: 150ms ease;
-    }
-    .btn-primary {
-      background: var(--color-primary);
-      color: var(--color-text-inverse);
-    }
-    .btn-primary:hover {
-      background: var(--color-primary-hover);
-    }
-    .btn-secondary {
-      border-color: var(--color-border);
-      background: var(--color-surface);
-    }
-    .btn-secondary:hover {
-      background: var(--color-surface-2);
-    }
-    .btn-danger {
-      border-color: color-mix(in srgb, var(--color-error) 30%, var(--color-border));
-      color: var(--color-error);
-      background: transparent;
-    }
-    .btn-danger:hover {
-      background: var(--color-error-bg);
-    }
-    .btn-sm {
-      padding: 6px 10px;
-      font-size: 12px;
-    }
-
+    .header-title h1 { margin: 0; font-size: var(--text-xl); font-weight: 700; }
+    .header-title p { margin: 4px 0 0; color: var(--color-text-muted); font-size: var(--text-sm); }
+    .header-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
     .main {
       grid-column: 2;
-      padding: var(--space-6);
       overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: var(--space-6);
     }
     .screen { display: none; }
     .screen.active { display: block; }
-
+    .dashboard-grid {
+      display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr); gap: 20px; align-items: start;
+    }
     .panel {
       background: var(--color-surface);
-      border-radius: var(--radius-lg);
       border: 1px solid var(--color-border);
+      border-radius: 22px;
       box-shadow: var(--shadow-md);
     }
-    .panel-inner {
-      padding: 18px 20px 20px;
+    .panel-inner { padding: 22px; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 18px; }
+    .panel-head h2, .panel-head h3 { margin: 0; font-size: var(--text-lg); }
+    .panel-head p { margin: 3px 0 0; color: var(--color-text-muted); font-size: var(--text-xs); }
+    .btn {
+      min-height: 46px; border-radius: var(--radius-full); padding: 12px 18px; border: 1px solid transparent;
+      transition: transform var(--transition-interactive), background var(--transition-interactive), border-color var(--transition-interactive), color var(--transition-interactive);
     }
-    .panel-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-    .panel-head h2 {
-      margin: 0;
-      font-size: 16px;
-    }
-    .panel-head p {
-      margin: 3px 0 0;
-      font-size: 12px;
-      color: var(--color-text-muted);
-    }
-
-    .stack { display: grid; gap: 10px; }
-    .field { display: flex; flex-direction: column; gap: 6px; }
-    .field label {
-      font-size: 11px;
-      color: var(--color-text-muted);
-    }
-    .field-row {
-      display: grid;
-      gap: 10px;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-    }
-
-    .day-card {
-      border-radius: var(--radius-md);
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--color-primary); color: var(--color-text-inverse); }
+    .btn-primary:hover { background: var(--color-primary-hover); }
+    .btn-secondary { background: transparent; color: var(--color-text); border-color: var(--color-border); }
+    .btn-secondary:hover { background: var(--color-surface-2); }
+    .btn-danger { background: transparent; color: var(--color-error); border-color: color-mix(in srgb, var(--color-error) 28%, var(--color-border)); }
+    .btn-danger:hover { background: var(--color-error-highlight); }
+    .field-grid { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field label { color: var(--color-text-muted); font-size: var(--text-xs); }
+    .stack { display: grid; gap: 14px; }
+    .item-card, .payment-card, .history-card {
       border: 1px solid var(--color-border);
-      padding: 12px 14px;
-      background: var(--color-surface-2);
-      display: grid;
-      grid-template-columns: 1.1fr 1.6fr auto;
-      gap: 8px 12px;
-      align-items: center;
-      cursor: pointer;
-      transition: 150ms ease;
+      border-radius: 18px;
+      padding: 16px;
+      background: color-mix(in srgb, var(--color-surface) 72%, var(--color-surface-2));
     }
-    .day-card:hover {
-      box-shadow: var(--shadow-sm);
-      transform: translateY(-1px);
+    .item-card.return-mode { background: var(--color-error-highlight); border-color: color-mix(in srgb, var(--color-error) 40%, var(--color-border)); }
+    .item-card.exchange-mode, .payment-card.exchange-mode { background: var(--color-warning-highlight); border-color: color-mix(in srgb, var(--color-warning) 36%, var(--color-border)); }
+    .item-card.normal-mode, .payment-card.normal-mode { background: color-mix(in srgb, var(--color-surface) 72%, var(--color-surface-2)); }
+    .card-top {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px;
     }
-    .day-date {
-      font-size: 13px;
-      font-weight: 600;
+    .card-kicker { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-text-muted); }
+    .search-wrap { position: relative; }
+    .search-results {
+      position: absolute; z-index: 10; top: calc(100% + 8px); left: 0; right: 0;
+      background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; box-shadow: var(--shadow-lg);
+      display: none; max-height: 260px; overflow-y: auto;
     }
-    .day-date span {
-      display: block;
-      font-size: 11px;
-      color: var(--color-text-muted);
+    .search-results.show { display: block; }
+    .search-option {
+      width: 100%; text-align: left; border: 0; background: transparent; padding: 12px 14px; border-bottom: 1px solid var(--color-divider);
     }
-    .day-metrics {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      font-size: 11px;
+    .search-option:last-child { border-bottom: 0; }
+    .search-option strong { display: block; font-size: var(--text-sm); }
+    .search-option span { display: block; font-size: var(--text-xs); color: var(--color-text-muted); margin-top: 3px; }
+    .preview-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .preview-box {
+      border: 1px dashed var(--color-border); border-radius: 14px; padding: 12px; background: color-mix(in srgb, var(--color-surface) 80%, transparent);
     }
+    .preview-box small { display: block; color: var(--color-text-muted); font-size: var(--text-xs); margin-bottom: 6px; }
+    .preview-box strong { display: block; font-size: var(--text-sm); font-variant-numeric: tabular-nums lining-nums; }
+    .summary { display: grid; gap: 12px; }
+    .summary-row {
+      display: flex; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--color-divider);
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+    .summary-row strong { font-size: var(--text-lg); }
+    .summary-chip-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
     .chip {
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--color-border);
-      padding: 4px 9px;
-      background: var(--color-surface);
-      font-size: 11px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 8px 12px; border-radius: 999px;
+      border: 1px solid var(--color-border); background: var(--color-surface-2); font-size: var(--text-xs);
     }
-    .chip-strong {
-      font-weight: 600;
-    }
-
-    .sale-card {
-      border-radius: var(--radius-md);
-      border: 1px solid var(--color-border);
-      padding: 12px 14px;
-      background: var(--color-surface-2);
-      display: grid;
-      grid-template-columns: 1.7fr 2fr auto;
-      gap: 8px 12px;
-      align-items: center;
-      cursor: pointer;
-      transition: 150ms ease;
-    }
-    .sale-card:hover {
-      box-shadow: var(--shadow-sm);
-      transform: translateY(-1px);
-    }
-    .sale-main strong {
-      display: block;
-      font-size: 14px;
-    }
-    .sale-main span {
-      display: block;
-      font-size: 11px;
-      color: var(--color-text-muted);
-    }
-    .sale-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      font-size: 11px;
-    }
-    .sale-comment {
-      font-size: 11px;
-      color: var(--color-text-muted);
-      margin-top: 4px;
-    }
-
+    .chip.ok { background: var(--color-success-highlight); color: var(--color-success); border-color: color-mix(in srgb, var(--color-success) 22%, var(--color-border)); }
+    .chip.warn { background: var(--color-warning-highlight); color: var(--color-warning); border-color: color-mix(in srgb, var(--color-warning) 22%, var(--color-border)); }
+    .chip.error { background: var(--color-error-highlight); color: var(--color-error); border-color: color-mix(in srgb, var(--color-error) 22%, var(--color-border)); }
     .status-box {
-      display: none;
-      margin-top: 12px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      font-size: 13px;
+      display: none; margin-top: 16px; padding: 14px 16px; border-radius: 16px; font-size: var(--text-sm);
     }
     .status-box.show { display: block; }
-    .status-ok {
-      background: var(--color-success-bg);
-      color: var(--color-success);
-      border: 1px solid color-mix(in srgb, var(--color-success) 30%, var(--color-border));
-    }
-    .status-error {
-      background: var(--color-error-bg);
-      color: var(--color-error);
-      border: 1px solid color-mix(in srgb, var(--color-error) 30%, var(--color-border));
-    }
-    .status-info {
-      background: #e8edf6;
-      color: #56617c;
-      border: 1px solid #c2cbe0;
-    }
-
-    .item-card, .payment-card {
-      border-radius: 16px;
-      border: 1px solid var(--color-border);
-      background: var(--color-surface-2);
-      padding: 12px 14px;
-    }
-    .item-top, .payment-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .kicker {
-      font-size: 11px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-    }
-    .preview-row {
-      display: grid;
-      gap: 8px;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      margin-top: 8px;
-    }
-    .preview-box {
-      border-radius: 12px;
-      border: 1px dashed var(--color-border);
-      padding: 8px 10px;
-      font-size: 11px;
-      background: var(--color-surface);
-    }
-    .preview-box small {
-      display: block;
-      color: var(--color-text-muted);
-      margin-bottom: 3px;
-    }
-    .preview-box strong {
-      display: block;
-      font-size: 12px;
-    }
-
-    .summary {
-      display: grid;
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      border-bottom: 1px solid var(--color-divider);
-      padding-bottom: 6px;
-      font-size: 13px;
-    }
-
+    .status-box.ok { background: var(--color-success-highlight); color: var(--color-success); border: 1px solid color-mix(in srgb, var(--color-success) 28%, var(--color-border)); }
+    .status-box.error { background: var(--color-error-highlight); color: var(--color-error); border: 1px solid color-mix(in srgb, var(--color-error) 28%, var(--color-border)); }
+    .status-box.info { background: var(--color-blue-highlight); color: var(--color-blue); border: 1px solid color-mix(in srgb, var(--color-blue) 28%, var(--color-border)); }
     .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(35,24,16,0.35);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 30;
-      backdrop-filter: blur(8px);
+      position: fixed; inset: 0; background: rgba(40, 29, 20, 0.36); backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; padding: 20px; z-index: 20;
     }
-    .modal-backdrop.show {
-      display: flex;
-    }
+    .modal-backdrop.show { display: flex; }
     .modal {
-      width: min(460px, 100%);
-      background: var(--color-surface);
-      border-radius: 20px;
-      border: 1px solid var(--color-border);
-      box-shadow: var(--shadow-lg);
+      width: min(560px, 100%); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 24px; box-shadow: var(--shadow-lg);
       overflow: hidden;
     }
-    .modal-head, .modal-body, .modal-foot {
-      padding: 16px 18px;
+    .modal-head, .modal-body, .modal-foot { padding: 20px 22px; }
+    .modal-head { border-bottom: 1px solid var(--color-divider); }
+    .modal-head h2 { margin: 0; font-size: var(--text-lg); }
+    .modal-head p { margin: 6px 0 0; color: var(--color-text-muted); font-size: var(--text-sm); }
+    .modal-foot { border-top: 1px solid var(--color-divider); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .history-toolbar {
+      display: grid; grid-template-columns: 240px auto; gap: 12px; margin-bottom: 18px;
     }
-    .modal-head {
-      border-bottom: 1px solid var(--color-divider);
+    .history-list { display: grid; gap: 14px; }
+    .history-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .history-items { margin-top: 14px; border-top: 1px solid var(--color-divider); padding-top: 12px; display: grid; gap: 8px; }
+    .history-item-row {
+      display: grid; grid-template-columns: 42px 1.1fr 0.8fr 100px 84px; gap: 10px; font-size: var(--text-sm); align-items: center;
+      font-variant-numeric: tabular-nums lining-nums;
     }
-    .modal-head h2 {
-      margin: 0;
-      font-size: 16px;
+    .empty {
+      padding: 34px 18px; text-align: center; color: var(--color-text-muted); border: 1px dashed var(--color-border); border-radius: 18px; background: color-mix(in srgb, var(--color-surface) 60%, transparent);
     }
-    .modal-head p {
-      margin: 4px 0 0;
-      font-size: 12px;
-      color: var(--color-text-muted);
-    }
-    .modal-foot {
-      border-top: 1px solid var(--color-divider);
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .breadcrumbs {
-      font-size: 11px;
-      color: var(--color-text-muted);
-      margin-bottom: 8px;
-    }
-    .breadcrumbs button {
-      border: 0;
-      background: none;
-      color: inherit;
-      padding: 0;
-      text-decoration: underline;
-      cursor: pointer;
-      font-size: inherit;
-    }
-
     .hidden { display: none !important; }
-
-    @media (max-width: 1024px) {
-      .app {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto 1fr;
-      }
-      .sidebar {
-        grid-row: 1;
-        grid-column: 1;
-        border-right: 0;
-        border-bottom: 1px solid var(--color-divider);
-      }
-      .header, .main {
-        grid-column: 1;
-      }
+    @media (max-width: 1100px) {
+      .app { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; }
+      .sidebar { grid-row: auto; grid-column: 1; border-right: 0; border-bottom: 1px solid var(--color-divider); }
+      .header, .main { grid-column: 1; }
+      .dashboard-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 720px) {
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .header-actions {
-        width: 100%;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-      }
-      .day-card, .sale-card {
-        grid-template-columns: 1fr;
-      }
-      .preview-row, .field-row {
-        grid-template-columns: 1fr;
-      }
-      .panel-inner {
-        padding-inline: 14px;
-      }
+      html, body { overflow: auto; }
+      .app { height: auto; }
+      .main { overflow: visible; }
+      .field-grid, .preview-grid, .history-toolbar, .history-item-row { grid-template-columns: 1fr; }
+      .header { align-items: flex-start; flex-direction: column; }
+      .header-actions { width: 100%; }
+      .header-actions .btn { flex: 1 1 auto; }
+      .card-top, .panel-head, .modal-foot { flex-direction: column; align-items: stretch; }
     }
   </style>
 </head>
@@ -557,275 +323,224 @@
   <div class="app">
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-left">
-          <div class="brand-mark">
-            <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
-              <path d="M22.5 7H11a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h11.5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
-              <path d="M11.5 16H21" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
-              <path d="M11.5 10.5H23" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
-              <path d="M11.5 21.5H23" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <div class="brand-mark" aria-label="ESPIREO logo">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <path d="M22.5 7H11a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h11.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M11.5 16H21" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M11.5 10.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M11.5 21.5H23" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
             </svg>
           </div>
           <div class="brand-copy">
-            <strong>ESPIREO</strong>
+            <strong>Espireo</strong>
             <span>Продажи магазина</span>
           </div>
         </div>
-        <button class="theme-toggle" type="button" id="themeToggle" aria-label="Переключить тему"></button>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Переключить тему"></button>
       </div>
 
       <nav class="nav" aria-label="Навигация">
-        <button type="button" data-screen-link="days" class="active">Дни</button>
-        <button type="button" data-screen-link="saleEdit">Продажа</button>
+        <button type="button" class="active" data-screen-link="sales">Новая продажа</button>
+        <button type="button" data-screen-link="history">История по дате</button>
       </nav>
 
-      <div class="sidebar-note">
-        Сначала выберите день или создайте новый, затем добавляйте в него продажи. Продажи можно открыть, отредактировать или удалить, дата при этом остаётся привязанной к дню.
+      <div class="sidebar-card">
+        <h3>Что добавили</h3>
+        <p>Поиск артикула по вводу, сверка оплат с итогом, подсветка возвратов и обменов, модальное окно нового дня, история продаж по выбранной дате.</p>
       </div>
     </aside>
 
     <header class="header">
       <div class="header-title">
-        <div class="breadcrumbs" id="breadcrumbs"></div>
-        <h1 id="screenTitle">Дни продаж</h1>
-        <p id="screenSubtitle">Список дней с кассой и итогами по продажам.</p>
+        <h1 id="screenTitle">Новая продажа</h1>
+        <p id="screenSubtitle">Запись продажи в Google Sheets без списания остатков.</p>
       </div>
       <div class="header-actions">
-        <button class="btn btn-secondary" type="button" id="reloadBtn">Обновить</button>
-        <button class="btn btn-primary" type="button" id="addDayBtn">Добавить день</button>
-        <button class="btn btn-primary hidden" type="button" id="newSaleInDayBtn">Новая продажа</button>
-        <button class="btn btn-danger hidden" type="button" id="deleteSaleBtn">Удалить продажу</button>
+        <button class="btn btn-secondary" type="button" id="openDayModalBtn">Новый день</button>
+        <button class="btn btn-secondary" type="button" id="reloadStockBtn">Обновить сток</button>
+        <button class="btn btn-primary" type="button" id="saveBtn">Сохранить продажу</button>
       </div>
     </header>
 
-    <main class="main">
-      <section class="screen active" data-screen="days">
-        <div class="panel">
-          <div class="panel-inner">
-            <div class="panel-head">
-              <div>
-                <h2>Дни</h2>
-                <p>Выберите день, чтобы увидеть продажи и добавить новые.</p>
+    <main class="main" id="mainContent">
+      <section class="screen active" data-screen="sales">
+        <div class="dashboard-grid">
+          <section class="panel">
+            <div class="panel-inner">
+              <div class="panel-head">
+                <div>
+                  <h2>Состав продажи</h2>
+                  <p>Артикул ищется по коду, названию и цвету.</p>
+                </div>
+                <button class="btn btn-secondary" type="button" id="addItemBtn">Добавить товар</button>
               </div>
-              <button class="btn btn-secondary btn-sm" type="button" id="addDayBtnTop">Добавить день</button>
+              <div class="stack" id="itemsContainer"></div>
+
+              <div style="height:20px"></div>
+
+              <div class="panel-head">
+                <div>
+                  <h2>Оплаты</h2>
+                  <p>Можно указать несколько типов оплаты.</p>
+                </div>
+                <button class="btn btn-secondary" type="button" id="addPaymentBtn">Добавить оплату</button>
+              </div>
+              <div class="stack" id="paymentsContainer"></div>
+
+              <div style="height:20px"></div>
+              <div class="field">
+                <label for="comment">Комментарий</label>
+                <textarea id="comment" placeholder="Например: бронь, обмен, возврат, уточнение по клиенту"></textarea>
+              </div>
+
+              <div id="statusBox" class="status-box"></div>
             </div>
-            <div id="daysStatus" class="status-box"></div>
-            <div id="daysList" class="stack"></div>
-          </div>
+          </section>
+
+          <aside class="panel">
+            <div class="panel-inner">
+              <div class="panel-head">
+                <div>
+                  <h3>Итоги</h3>
+                  <p>Проверка суммы продаж и оплат.</p>
+                </div>
+              </div>
+
+              <div class="summary">
+                <div class="summary-row"><span>Дата</span><span id="saleDatePreview">—</span></div>
+                <div class="summary-row"><span>Товаров</span><span id="itemsCount">0</span></div>
+                <div class="summary-row"><span>Итого по товарам</span><span id="totalAmount">0.00</span></div>
+                <div class="summary-row"><span>Сумма оплат</span><span id="paymentsTotal">0.00</span></div>
+                <div class="summary-row"><span>Получено от клиента</span><span id="receivedPreview">0.00</span></div>
+                <div class="summary-row"><span>Наличная часть</span><span id="cashPartPreview">0.00</span></div>
+                <div class="summary-row"><strong>Сдача</strong><strong id="changeAmount">0.00</strong></div>
+              </div>
+
+              <div class="summary-chip-row">
+                <div class="chip" id="paymentCheckChip">Проверка оплат</div>
+                <div class="chip" id="saleModeChip">Обычная продажа</div>
+              </div>
+
+              <div style="height:20px"></div>
+
+              <div class="field-grid">
+                <div class="field">
+                  <label for="cashAtStart">В кассе на начало дня</label>
+                  <input type="number" id="cashAtStart" min="0" step="0.01" placeholder="0">
+                </div>
+                <div class="field">
+                  <label for="received">Сколько денег получено</label>
+                  <input type="number" id="received" min="-999999" step="0.01" placeholder="0">
+                </div>
+              </div>
+
+              <div style="height:18px"></div>
+              <div class="field">
+                <label for="saleDate">Дата продажи</label>
+                <input type="date" id="saleDate">
+              </div>
+            </div>
+          </aside>
         </div>
       </section>
 
-      <section class="screen" data-screen="daySales">
+      <section class="screen" data-screen="history">
         <div class="panel">
           <div class="panel-inner">
             <div class="panel-head">
               <div>
-                <h2 id="dayTitle">Продажи дня</h2>
-                <p id="daySubtitle">Список продаж выбранного дня.</p>
-              </div>
-              <button class="btn btn-primary btn-sm" type="button" id="newSaleBtnPanel">Новая продажа в этот день</button>
-            </div>
-            <div id="daySalesStatus" class="status-box"></div>
-            <div id="daySalesList" class="stack"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="screen" data-screen="saleEdit">
-        <div class="panel">
-          <div class="panel-inner">
-            <div class="panel-head">
-              <div>
-                <h2 id="saleTitle">Продажа</h2>
-                <p id="saleSubtitle">Добавление или редактирование продажи.</p>
+                <h2>История продаж</h2>
+                <p>Просмотр всех сохранённых продаж за выбранную дату.</p>
               </div>
             </div>
 
-            <div id="saleStatus" class="status-box"></div>
-
-            <div class="field-row">
-              <div class="field">
-                <label>Дата продажи (по дню)</label>
-                <input type="date" id="saleDate" readonly>
-              </div>
-              <div class="field">
-                <label>Касса на начало дня</label>
-                <input type="number" id="cashAtStart" min="0" step="0.01">
-              </div>
+            <div class="history-toolbar">
+              <input type="date" id="historyDate">
+              <button class="btn btn-primary" type="button" id="loadHistoryBtn">Показать продажи</button>
             </div>
 
-            <div class="field-row" style="margin-top:10px;">
-              <div class="field">
-                <label>Получено от клиента</label>
-                <input type="number" id="received" step="0.01">
-              </div>
-              <div class="field">
-                <label>Комментарий к продаже</label>
-                <input type="text" id="comment">
-              </div>
-            </div>
-
-            <hr style="border:none;border-top:1px solid var(--color-divider);margin:14px 0;">
-
-            <div class="panel-head">
-              <div>
-                <h2>Товары</h2>
-                <p>Поиск по артикулу, названию или цвету.</p>
-              </div>
-              <button class="btn btn-secondary btn-sm" type="button" id="addItemBtn">Добавить товар</button>
-            </div>
-            <div id="itemsContainer" class="stack"></div>
-
-            <hr style="border:none;border-top:1px solid var(--color-divider);margin:14px 0;">
-
-            <div class="panel-head">
-              <div>
-                <h2>Оплаты</h2>
-                <p>Несколько типов оплат в одной продаже.</p>
-              </div>
-              <button class="btn btn-secondary btn-sm" type="button" id="addPaymentBtn">Добавить оплату</button>
-            </div>
-            <div id="paymentsContainer" class="stack"></div>
-
-            <hr style="border:none;border-top:1px solid var(--color-divider);margin:14px 0;">
-
-            <div class="summary">
-              <div class="summary-row">
-                <span>Товаров</span>
-                <span id="itemsCount">0</span>
-              </div>
-              <div class="summary-row">
-                <span>Сумма товаров</span>
-                <span id="totalAmount">0.00</span>
-              </div>
-              <div class="summary-row">
-                <span>Сумма оплат</span>
-                <span id="paymentsTotal">0.00</span>
-              </div>
-              <div class="summary-row">
-                <span>Наличная часть</span>
-                <span id="cashPartPreview">0.00</span>
-              </div>
-              <div class="summary-row">
-                <strong>Сдача</strong>
-                <strong id="changeAmount">0.00</strong>
-              </div>
-            </div>
-
-            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
-              <div class="chip" id="paymentsCheckChip">Проверка оплат</div>
-              <div class="chip" id="modeChip">Обычная продажа</div>
-            </div>
-
-            <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
-              <button class="btn btn-primary" type="button" id="saveSaleBtn">Сохранить продажу</button>
-              <button class="btn btn-secondary" type="button" id="cancelSaleBtn">Отмена</button>
-            </div>
+            <div id="historyStatus" class="status-box"></div>
+            <div class="history-list" id="historyList"></div>
           </div>
         </div>
       </section>
     </main>
   </div>
 
-  <!-- Модалка дня -->
-  <div class="modal-backdrop" id="dayModal">
-    <div class="modal" role="dialog" aria-modal="true">
+  <div class="modal-backdrop" id="dayModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dayModalTitle">
       <div class="modal-head">
-        <h2>Новый день / редактирование</h2>
-        <p>Дата дня и сумма наличных в кассе на начало.</p>
+        <h2 id="dayModalTitle">Новый день</h2>
+        <p>Укажите дату и сумму в кассе на начало, затем откройте новый лист продажи.</p>
       </div>
       <div class="modal-body">
-        <div class="field-row">
+        <div class="field-grid">
           <div class="field">
-            <label for="dayDateInput">Дата дня</label>
-            <input type="date" id="dayDateInput">
+            <label for="modalSaleDate">Дата</label>
+            <input type="date" id="modalSaleDate">
           </div>
           <div class="field">
-            <label for="dayCashInput">Касса на начало</label>
-            <input type="number" id="dayCashInput" min="0" step="0.01">
+            <label for="modalCashAtStart">Деньги в кассе</label>
+            <input type="number" id="modalCashAtStart" min="0" step="0.01" placeholder="0">
           </div>
         </div>
       </div>
       <div class="modal-foot">
-        <button class="btn btn-secondary" type="button" id="cancelDayBtn">Отмена</button>
-        <button class="btn btn-primary" type="button" id="saveDayBtn">Сохранить день</button>
+        <button class="btn btn-secondary" type="button" id="closeDayModalBtn">Отмена</button>
+        <button class="btn btn-primary" type="button" id="startDayBtn">Открыть день</button>
       </div>
     </div>
   </div>
 
   <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbzFJMJu4rlfyeTq3q9ijNsVGsgBwUNL-WDsF8vt_px19H9lPEvU35kZ9h3fs2Rfn280AQ/exec';
+    const RETURN_KEYWORDS = ['возврат', 'вернуть деньги', 'деньги вернули ниже'];
+    const EXCHANGE_KEYWORDS = ['обмен'];
 
     const state = {
-      theme: (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light',
-      days: [],
       stock: [],
       paymentTypes: [],
-      currentDay: null,   // 'YYYY-MM-DD'
-      currentSaleId: null,
       items: [],
-      payments: []
+      payments: [],
+      currentScreen: 'sales',
+      theme: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     };
 
     const els = {
-      // global
-      breadcrumbs: document.getElementById('breadcrumbs'),
-      screenTitle: document.getElementById('screenTitle'),
-      screenSubtitle: document.getElementById('screenSubtitle'),
-      reloadBtn: document.getElementById('reloadBtn'),
-      addDayBtn: document.getElementById('addDayBtn'),
-      addDayBtnTop: document.getElementById('addDayBtnTop'),
-      newSaleInDayBtn: document.getElementById('newSaleInDayBtn'),
-      deleteSaleBtn: document.getElementById('deleteSaleBtn'),
-      themeToggle: document.getElementById('themeToggle'),
-
-      // days
-      daysStatus: document.getElementById('daysStatus'),
-      daysList: document.getElementById('daysList'),
-
-      // day sales
-      dayTitle: document.getElementById('dayTitle'),
-      daySubtitle: document.getElementById('daySubtitle'),
-      daySalesStatus: document.getElementById('daySalesStatus'),
-      daySalesList: document.getElementById('daySalesList'),
-      newSaleBtnPanel: document.getElementById('newSaleBtnPanel'),
-
-      // sale edit
-      saleTitle: document.getElementById('saleTitle'),
-      saleSubtitle: document.getElementById('saleSubtitle'),
-      saleStatus: document.getElementById('saleStatus'),
       saleDate: document.getElementById('saleDate'),
+      modalSaleDate: document.getElementById('modalSaleDate'),
       cashAtStart: document.getElementById('cashAtStart'),
+      modalCashAtStart: document.getElementById('modalCashAtStart'),
       received: document.getElementById('received'),
       comment: document.getElementById('comment'),
       itemsContainer: document.getElementById('itemsContainer'),
       paymentsContainer: document.getElementById('paymentsContainer'),
+      statusBox: document.getElementById('statusBox'),
+      saleDatePreview: document.getElementById('saleDatePreview'),
       itemsCount: document.getElementById('itemsCount'),
       totalAmount: document.getElementById('totalAmount'),
       paymentsTotal: document.getElementById('paymentsTotal'),
+      receivedPreview: document.getElementById('receivedPreview'),
       cashPartPreview: document.getElementById('cashPartPreview'),
       changeAmount: document.getElementById('changeAmount'),
-      paymentsCheckChip: document.getElementById('paymentsCheckChip'),
-      modeChip: document.getElementById('modeChip'),
-      addItemBtn: document.getElementById('addItemBtn'),
-      addPaymentBtn: document.getElementById('addPaymentBtn'),
-      saveSaleBtn: document.getElementById('saveSaleBtn'),
-      cancelSaleBtn: document.getElementById('cancelSaleBtn'),
-
-      // day modal
+      paymentCheckChip: document.getElementById('paymentCheckChip'),
+      saleModeChip: document.getElementById('saleModeChip'),
       dayModal: document.getElementById('dayModal'),
-      dayDateInput: document.getElementById('dayDateInput'),
-      dayCashInput: document.getElementById('dayCashInput'),
-      cancelDayBtn: document.getElementById('cancelDayBtn'),
-      saveDayBtn: document.getElementById('saveDayBtn')
+      historyDate: document.getElementById('historyDate'),
+      historyList: document.getElementById('historyList'),
+      historyStatus: document.getElementById('historyStatus'),
+      screenTitle: document.getElementById('screenTitle'),
+      screenSubtitle: document.getElementById('screenSubtitle')
     };
 
     document.documentElement.setAttribute('data-theme', state.theme);
-    els.themeToggle.innerHTML = state.theme === 'dark' ? moonSvg() : sunSvg();
-    els.themeToggle.addEventListener('click', () => {
+    const themeBtn = document.querySelector('[data-theme-toggle]');
+    themeBtn.innerHTML = state.theme === 'dark' ? moonSvg() : sunSvg();
+    themeBtn.addEventListener('click', () => {
       state.theme = state.theme === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', state.theme);
-      els.themeToggle.innerHTML = state.theme === 'dark' ? moonSvg() : sunSvg();
+      themeBtn.innerHTML = state.theme === 'dark' ? moonSvg() : sunSvg();
     });
 
     function sunSvg() {
@@ -835,394 +550,231 @@
       return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.4 14.4A8.8 8.8 0 1 1 9.6 3.6a7.2 7.2 0 0 0 10.8 10.8Z"/></svg>';
     }
 
-    function setStatus(el, message, type) {
-      el.textContent = message;
-      el.className = 'status-box show ' + (type === 'error' ? 'status-error' : type === 'info' ? 'status-info' : 'status-ok');
-    }
-    function clearStatus(el) {
-      el.textContent = '';
-      el.className = 'status-box';
-    }
-
-    function switchScreen(name) {
-      document.querySelectorAll('[data-screen]').forEach(s => {
-        s.classList.toggle('active', s.dataset.screen === name);
-      });
-      document.querySelectorAll('[data-screen-link]').forEach(b => {
-        b.classList.toggle('active', b.dataset.screenLink === name);
-      });
-
-      els.newSaleInDayBtn.classList.add('hidden');
-      els.deleteSaleBtn.classList.add('hidden');
-
-      if (name === 'days') {
-        els.screenTitle.textContent = 'Дни продаж';
-        els.screenSubtitle.textContent = 'Список дней с кассой и итогами по продажам.';
-        els.breadcrumbs.innerHTML = '';
-      } else if (name === 'daySales') {
-        els.screenTitle.textContent = 'Продажи дня';
-        els.screenSubtitle.textContent = 'Список продаж внутри выбранного дня.';
-        els.breadcrumbs.innerHTML = '<button type="button" data-bc="days">Дни</button> · ' +
-          (state.currentDay || '');
-        els.newSaleInDayBtn.classList.remove('hidden');
-      } else if (name === 'saleEdit') {
-        els.screenTitle.textContent = state.currentSaleId ? 'Редактирование продажи' : 'Новая продажа';
-        els.screenSubtitle.textContent = 'Дата фиксирована днём, можно изменить состав и оплаты.';
-        els.breadcrumbs.innerHTML =
-          '<button type="button" data-bc="days">Дни</button> · ' +
-          '<button type="button" data-bc="daySales">Продажи дня</button> · ' +
-          (state.currentSaleId || 'Новая');
-        if (state.currentSaleId) els.deleteSaleBtn.classList.remove('hidden');
-      }
+    function setToday() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      const d = String(now.getDate()).padStart(2, '0');
+      const val = `${y}-${m}-${d}`;
+      els.saleDate.value = val;
+      els.modalSaleDate.value = val;
+      els.historyDate.value = val;
+      updateDatePreview();
     }
 
-    document.body.addEventListener('click', (e) => {
-      const bc = e.target.getAttribute('data-bc');
-      if (!bc) return;
-      e.preventDefault();
-      if (bc === 'days') switchScreen('days');
-      if (bc === 'daySales') switchScreen('daySales');
-    });
+    function updateDatePreview() {
+      els.saleDatePreview.textContent = els.saleDate.value || '—';
+    }
 
-    document.querySelectorAll('[data-screen-link]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const name = btn.dataset.screenLink;
-        if (name === 'saleEdit' && !state.currentDay) return; // блокируем прямой переход
-        switchScreen(name);
-      });
-    });
+    function uid() {
+      return Math.random().toString(36).slice(2, 10);
+    }
 
-    function todayISO() {
-      const d = new Date();
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, '0');
-      const dd = String(d.getDate()).padStart(2, '0');
-      return `${y}-${m}-${dd}`;
+    function escapeHtml(value) {
+      return String(value || '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
+    }
+
+    function formatMoney(value) {
+      return Number(value || 0).toFixed(2);
+    }
+
+    function clearStatus(target = els.statusBox) {
+      target.className = 'status-box';
+      target.textContent = '';
+    }
+
+    function setStatus(message, type = 'ok', target = els.statusBox) {
+      target.textContent = message;
+      target.className = `status-box show ${type}`;
     }
 
     async function loadStock() {
+      clearStatus();
       const res = await fetch(`${API_URL}?action=stock`);
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || 'Ошибка загрузки стока');
       state.stock = Array.isArray(data.stock) ? data.stock : [];
       state.paymentTypes = Array.isArray(data.paymentTypes) ? data.paymentTypes : [];
-    }
-
-    async function loadDays() {
-      clearStatus(els.daysStatus);
-      els.daysList.innerHTML = 'Загрузка…';
-      const res = await fetch(`${API_URL}?action=days`);
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.error || 'Ошибка загрузки дней');
-      state.days = Array.isArray(data.days) ? data.days : [];
-      renderDays();
-    }
-
-    function renderDays() {
-      if (!state.days.length) {
-        els.daysList.innerHTML = '<div style="font-size:13px;color:var(--color-text-muted);padding:10px;">Пока нет ни одного дня. Создайте первый.</div>';
-        return;
-      }
-      els.daysList.innerHTML = '';
-      state.days.forEach(day => {
-        const card = document.createElement('div');
-        card.className = 'day-card';
-        card.innerHTML = `
-          <div class="day-date">
-            ${escapeHtml(day.date)}
-            <span>Касса: ${formatMoney(day.cashAtStart || 0)}</span>
-          </div>
-          <div class="day-metrics">
-            <span class="chip"><span class="chip-strong">Итого</span> ${formatMoney(day.total || 0)}</span>
-            <span class="chip">Продаж: ${day.salesCount || 0}</span>
-          </div>
-          <div style="text-align:right;font-size:11px;color:var(--color-text-faint);">
-            обновлено: ${day.updatedAt ? escapeHtml(String(day.updatedAt)) : '—'}
-          </div>
-        `;
-        card.addEventListener('click', () => openDay(day.date));
-        els.daysList.appendChild(card);
-      });
-    }
-
-    async function openDay(date) {
-      state.currentDay = date;
-      els.dayTitle.textContent = `Продажи дня ${date}`;
-      els.daySubtitle.textContent = 'Продажи этого дня по saleId.';
-      els.saleDate.value = date;
-      switchScreen('daySales');
-      await loadSalesByDay(date);
-    }
-
-    async function loadSalesByDay(date) {
-      clearStatus(els.daySalesStatus);
-      els.daySalesList.innerHTML = 'Загрузка…';
-      const res = await fetch(`${API_URL}?action=salesByDay&date=${encodeURIComponent(date)}`);
-      const data = await res.json();
-      if (!data.ok) {
-        setStatus(els.daySalesStatus, data.error || 'Ошибка загрузки продаж', 'error');
-        els.daySalesList.innerHTML = '';
-        return;
-      }
-      const sales = Array.isArray(data.sales) ? data.sales : [];
-      renderDaySales(sales);
-    }
-
-    function renderDaySales(sales) {
-      if (!sales.length) {
-        els.daySalesList.innerHTML = '<div style="font-size:13px;color:var(--color-text-muted);padding:10px;">За этот день продаж пока нет.</div>';
-        return;
-      }
-      els.daySalesList.innerHTML = '';
-      sales.forEach(sale => {
-        const card = document.createElement('div');
-        card.className = 'sale-card';
-        card.innerHTML = `
-          <div class="sale-main">
-            <strong>${escapeHtml(sale.saleId)}</strong>
-            <span>Итого: ${formatMoney(sale.total || 0)} · Получено: ${formatMoney(sale.received || 0)} · Сдача: ${formatMoney(sale.change || 0)}</span>
-          </div>
-          <div class="sale-meta">
-            <span class="chip">${escapeHtml(sale.paymentTypes || 'Тип оплаты не указан')}</span>
-            <span class="chip">Касса: ${formatMoney(sale.cashAtStart || 0)}</span>
-          </div>
-          <div class="sale-comment">
-            ${sale.comment ? escapeHtml(sale.comment) : ''}
-          </div>
-        `;
-        card.addEventListener('click', () => openSaleForEdit(sale.saleId));
-        els.daySalesList.appendChild(card);
-      });
-    }
-
-    async function openSaleForEdit(saleId) {
-      try {
-        clearStatus(els.saleStatus);
-        state.currentSaleId = saleId;
-        const res = await fetch(`${API_URL}?action=sale&saleId=${encodeURIComponent(saleId)}`);
-        const data = await res.json();
-        if (!data.ok) throw new Error(data.error || 'Ошибка загрузки продажи');
-        const sale = data.sale;
-        if (!sale) throw new Error('Продажа не найдена');
-
-        els.saleDate.value = sale.date;
-        els.cashAtStart.value = Number(sale.cashAtStart || 0);
-        els.received.value = Number(sale.received || 0);
-        els.comment.value = sale.comment || '';
-
-        state.items = (sale.items || []).map(item => ({
-          id: uid(),
-          article: item.article || '',
-          title: item.title || '',
-          color: item.color || '',
-          size: item.size || '',
-          price: Number(item.price || 0),
-          sizeOptions: getSizeOptionsForArticle(item.article),
-          query: `${item.article} ${item.title}`.trim()
-        }));
-        if (!state.items.length) state.items.push(emptyItem());
-
-        state.payments = parsePaymentsFromStrings(sale.paymentTypes, sale.paymentAmounts);
-        if (!state.payments.length) state.payments.push(emptyPayment());
-
-        renderItems();
-        renderPayments();
-        calculateTotals();
-
-        switchScreen('saleEdit');
-      } catch (err) {
-        setStatus(els.daySalesStatus, err.message || String(err), 'error');
-      }
-    }
-
-    function getSizeOptionsForArticle(article) {
-      const product = state.stock.find(p => p.article === article);
-      return product && Array.isArray(product.sizes) ? product.sizes : [];
-    }
-
-    function parsePaymentsFromStrings(typesStr, amountsStr) {
-      const result = [];
-      const map = {};
-      (amountsStr || '').split('|').map(s => s.trim()).forEach(piece => {
-        if (!piece) return;
-        const idx = piece.indexOf(':');
-        if (idx === -1) return;
-        const type = piece.slice(0, idx).trim();
-        const val = parseFloat(piece.slice(idx + 1).trim().replace(',', '.')) || 0;
-        map[type] = (map[type] || 0) + val;
-      });
-      const types = (typesStr || '').split('|').map(s => s.trim()).filter(Boolean);
-      types.forEach(t => {
-        result.push({
-          id: uid(),
-          type: t,
-          amount: map[t] != null ? map[t] : 0
-        });
-      });
-      return result;
-    }
-
-    function emptyItem() {
-      return {
-        id: uid(),
-        article: '',
-        title: '',
-        color: '',
-        size: '',
-        price: 0,
-        sizeOptions: [],
-        query: ''
-      };
-    }
-    function emptyPayment() {
-      return {
-        id: uid(),
-        type: state.paymentTypes[0] || '',
-        amount: 0
-      };
+      if (!state.items.length) addItem();
+      if (!state.payments.length) addPayment();
+      renderItems();
+      renderPayments();
+      calculateTotals();
     }
 
     function addItem() {
-      state.items.push(emptyItem());
+      state.items.push({ id: uid(), query: '', article: '', title: '', color: '', price: 0, size: '', sizeOptions: [], group: '' });
       renderItems();
       calculateTotals();
     }
+
     function removeItem(id) {
-      state.items = state.items.filter(i => i.id !== id);
-      if (!state.items.length) state.items.push(emptyItem());
+      state.items = state.items.filter(item => item.id !== id);
+      if (!state.items.length) addItem();
       renderItems();
       calculateTotals();
     }
 
     function addPayment() {
-      state.payments.push(emptyPayment());
-      renderPayments();
-      calculateTotals();
-    }
-    function removePayment(id) {
-      state.payments = state.payments.filter(p => p.id !== id);
-      if (!state.payments.length) state.payments.push(emptyPayment());
+      state.payments.push({ id: uid(), type: state.paymentTypes[0] || '', amount: 0 });
       renderPayments();
       calculateTotals();
     }
 
+    function removePayment(id) {
+      state.payments = state.payments.filter(payment => payment.id !== id);
+      if (!state.payments.length) addPayment();
+      renderPayments();
+      calculateTotals();
+    }
+
+    function getStockByArticle(article) {
+      return state.stock.find(item => item.article === article);
+    }
+
+    function findStock(query) {
+      const q = String(query || '').trim().toLowerCase();
+      if (!q) return [];
+      return state.stock.filter(item => {
+        const hay = [item.article, item.title, item.color, item.group].join(' ').toLowerCase();
+        return hay.includes(q);
+      }).slice(0, 8);
+    }
+
+    function applyProductToItem(item, product) {
+      item.query = `${product.article} — ${product.title}`;
+      item.article = product.article;
+      item.title = product.title;
+      item.color = product.color;
+      item.price = Number(product.price || 0);
+      item.size = '';
+      item.sizeOptions = product.sizes || [];
+      item.group = product.group || '';
+      renderItems();
+      calculateTotals();
+    }
+
+    function detectSaleMode() {
+      const types = state.payments.map(p => String(p.type || '').toLowerCase());
+      const isReturn = types.some(t => RETURN_KEYWORDS.some(k => t.includes(k)));
+      const isExchange = !isReturn && types.some(t => EXCHANGE_KEYWORDS.some(k => t.includes(k)));
+      if (isReturn) return 'return';
+      if (isExchange) return 'exchange';
+      return 'normal';
+    }
+
+    function itemModeClass() {
+      const mode = detectSaleMode();
+      if (mode === 'return') return 'return-mode';
+      if (mode === 'exchange') return 'exchange-mode';
+      return 'normal-mode';
+    }
+
     function renderItems() {
       els.itemsContainer.innerHTML = '';
+      const modeClass = itemModeClass();
+
       state.items.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'item-card';
-        const sizeOptions = ['<option value="">Размер</option>'].concat(
-          (item.sizeOptions || []).map(s =>
-            `<option value="${escapeHtml(s.size)}" ${s.size === item.size ? 'selected' : ''}>${escapeHtml(s.size)}${s.stockLabel ? ' ('+escapeHtml(s.stockLabel)+')' : ''}</option>`
-          )
-        ).join('');
-        div.innerHTML = `
-          <div class="item-top">
-            <div class="kicker">Позиция ${index + 1}</div>
-            <button type="button" class="btn btn-danger btn-sm">Удалить</button>
+        const node = document.createElement('article');
+        node.className = `item-card ${modeClass}`;
+        const sizeOptions = ['<option value="">Выберите размер</option>']
+          .concat((item.sizeOptions || []).map(size => `<option value="${escapeHtml(size.size)}" ${size.size === item.size ? 'selected' : ''}>${escapeHtml(size.size)}${size.stockLabel ? ' (' + escapeHtml(size.stockLabel) + ')' : ''}</option>`))
+          .join('');
+
+        node.innerHTML = `
+          <div class="card-top">
+            <div>
+              <div class="card-kicker">Позиция ${index + 1}</div>
+            </div>
+            <button class="btn btn-danger" type="button">Удалить</button>
           </div>
-          <div class="field-row">
-            <div class="field">
-              <label>Поиск товара</label>
-              <input type="text" data-role="query" value="${escapeHtml(item.query)}" placeholder="Артикул, название или цвет">
-              <div class="search-results"></div>
+
+          <div class="field-grid">
+            <div class="field search-wrap">
+              <label>Поиск артикула</label>
+              <input type="text" value="${escapeHtml(item.query)}" placeholder="Например: 2487, платье, черный" data-role="query" autocomplete="off">
+              <div class="search-results" data-role="results"></div>
             </div>
             <div class="field">
               <label>Размер</label>
               <select data-role="size">${sizeOptions}</select>
             </div>
           </div>
-          <div class="field-row" style="margin-top:8px;">
-            <div class="field">
-              <label>Артикул</label>
-              <input type="text" value="${escapeHtml(item.article)}" readonly>
-            </div>
-            <div class="field">
-              <label>Цена</label>
-              <input type="number" data-role="price" step="0.01" value="${Number(item.price || 0)}">
-            </div>
-          </div>
-          <div class="field-row" style="margin-top:8px;">
+
+          <div style="height:14px"></div>
+
+          <div class="field-grid">
             <div class="field">
               <label>Изделие</label>
-              <input type="text" value="${escapeHtml(item.title)}" readonly>
+              <input type="text" readonly value="${escapeHtml(item.title)}">
             </div>
             <div class="field">
               <label>Цвет</label>
-              <input type="text" value="${escapeHtml(item.color)}" readonly>
+              <input type="text" readonly value="${escapeHtml(item.color)}">
             </div>
           </div>
-          <div class="preview-row">
-            <div class="preview-box">
-              <small>Группа</small>
-              <strong>${escapeHtml(findGroupByArticle(item.article) || '—')}</strong>
+
+          <div style="height:14px"></div>
+
+          <div class="field-grid">
+            <div class="field">
+              <label>Артикул</label>
+              <input type="text" readonly value="${escapeHtml(item.article)}">
             </div>
-            <div class="preview-box">
-              <small>Размер / остаток</small>
-              <strong>${escapeHtml(getSizePreview(item))}</strong>
+            <div class="field">
+              <label>Цена</label>
+              <input type="number" min="-999999" step="0.01" value="${Number(item.price || 0)}" data-role="price">
             </div>
-            <div class="preview-box">
-              <small>Сумма позиции</small>
-              <strong>${formatMoney(item.price || 0)}</strong>
-            </div>
+          </div>
+
+          <div style="height:14px"></div>
+          <div class="preview-grid">
+            <div class="preview-box"><small>Группа</small><strong>${escapeHtml(item.group || '—')}</strong></div>
+            <div class="preview-box"><small>Размер / остаток</small><strong>${escapeHtml(getSizePreview(item))}</strong></div>
+            <div class="preview-box"><small>Сумма позиции</small><strong>${formatMoney(item.price)}</strong></div>
           </div>
         `;
-        div.querySelector('.btn-danger').addEventListener('click', () => removeItem(item.id));
-        const queryInput = div.querySelector('[data-role="query"]');
-        const sizeSelect = div.querySelector('[data-role="size"]');
-        const priceInput = div.querySelector('[data-role="price"]');
-        const resultsBox = div.querySelector('.search-results');
+
+        node.querySelector('.btn-danger').addEventListener('click', () => removeItem(item.id));
+
+        const queryInput = node.querySelector('[data-role="query"]');
+        const resultsBox = node.querySelector('[data-role="results"]');
+        const sizeSelect = node.querySelector('[data-role="size"]');
+        const priceInput = node.querySelector('[data-role="price"]');
 
         queryInput.addEventListener('input', (e) => {
           item.query = e.target.value;
-          const found = findInStock(item.query);
-          if (!found.length) {
-            resultsBox.innerHTML = '';
-            resultsBox.style.display = 'none';
-          } else {
-            resultsBox.innerHTML = found.map(p => `
-              <button type="button" data-article="${escapeHtml(p.article)}" style="width:100%;text-align:left;border:0;padding:6px 8px;font-size:12px;background:var(--color-surface);border-bottom:1px solid var(--color-divider);">
-                <strong>${escapeHtml(p.article)}</strong> ${escapeHtml(p.title)}<br>
-                <span style="color:var(--color-text-muted);">${escapeHtml(p.color)} · ${formatMoney(p.price)}</span>
-              </button>
-            `).join('');
-            resultsBox.style.position = 'absolute';
-            resultsBox.style.zIndex = '5';
-            resultsBox.style.background = 'var(--color-surface)';
-            resultsBox.style.border = '1px solid var(--color-border)';
-            resultsBox.style.borderRadius = '14px';
-            resultsBox.style.marginTop = '4px';
-            resultsBox.style.maxHeight = '220px';
-            resultsBox.style.overflowY = 'auto';
-            resultsBox.style.display = 'block';
-
-            Array.from(resultsBox.querySelectorAll('button[data-article]')).forEach(btn => {
-              btn.addEventListener('click', () => {
-                const article = btn.getAttribute('data-article');
-                const product = state.stock.find(p => p.article === article);
-                if (product) {
-                  item.article = product.article;
-                  item.title = product.title;
-                  item.color = product.color;
-                  item.price = Number(product.price || 0);
-                  item.size = '';
-                  item.sizeOptions = product.sizes || [];
-                  item.query = `${product.article} ${product.title}`;
-                  renderItems();
-                  calculateTotals();
-                }
-                resultsBox.style.display = 'none';
-              });
+          item.article = '';
+          item.title = '';
+          item.color = '';
+          item.price = 0;
+          item.size = '';
+          item.sizeOptions = [];
+          item.group = '';
+          const found = findStock(e.target.value);
+          resultsBox.innerHTML = found.map(product => `
+            <button type="button" class="search-option" data-article="${escapeHtml(product.article)}">
+              <strong>${escapeHtml(product.article)} — ${escapeHtml(product.title)}</strong>
+              <span>${escapeHtml(product.color)} · ${escapeHtml(product.group || 'Без группы')} · ${formatMoney(product.price)}</span>
+            </button>
+          `).join('');
+          resultsBox.classList.toggle('show', found.length > 0);
+          Array.from(resultsBox.querySelectorAll('.search-option')).forEach(btn => {
+            btn.addEventListener('click', () => {
+              const product = getStockByArticle(btn.dataset.article);
+              if (product) applyProductToItem(item, product);
+              resultsBox.classList.remove('show');
             });
-          }
+          });
           calculateTotals();
         });
 
         queryInput.addEventListener('blur', () => {
-          setTimeout(() => resultsBox.style.display = 'none', 120);
+          setTimeout(() => resultsBox.classList.remove('show'), 150);
         });
+
         queryInput.addEventListener('focus', () => {
-          if (resultsBox.innerHTML.trim()) resultsBox.style.display = 'block';
+          if (resultsBox.innerHTML.trim()) resultsBox.classList.add('show');
         });
 
         sizeSelect.addEventListener('change', (e) => {
@@ -1235,276 +787,245 @@
           calculateTotals();
         });
 
-        els.itemsContainer.appendChild(div);
+        els.itemsContainer.appendChild(node);
       });
+
       els.itemsCount.textContent = String(state.items.length);
-    }
-
-    function findGroupByArticle(article) {
-      const p = state.stock.find(x => x.article === article);
-      return p ? p.group : '';
-    }
-
-    function getSizePreview(item) {
-      if (!item.size) return '—';
-      const opt = (item.sizeOptions || []).find(s => s.size === item.size);
-      if (!opt) return item.size;
-      return opt.stockLabel ? `${opt.size} (${opt.stockLabel})` : opt.size;
     }
 
     function renderPayments() {
       els.paymentsContainer.innerHTML = '';
-      state.payments.forEach((p) => {
-        const div = document.createElement('div');
-        div.className = 'payment-card';
-        div.innerHTML = `
-          <div class="payment-top">
-            <div class="kicker">Оплата</div>
-            <button type="button" class="btn btn-danger btn-sm">Удалить</button>
-          </div>
-          <div class="field-row">
+      const modeClass = itemModeClass();
+      state.payments.forEach((payment) => {
+        const node = document.createElement('article');
+        node.className = `payment-card ${modeClass}`;
+        node.innerHTML = `
+          <div class="field-grid">
             <div class="field">
               <label>Тип оплаты</label>
               <select data-role="type">
-                ${state.paymentTypes.map(t =>
-                  `<option value="${escapeHtml(t)}" ${t === p.type ? 'selected' : ''}>${escapeHtml(t)}</option>`
-                ).join('')}
+                ${state.paymentTypes.map(type => `<option value="${escapeHtml(type)}" ${type === payment.type ? 'selected' : ''}>${escapeHtml(type)}</option>`).join('')}
               </select>
             </div>
             <div class="field">
               <label>Сумма</label>
-              <input type="number" data-role="amount" step="0.01" value="${Number(p.amount || 0)}">
+              <input type="number" min="-999999" step="0.01" value="${Number(payment.amount || 0)}" data-role="amount">
             </div>
           </div>
+          <div style="height:12px"></div>
+          <button type="button" class="btn btn-danger">Удалить оплату</button>
         `;
-        div.querySelector('.btn-danger').addEventListener('click', () => removePayment(p.id));
-        div.querySelector('[data-role="type"]').addEventListener('change', (e) => {
-          p.type = e.target.value;
+        node.querySelector('[data-role="type"]').addEventListener('change', (e) => {
+          payment.type = e.target.value;
+          renderItems();
+          renderPayments();
           calculateTotals();
         });
-        div.querySelector('[data-role="amount"]').addEventListener('input', (e) => {
-          p.amount = Number(e.target.value || 0);
+        node.querySelector('[data-role="amount"]').addEventListener('input', (e) => {
+          payment.amount = Number(e.target.value || 0);
           calculateTotals();
         });
-        els.paymentsContainer.appendChild(div);
+        node.querySelector('.btn-danger').addEventListener('click', () => {
+          removePayment(payment.id);
+        });
+        els.paymentsContainer.appendChild(node);
       });
     }
 
-    function findInStock(query) {
-      const q = String(query || '').trim().toLowerCase();
-      if (!q) return [];
-      return state.stock.filter(p => {
-        const s = [p.article, p.title, p.color, p.group].join(' ').toLowerCase();
-        return s.includes(q);
-      }).slice(0, 10);
+    function getSizePreview(item) {
+      if (!item.size) return '—';
+      const found = (item.sizeOptions || []).find(s => s.size === item.size);
+      if (!found) return item.size;
+      return found.stockLabel ? `${found.size} (${found.stockLabel})` : found.size;
     }
 
     function calculateTotals() {
-      const total = state.items.reduce((sum, i) => sum + Number(i.price || 0), 0);
-      const paymentsTotal = state.payments.reduce((sum, p) => sum + Number(p.amount || 0), 0);
-      const cashPart = state.payments
-        .filter(p => String(p.type || '').toLowerCase() === 'нал')
-        .reduce((sum, p) => sum + Number(p.amount || 0), 0);
+      const total = state.items.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      const paymentsTotal = state.payments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
       const received = Number(els.received.value || 0);
+      const cashPart = state.payments.filter(p => String(p.type).toLowerCase() === 'нал').reduce((sum, p) => sum + Number(p.amount || 0), 0);
       const change = received - cashPart;
+      const mode = detectSaleMode();
 
       els.totalAmount.textContent = formatMoney(total);
       els.paymentsTotal.textContent = formatMoney(paymentsTotal);
+      els.receivedPreview.textContent = formatMoney(received);
       els.cashPartPreview.textContent = formatMoney(cashPart);
       els.changeAmount.textContent = formatMoney(change);
+      updateDatePreview();
 
-      const diff = paymentsTotal - total;
-      const ok = Math.abs(diff) < 0.009;
-      els.paymentsCheckChip.textContent = ok
-        ? 'Сумма оплат совпадает'
-        : `Оплаты ≠ итогу: ${formatMoney(diff)}`;
-      els.paymentsCheckChip.style.background = ok ? 'var(--color-success-bg)' : 'var(--color-error-bg)';
-      els.paymentsCheckChip.style.borderColor = ok ? 'var(--color-success)' : 'var(--color-error)';
+      const matches = Math.abs(total - paymentsTotal) < 0.009;
+      els.paymentCheckChip.className = `chip ${matches ? 'ok' : 'error'}`;
+      els.paymentCheckChip.textContent = matches ? 'Сумма оплат совпадает' : `Оплаты не сходятся: ${formatMoney(paymentsTotal - total)}`;
+
+      els.saleModeChip.className = `chip ${mode === 'return' ? 'error' : mode === 'exchange' ? 'warn' : 'ok'}`;
+      els.saleModeChip.textContent = mode === 'return' ? 'Режим возврата' : mode === 'exchange' ? 'Режим обмена' : 'Обычная продажа';
     }
 
-    function validateSale() {
-      if (!state.currentDay) throw new Error('Не выбран день');
+    function validateForm() {
+      if (!els.saleDate.value) throw new Error('Укажите дату продажи');
       if (!state.items.length) throw new Error('Добавьте хотя бы один товар');
-      state.items.forEach((i, idx) => {
-        if (!i.article) throw new Error(`Выберите товар в позиции ${idx + 1}`);
-        if (!i.size) throw new Error(`Выберите размер в позиции ${idx + 1}`);
+      state.items.forEach((item, idx) => {
+        if (!item.article) throw new Error(`Выберите артикул у позиции ${idx + 1}`);
+        if (!item.size) throw new Error(`Выберите размер у позиции ${idx + 1}`);
       });
       if (!state.payments.length) throw new Error('Добавьте хотя бы один тип оплаты');
-      const total = state.items.reduce((sum, i) => sum + Number(i.price || 0), 0);
-      const paymentsTotal = state.payments.reduce((sum, p) => sum + Number(p.amount || 0), 0);
-      if (Math.abs(total - paymentsTotal) >= 0.009) {
-        throw new Error('Сумма оплат должна совпадать с суммой товаров');
-      }
+      const total = state.items.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      const paymentsTotal = state.payments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
+      if (Math.abs(total - paymentsTotal) >= 0.009) throw new Error('Сумма оплат должна совпадать с итогом по товарам');
+      return true;
     }
 
     async function saveSale() {
       try {
-        validateSale();
-        clearStatus(els.saleStatus);
-        const total = state.items.reduce((sum, i) => sum + Number(i.price || 0), 0);
-        const paymentsTotal = state.payments.reduce((sum, p) => sum + Number(p.amount || 0), 0);
-        const cashPart = state.payments
-          .filter(p => String(p.type || '').toLowerCase() === 'нал')
-          .reduce((sum, p) => sum + Number(p.amount || 0), 0);
+        validateForm();
+        clearStatus();
+        const total = state.items.reduce((sum, item) => sum + Number(item.price || 0), 0);
         const received = Number(els.received.value || 0);
-        const change = received - cashPart;
-
+        const cashPart = state.payments.filter(p => String(p.type).toLowerCase() === 'нал').reduce((sum, p) => sum + Number(p.amount || 0), 0);
         const payload = {
-          saleId: state.currentSaleId || undefined,
-          date: state.currentDay,
+          date: els.saleDate.value,
           cashAtStart: Number(els.cashAtStart.value || 0),
           total: total,
           received: received,
-          change: change,
-          comment: els.comment.value || '',
-          items: state.items.map(i => ({
-            article: i.article,
-            title: i.title,
-            color: i.color,
-            size: i.size,
-            price: Number(i.price || 0)
-          })),
-          payments: state.payments.map(p => ({
-            type: p.type,
-            amount: Number(p.amount || 0)
-          }))
+          change: received - cashPart,
+          comment: els.comment.value.trim(),
+          items: state.items.map(item => ({ article: item.article, title: item.title, color: item.color, size: item.size, price: Number(item.price || 0) })),
+          payments: state.payments.map(payment => ({ type: payment.type, amount: Number(payment.amount || 0) }))
         };
-
-        const isUpdate = !!state.currentSaleId;
-        const url = isUpdate
-          ? `${API_URL}?action=updateSale`
-          : API_URL;
-        const res = await fetch(url, {
+        const res = await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(payload)
         });
         const data = await res.json();
-        if (!data.ok) throw new Error(data.error || 'Ошибка сохранения');
-
-        setStatus(els.saleStatus,
-          isUpdate
-            ? `Продажа обновлена. saleId: ${data.result.saleId}`
-            : `Продажа создана. saleId: ${data.result.saleId}`,
-          'ok');
-
-        state.currentSaleId = data.result.saleId;
-        await loadSalesByDay(state.currentDay);
-      } catch (err) {
-        setStatus(els.saleStatus, err.message || String(err), 'error');
+        if (!data.ok) throw new Error(data.error || 'Ошибка при сохранении');
+        setStatus(`Продажа сохранена. ID: ${data.result.saleId}. Строк записано: ${data.result.savedRows}`, 'ok');
+        resetSaleForm();
+      } catch (error) {
+        setStatus(error.message || String(error), 'error');
       }
     }
 
-    async function deleteSale() {
-      if (!state.currentSaleId) return;
-      if (!confirm('Удалить эту продажу?')) return;
-      try {
-        const payload = { saleId: state.currentSaleId };
-        const res = await fetch(`${API_URL}?action=deleteSale`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-        if (!data.ok) throw new Error(data.error || 'Ошибка удаления');
-        state.currentSaleId = null;
-        await loadSalesByDay(state.currentDay);
-        switchScreen('daySales');
-      } catch (err) {
-        alert(err.message || String(err));
-      }
-    }
-
-    function openNewSaleInCurrentDay() {
-      if (!state.currentDay) return;
-      state.currentSaleId = null;
-      els.saleDate.value = state.currentDay;
-      els.cashAtStart.value = '';
+    function resetSaleForm() {
+      state.items = [];
+      state.payments = [];
       els.received.value = '';
       els.comment.value = '';
-      state.items = [emptyItem()];
-      state.payments = [emptyPayment()];
-      renderItems();
-      renderPayments();
+      addItem();
+      addPayment();
       calculateTotals();
-      switchScreen('saleEdit');
     }
 
-    function openDayModal(date) {
-      els.dayDateInput.value = date || todayISO();
-      const day = state.days.find(d => d.date === date);
-      els.dayCashInput.value = day ? Number(day.cashAtStart || 0) : '';
-      els.dayModal.classList.add('show');
+    function switchScreen(screen) {
+      state.currentScreen = screen;
+      document.querySelectorAll('[data-screen]').forEach(node => node.classList.toggle('active', node.dataset.screen === screen));
+      document.querySelectorAll('[data-screen-link]').forEach(btn => btn.classList.toggle('active', btn.dataset.screenLink === screen));
+      if (screen === 'sales') {
+        els.screenTitle.textContent = 'Новая продажа';
+        els.screenSubtitle.textContent = 'Запись продажи в Google Sheets без списания остатков.';
+        document.getElementById('saveBtn').classList.remove('hidden');
+        document.getElementById('reloadStockBtn').classList.remove('hidden');
+      } else {
+        els.screenTitle.textContent = 'История продаж';
+        els.screenSubtitle.textContent = 'Просмотр сохранённых продаж по выбранной дате.';
+        document.getElementById('saveBtn').classList.add('hidden');
+        document.getElementById('reloadStockBtn').classList.add('hidden');
+      }
     }
+
+    function openDayModal() {
+      els.modalSaleDate.value = els.saleDate.value || '';
+      els.modalCashAtStart.value = els.cashAtStart.value || '';
+      els.dayModal.classList.add('show');
+      els.dayModal.setAttribute('aria-hidden', 'false');
+    }
+
     function closeDayModal() {
       els.dayModal.classList.remove('show');
+      els.dayModal.setAttribute('aria-hidden', 'true');
     }
-    async function saveDayFromModal() {
+
+    function startDay() {
+      if (!els.modalSaleDate.value) {
+        setStatus('Укажите дату в окне нового дня', 'error');
+        return;
+      }
+      els.saleDate.value = els.modalSaleDate.value;
+      els.cashAtStart.value = els.modalCashAtStart.value;
+      updateDatePreview();
+      closeDayModal();
+      setStatus('День открыт. Можно вносить продажи.', 'info');
+    }
+
+    async function loadHistory() {
       try {
-        const date = els.dayDateInput.value;
-        const cash = Number(els.dayCashInput.value || 0);
-        if (!date) throw new Error('Укажите дату дня');
-        const payload = { date, cashAtStart: cash };
-        const res = await fetch(`${API_URL}?action=day`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
-        });
+        clearStatus(els.historyStatus);
+        els.historyList.innerHTML = '<div class="empty">Загрузка…</div>';
+        const date = els.historyDate.value;
+        if (!date) throw new Error('Выберите дату для истории');
+        const res = await fetch(`${API_URL}?action=salesByDate&date=${encodeURIComponent(date)}`);
         const data = await res.json();
-        if (!data.ok) throw new Error(data.error || 'Ошибка сохранения дня');
-        closeDayModal();
-        await loadDays();
-      } catch (err) {
-        alert(err.message || String(err));
+        if (!data.ok) throw new Error(data.error || 'Ошибка загрузки истории');
+        renderHistory(Array.isArray(data.sales) ? data.sales : []);
+      } catch (error) {
+        setStatus(error.message || String(error), 'error', els.historyStatus);
+        els.historyList.innerHTML = '<div class="empty">Не удалось загрузить историю.</div>';
       }
     }
 
-    function escapeHtml(str) {
-      return String(str || '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#39;');
-    }
-    function formatMoney(v) {
-      return (Number(v) || 0).toFixed(2);
-    }
-    function uid() {
-      return Math.random().toString(36).slice(2, 10);
+    function renderHistory(sales) {
+      if (!sales.length) {
+        els.historyList.innerHTML = '<div class="empty">За выбранную дату продаж пока нет.</div>';
+        return;
+      }
+      els.historyList.innerHTML = sales.map(sale => `
+        <article class="history-card">
+          <div class="card-top">
+            <div>
+              <div class="card-kicker">${escapeHtml(sale.saleId)}</div>
+              <strong style="display:block;font-size:var(--text-lg);margin-top:4px;">${formatMoney(sale.total)}</strong>
+            </div>
+            <div class="history-meta">
+              <span class="chip">Получено: ${formatMoney(sale.received)}</span>
+              <span class="chip">Сдача: ${formatMoney(sale.change)}</span>
+              <span class="chip">Касса: ${formatMoney(sale.cashAtStart)}</span>
+            </div>
+          </div>
+          <div style="font-size:var(--text-sm);color:var(--color-text-muted);">${escapeHtml(sale.paymentTypes || 'Тип оплаты не указан')}</div>
+          <div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:6px;">${escapeHtml(sale.paymentAmounts || '')}</div>
+          ${sale.comment ? `<div style="margin-top:10px;font-size:var(--text-sm);">${escapeHtml(sale.comment)}</div>` : ''}
+          <div class="history-items">
+            ${sale.items.map(item => `
+              <div class="history-item-row">
+                <strong>#${item.position}</strong>
+                <span>${escapeHtml(item.article)} — ${escapeHtml(item.title)}</span>
+                <span>${escapeHtml(item.color)}</span>
+                <span>${escapeHtml(item.size)}</span>
+                <strong>${formatMoney(item.price)}</strong>
+              </div>
+            `).join('')}
+          </div>
+        </article>
+      `).join('');
     }
 
-    // events
-    els.reloadBtn.addEventListener('click', () => {
-      const screen = document.querySelector('.screen.active')?.dataset.screen;
-      if (screen === 'days') loadDays().catch(err => setStatus(els.daysStatus, err.message || String(err), 'error'));
-      if (screen === 'daySales' && state.currentDay) loadSalesByDay(state.currentDay).catch(err => setStatus(els.daySalesStatus, err.message || String(err), 'error'));
-    });
-    els.addDayBtn.addEventListener('click', () => openDayModal());
-    els.addDayBtnTop.addEventListener('click', () => openDayModal());
-    els.cancelDayBtn.addEventListener('click', closeDayModal);
-    els.saveDayBtn.addEventListener('click', saveDayFromModal);
-    els.dayModal.addEventListener('click', (e) => {
-      if (e.target === els.dayModal) closeDayModal();
-    });
-
-    els.newSaleInDayBtn.addEventListener('click', openNewSaleInCurrentDay);
-    els.newSaleBtnPanel.addEventListener('click', openNewSaleInCurrentDay);
-    els.addItemBtn.addEventListener('click', addItem);
-    els.addPaymentBtn.addEventListener('click', addPayment);
+    document.getElementById('addItemBtn').addEventListener('click', addItem);
+    document.getElementById('addPaymentBtn').addEventListener('click', addPayment);
+    document.getElementById('reloadStockBtn').addEventListener('click', () => loadStock().then(() => setStatus('Сток обновлён.', 'info')).catch(err => setStatus(err.message, 'error')));
+    document.getElementById('saveBtn').addEventListener('click', saveSale);
+    document.getElementById('openDayModalBtn').addEventListener('click', openDayModal);
+    document.getElementById('closeDayModalBtn').addEventListener('click', closeDayModal);
+    document.getElementById('startDayBtn').addEventListener('click', startDay);
+    document.getElementById('loadHistoryBtn').addEventListener('click', loadHistory);
     els.received.addEventListener('input', calculateTotals);
-    els.saveSaleBtn.addEventListener('click', saveSale);
-    els.cancelSaleBtn.addEventListener('click', () => switchScreen('daySales'));
-    els.deleteSaleBtn.addEventListener('click', deleteSale);
+    els.saleDate.addEventListener('change', updateDatePreview);
+    document.querySelectorAll('[data-screen-link]').forEach(btn => btn.addEventListener('click', () => switchScreen(btn.dataset.screenLink)));
+    els.dayModal.addEventListener('click', (e) => { if (e.target === els.dayModal) closeDayModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDayModal(); });
 
-    (async function init() {
-      try {
-        await loadStock();
-        await loadDays();
-      } catch (err) {
-        setStatus(els.daysStatus, err.message || String(err), 'error');
-      }
-    })();
+    setToday();
+    loadStock().catch(error => setStatus(error.message || String(error), 'error'));
   </script>
 </body>
 </html>
