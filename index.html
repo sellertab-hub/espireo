@@ -424,6 +424,7 @@
       border-bottom: 1px solid var(--color-divider);
       padding-bottom: 6px;
       font-size: 13px;
+      align-items: center;
     }
 
     .modal-backdrop {
@@ -549,6 +550,7 @@
     </header>
 
     <main class="main">
+      <!-- Экран: список дней -->
       <section class="screen active" data-screen="days">
         <div class="panel">
           <div class="panel-inner">
@@ -565,6 +567,7 @@
         </div>
       </section>
 
+      <!-- Экран: продажи внутри дня -->
       <section class="screen" data-screen="daySales">
         <div class="panel">
           <div class="panel-inner">
@@ -581,6 +584,7 @@
         </div>
       </section>
 
+      <!-- Экран: создание / редактирование продажи -->
       <section class="screen" data-screen="saleEdit">
         <div class="panel">
           <div class="panel-inner">
@@ -593,15 +597,9 @@
 
             <div id="saleStatus" class="status-box"></div>
 
-            <div class="field-row">
-              <div class="field">
-                <label>Дата дня (фиксированная)</label>
-                <input type="date" id="saleDate" readonly>
-              </div>
-              <div class="field">
-                <label>Касса на начало дня</label>
-                <input type="number" id="cashAtStart" min="0" step="0.01">
-              </div>
+            <div class="field">
+              <label>Дата дня (фиксированная)</label>
+              <input type="date" id="saleDate" readonly>
             </div>
 
             <div class="field-row" style="margin-top:10px;">
@@ -657,8 +655,8 @@
                 <span id="cashPartPreview">0.00</span>
               </div>
               <div class="summary-row">
-                <strong>Сдача</strong>
-                <strong id="changeAmount">0.00</strong>
+                <span>Сдача (можно поправить)</span>
+                <input type="number" id="changeInput" step="0.01" style="max-width:120px;text-align:right;">
               </div>
             </div>
 
@@ -677,7 +675,7 @@
     </main>
   </div>
 
-  <!-- Модалка дня -->
+  <!-- Модалка: день -->
   <div class="modal-backdrop" id="dayModal">
     <div class="modal">
       <div class="modal-head">
@@ -711,7 +709,7 @@
       stock: [],
       paymentTypes: [],
       currentDay: null,
-      currentDayStats: null, // totals for day
+      currentDayStats: null,
       currentSaleId: null,
       items: [],
       payments: []
@@ -738,7 +736,6 @@
 
       saleStatus: document.getElementById('saleStatus'),
       saleDate: document.getElementById('saleDate'),
-      cashAtStart: document.getElementById('cashAtStart'),
       received: document.getElementById('received'),
       comment: document.getElementById('comment'),
       itemsContainer: document.getElementById('itemsContainer'),
@@ -747,7 +744,7 @@
       totalAmount: document.getElementById('totalAmount'),
       paymentsTotal: document.getElementById('paymentsTotal'),
       cashPartPreview: document.getElementById('cashPartPreview'),
-      changeAmount: document.getElementById('changeAmount'),
+      changeInput: document.getElementById('changeInput'),
       paymentsCheckChip: document.getElementById('paymentsCheckChip'),
       modeChip: document.getElementById('modeChip'),
       addItemBtn: document.getElementById('addItemBtn'),
@@ -936,9 +933,9 @@
         if (!sale) throw new Error('Продажа не найдена');
 
         els.saleDate.value = sale.date;
-        els.cashAtStart.value = Number(sale.cashAtStart || 0);
         els.received.value = Number(sale.received || 0);
         els.comment.value = sale.comment || '';
+        els.changeInput.value = sale.change != null ? Number(sale.change || 0) : '';
 
         state.items = (sale.items || []).map(item => ({
           id: uid(),
@@ -1206,15 +1203,21 @@
         .filter(p => String(p.type || '').toLowerCase() === 'нал')
         .reduce((sum, p) => sum + Number(p.amount || 0), 0);
       const received = Number(els.received.value || 0);
-      const change = received - cashPart;
+
+      const autoChange = received - cashPart;
 
       els.totalAmount.textContent = formatMoney(total);
       els.paymentsTotal.textContent = formatMoney(paymentsTotal);
       els.cashPartPreview.textContent = formatMoney(cashPart);
-      els.changeAmount.textContent = formatMoney(change);
+
+      // если пользователь ещё не вводил сдачу, подставляем авто-значение
+      if (!els.changeInput.matches(':focus') && !els.changeInput.value) {
+        els.changeInput.value = formatMoney(autoChange);
+      }
 
       const diff = paymentsTotal - total;
       const ok = Math.abs(diff) < 0.009;
+
       els.paymentsCheckChip.textContent = ok
         ? 'Сумма оплат совпадает'
         : `Оплаты ≠ итогу: ${formatMoney(diff)}`;
@@ -1241,17 +1244,14 @@
       try {
         validateSale();
         clearStatus(els.saleStatus);
+
         const total = state.items.reduce((sum, i) => sum + Number(i.price || 0), 0);
-        const cashPart = state.payments
-          .filter(p => String(p.type || '').toLowerCase() === 'нал')
-          .reduce((sum, p) => sum + Number(p.amount || 0), 0);
         const received = Number(els.received.value || 0);
-        const change = received - cashPart;
+        const change = Number(els.changeInput.value || 0);
 
         const payload = {
           saleId: state.currentSaleId || undefined,
           date: state.currentDay,
-          cashAtStart: Number(els.cashAtStart.value || 0),
           total,
           received,
           change,
@@ -1286,7 +1286,7 @@
 
         state.currentSaleId = data.result.saleId;
         await loadSalesByDay(state.currentDay);
-        await loadDays(); // обновить агрегаты по дням
+        await loadDays(); // чтобы обновились агрегаты по дню
       } catch (err) {
         setStatus(els.saleStatus, err.message || String(err), 'error');
       }
@@ -1317,9 +1317,9 @@
       if (!state.currentDay) return;
       state.currentSaleId = null;
       els.saleDate.value = state.currentDay;
-      els.cashAtStart.value = state.currentDayStats ? Number(state.currentDayStats.cashAtStart || 0) : '';
       els.received.value = '';
       els.comment.value = '';
+      els.changeInput.value = '';
       state.items = [emptyItem()];
       state.payments = [emptyPayment()];
       renderItems();
@@ -1383,6 +1383,7 @@
     els.addItemBtn.addEventListener('click', addItem);
     els.addPaymentBtn.addEventListener('click', addPayment);
     els.received.addEventListener('input', calculateTotals);
+    els.changeInput.addEventListener('input', calculateTotals);
     els.saveSaleBtn.addEventListener('click', saveSale);
     els.cancelSaleBtn.addEventListener('click', () => switchScreen('daySales'));
     els.deleteSaleBtn.addEventListener('click', deleteSale);
