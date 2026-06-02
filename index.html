@@ -2,13 +2,13 @@
 <html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <title>Espireo · Продажи по дням</title>
+  <title>ESPIREO · Продажи по дням</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root, [data-theme="light"] {
+    :root {
       --font-body: 'Manrope', system-ui, sans-serif;
       --color-bg: #f7f3ee;
       --color-surface: #fcfaf7;
@@ -39,28 +39,6 @@
       --space-5: 1.25rem;
       --space-6: 1.5rem;
       --space-8: 2rem;
-    }
-    [data-theme="dark"] {
-      --color-bg: #181512;
-      --color-surface: #221d19;
-      --color-surface-2: #2a241f;
-      --color-border: #403730;
-      --color-divider: #342d27;
-      --color-text: #ebe2d8;
-      --color-text-muted: #b2a79b;
-      --color-text-faint: #7e746a;
-      --color-text-inverse: #1e1814;
-      --color-primary: #cbb29d;
-      --color-primary-hover: #dfc8b6;
-      --color-success: #8ab07c;
-      --color-success-bg: #2e392e;
-      --color-error: #de8d85;
-      --color-error-bg: #402824;
-      --color-warning: #d5a96c;
-      --color-warning-bg: #403225;
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.25);
-      --shadow-md: 0 10px 24px rgba(0,0,0,0.35);
-      --shadow-lg: 0 24px 48px rgba(0,0,0,0.45);
     }
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; height: 100%; }
@@ -139,15 +117,6 @@
       color: var(--color-text-muted);
       margin-top: 2px;
     }
-    .theme-toggle {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      border: 1px solid var(--color-border);
-      display: grid;
-      place-items: center;
-      background: var(--color-surface);
-    }
     .nav {
       display: grid;
       gap: 8px;
@@ -158,9 +127,6 @@
       background: transparent;
       color: var(--color-text-muted);
       padding: 10px 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
       text-align: left;
     }
     .nav button.active {
@@ -187,8 +153,7 @@
       align-items: center;
       justify-content: space-between;
       gap: var(--space-4);
-      backdrop-filter: blur(8px);
-      background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+      background: color-mix(in srgb, var(--color-bg) 92%, transparent);
       position: sticky;
       top: 0;
       z-index: 5;
@@ -202,6 +167,20 @@
       margin: 5px 0 0;
       font-size: 12px;
       color: var(--color-text-muted);
+    }
+    .breadcrumbs {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+    }
+    .breadcrumbs button {
+      border: 0;
+      background: none;
+      padding: 0;
+      font: inherit;
+      color: inherit;
+      text-decoration: underline;
+      cursor: pointer;
     }
     .header-actions {
       display: flex;
@@ -241,10 +220,7 @@
     .btn-danger:hover {
       background: var(--color-error-bg);
     }
-    .btn-sm {
-      padding: 6px 10px;
-      font-size: 12px;
-    }
+    .btn-sm { padding: 6px 10px; font-size: 12px; }
 
     .main {
       grid-column: 2;
@@ -260,9 +236,7 @@
       border: 1px solid var(--color-border);
       box-shadow: var(--shadow-md);
     }
-    .panel-inner {
-      padding: 18px 20px 20px;
-    }
+    .panel-inner { padding: 18px 20px 20px; }
     .panel-head {
       display: flex;
       justify-content: space-between;
@@ -298,7 +272,7 @@
       padding: 12px 14px;
       background: var(--color-surface-2);
       display: grid;
-      grid-template-columns: 1.1fr 1.6fr auto;
+      grid-template-columns: 1.1fr 2fr auto;
       gap: 8px 12px;
       align-items: center;
       cursor: pointer;
@@ -331,11 +305,9 @@
       font-size: 11px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
-    .chip-strong {
-      font-weight: 600;
-    }
+    .chip-strong { font-weight: 600; }
 
     .sale-card {
       border-radius: var(--radius-md);
@@ -393,9 +365,9 @@
       border: 1px solid color-mix(in srgb, var(--color-error) 30%, var(--color-border));
     }
     .status-info {
-      background: #e8edf6;
-      color: #56617c;
-      border: 1px solid #c2cbe0;
+      background: var(--color-warning-bg);
+      color: var(--color-warning);
+      border: 1px solid color-mix(in srgb, var(--color-warning) 30%, var(--color-border));
     }
 
     .item-card, .payment-card {
@@ -465,9 +437,7 @@
       z-index: 30;
       backdrop-filter: blur(8px);
     }
-    .modal-backdrop.show {
-      display: flex;
-    }
+    .modal-backdrop.show { display: flex; }
     .modal {
       width: min(460px, 100%);
       background: var(--color-surface);
@@ -499,21 +469,6 @@
       flex-wrap: wrap;
     }
 
-    .breadcrumbs {
-      font-size: 11px;
-      color: var(--color-text-muted);
-      margin-bottom: 8px;
-    }
-    .breadcrumbs button {
-      border: 0;
-      background: none;
-      color: inherit;
-      padding: 0;
-      text-decoration: underline;
-      cursor: pointer;
-      font-size: inherit;
-    }
-
     .hidden { display: none !important; }
 
     @media (max-width: 1024px) {
@@ -527,9 +482,7 @@
         border-right: 0;
         border-bottom: 1px solid var(--color-divider);
       }
-      .header, .main {
-        grid-column: 1;
-      }
+      .header, .main { grid-column: 1; }
     }
     @media (max-width: 720px) {
       .header {
@@ -547,9 +500,7 @@
       .preview-row, .field-row {
         grid-template-columns: 1fr;
       }
-      .panel-inner {
-        padding-inline: 14px;
-      }
+      .panel-inner { padding-inline: 14px; }
     }
   </style>
 </head>
@@ -568,27 +519,26 @@
           </div>
           <div class="brand-copy">
             <strong>ESPIREO</strong>
-            <span>Продажи магазина</span>
+            <span>Продажи по дням</span>
           </div>
         </div>
-        <button class="theme-toggle" type="button" id="themeToggle" aria-label="Переключить тему"></button>
       </div>
 
       <nav class="nav" aria-label="Навигация">
-        <button type="button" data-screen-link="days" class="active">Дни</button>
+        <button type="button" data-screen-link="days" class="active">Продажи (дни)</button>
         <button type="button" data-screen-link="saleEdit">Продажа</button>
       </nav>
 
       <div class="sidebar-note">
-        Сначала выберите день или создайте новый, затем добавляйте в него продажи. Продажи можно открыть, отредактировать или удалить, дата при этом остаётся привязанной к дню.
+        На этом экране — список дней с выручкой, количеством продаж и количеством проданных товаров. Выберите день или добавьте новый, затем добавляйте/редактируйте продажи.
       </div>
     </aside>
 
     <header class="header">
       <div class="header-title">
         <div class="breadcrumbs" id="breadcrumbs"></div>
-        <h1 id="screenTitle">Дни продаж</h1>
-        <p id="screenSubtitle">Список дней с кассой и итогами по продажам.</p>
+        <h1 id="screenTitle">Продажи по дням</h1>
+        <p id="screenSubtitle">Главный список дней, из которого открываются продажи.</p>
       </div>
       <div class="header-actions">
         <button class="btn btn-secondary" type="button" id="reloadBtn">Обновить</button>
@@ -604,8 +554,8 @@
           <div class="panel-inner">
             <div class="panel-head">
               <div>
-                <h2>Дни</h2>
-                <p>Выберите день, чтобы увидеть продажи и добавить новые.</p>
+                <h2>Продажи по дням</h2>
+                <p>Список всех дней с выручкой и количеством продаж.</p>
               </div>
               <button class="btn btn-secondary btn-sm" type="button" id="addDayBtnTop">Добавить день</button>
             </div>
@@ -621,9 +571,9 @@
             <div class="panel-head">
               <div>
                 <h2 id="dayTitle">Продажи дня</h2>
-                <p id="daySubtitle">Список продаж выбранного дня.</p>
+                <p id="daySubtitle"></p>
               </div>
-              <button class="btn btn-primary btn-sm" type="button" id="newSaleBtnPanel">Новая продажа в этот день</button>
+              <button class="btn btn-primary btn-sm" type="button" id="newSaleBtnPanel">Новая продажа</button>
             </div>
             <div id="daySalesStatus" class="status-box"></div>
             <div id="daySalesList" class="stack"></div>
@@ -637,7 +587,7 @@
             <div class="panel-head">
               <div>
                 <h2 id="saleTitle">Продажа</h2>
-                <p id="saleSubtitle">Добавление или редактирование продажи.</p>
+                <p id="saleSubtitle">Создание или редактирование продажи внутри дня.</p>
               </div>
             </div>
 
@@ -645,7 +595,7 @@
 
             <div class="field-row">
               <div class="field">
-                <label>Дата продажи (по дню)</label>
+                <label>Дата дня (фиксированная)</label>
                 <input type="date" id="saleDate" readonly>
               </div>
               <div class="field">
@@ -719,7 +669,7 @@
 
             <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
               <button class="btn btn-primary" type="button" id="saveSaleBtn">Сохранить продажу</button>
-              <button class="btn btn-secondary" type="button" id="cancelSaleBtn">Отмена</button>
+              <button class="btn btn-secondary" type="button" id="cancelSaleBtn">Назад к дню</button>
             </div>
           </div>
         </div>
@@ -729,9 +679,9 @@
 
   <!-- Модалка дня -->
   <div class="modal-backdrop" id="dayModal">
-    <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal">
       <div class="modal-head">
-        <h2>Новый день / редактирование</h2>
+        <h2>День продаж</h2>
         <p>Дата дня и сумма наличных в кассе на начало.</p>
       </div>
       <div class="modal-body">
@@ -757,18 +707,17 @@
     const API_URL = 'https://script.google.com/macros/s/AKfycbzFJMJu4rlfyeTq3q9ijNsVGsgBwUNL-WDsF8vt_px19H9lPEvU35kZ9h3fs2Rfn280AQ/exec';
 
     const state = {
-      theme: (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light',
       days: [],
       stock: [],
       paymentTypes: [],
-      currentDay: null,   // 'YYYY-MM-DD'
+      currentDay: null,
+      currentDayStats: null, // totals for day
       currentSaleId: null,
       items: [],
       payments: []
     };
 
     const els = {
-      // global
       breadcrumbs: document.getElementById('breadcrumbs'),
       screenTitle: document.getElementById('screenTitle'),
       screenSubtitle: document.getElementById('screenSubtitle'),
@@ -777,22 +726,16 @@
       addDayBtnTop: document.getElementById('addDayBtnTop'),
       newSaleInDayBtn: document.getElementById('newSaleInDayBtn'),
       deleteSaleBtn: document.getElementById('deleteSaleBtn'),
-      themeToggle: document.getElementById('themeToggle'),
 
-      // days
       daysStatus: document.getElementById('daysStatus'),
       daysList: document.getElementById('daysList'),
 
-      // day sales
       dayTitle: document.getElementById('dayTitle'),
       daySubtitle: document.getElementById('daySubtitle'),
       daySalesStatus: document.getElementById('daySalesStatus'),
       daySalesList: document.getElementById('daySalesList'),
       newSaleBtnPanel: document.getElementById('newSaleBtnPanel'),
 
-      // sale edit
-      saleTitle: document.getElementById('saleTitle'),
-      saleSubtitle: document.getElementById('saleSubtitle'),
       saleStatus: document.getElementById('saleStatus'),
       saleDate: document.getElementById('saleDate'),
       cashAtStart: document.getElementById('cashAtStart'),
@@ -812,7 +755,6 @@
       saveSaleBtn: document.getElementById('saveSaleBtn'),
       cancelSaleBtn: document.getElementById('cancelSaleBtn'),
 
-      // day modal
       dayModal: document.getElementById('dayModal'),
       dayDateInput: document.getElementById('dayDateInput'),
       dayCashInput: document.getElementById('dayCashInput'),
@@ -820,23 +762,8 @@
       saveDayBtn: document.getElementById('saveDayBtn')
     };
 
-    document.documentElement.setAttribute('data-theme', state.theme);
-    els.themeToggle.innerHTML = state.theme === 'dark' ? moonSvg() : sunSvg();
-    els.themeToggle.addEventListener('click', () => {
-      state.theme = state.theme === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', state.theme);
-      els.themeToggle.innerHTML = state.theme === 'dark' ? moonSvg() : sunSvg();
-    });
-
-    function sunSvg() {
-      return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.55 1.55M17.52 17.52l1.55 1.55M2 12h2.2M19.8 12H22M4.93 19.07l1.55-1.55M17.52 6.48l1.55-1.55"/></svg>';
-    }
-    function moonSvg() {
-      return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.4 14.4A8.8 8.8 0 1 1 9.6 3.6a7.2 7.2 0 0 0 10.8 10.8Z"/></svg>';
-    }
-
-    function setStatus(el, message, type) {
-      el.textContent = message;
+    function setStatus(el, msg, type) {
+      el.textContent = msg;
       el.className = 'status-box show ' + (type === 'error' ? 'status-error' : type === 'info' ? 'status-info' : 'status-ok');
     }
     function clearStatus(el) {
@@ -856,21 +783,20 @@
       els.deleteSaleBtn.classList.add('hidden');
 
       if (name === 'days') {
-        els.screenTitle.textContent = 'Дни продаж';
-        els.screenSubtitle.textContent = 'Список дней с кассой и итогами по продажам.';
+        els.screenTitle.textContent = 'Продажи по дням';
+        els.screenSubtitle.textContent = 'Главный список дней, из которого открываются продажи.';
         els.breadcrumbs.innerHTML = '';
       } else if (name === 'daySales') {
         els.screenTitle.textContent = 'Продажи дня';
-        els.screenSubtitle.textContent = 'Список продаж внутри выбранного дня.';
-        els.breadcrumbs.innerHTML = '<button type="button" data-bc="days">Дни</button> · ' +
-          (state.currentDay || '');
+        els.screenSubtitle.textContent = 'Все продажи за выбранный день.';
+        els.breadcrumbs.innerHTML = '<button data-bc="days">Продажи по дням</button> · ' + (state.currentDay || '');
         els.newSaleInDayBtn.classList.remove('hidden');
       } else if (name === 'saleEdit') {
         els.screenTitle.textContent = state.currentSaleId ? 'Редактирование продажи' : 'Новая продажа';
-        els.screenSubtitle.textContent = 'Дата фиксирована днём, можно изменить состав и оплаты.';
+        els.screenSubtitle.textContent = 'Дата фиксирована днём, редактируется состав и оплаты.';
         els.breadcrumbs.innerHTML =
-          '<button type="button" data-bc="days">Дни</button> · ' +
-          '<button type="button" data-bc="daySales">Продажи дня</button> · ' +
+          '<button data-bc="days">Продажи по дням</button> · ' +
+          '<button data-bc="daySales">День ' + (state.currentDay || '') + '</button> · ' +
           (state.currentSaleId || 'Новая');
         if (state.currentSaleId) els.deleteSaleBtn.classList.remove('hidden');
       }
@@ -887,7 +813,7 @@
     document.querySelectorAll('[data-screen-link]').forEach(btn => {
       btn.addEventListener('click', () => {
         const name = btn.dataset.screenLink;
-        if (name === 'saleEdit' && !state.currentDay) return; // блокируем прямой переход
+        if (name === 'saleEdit' && !state.currentDay) return;
         switchScreen(name);
       });
     });
@@ -933,25 +859,28 @@
             <span>Касса: ${formatMoney(day.cashAtStart || 0)}</span>
           </div>
           <div class="day-metrics">
-            <span class="chip"><span class="chip-strong">Итого</span> ${formatMoney(day.total || 0)}</span>
+            <span class="chip"><span class="chip-strong">Выручка</span> ${formatMoney(day.total || 0)}</span>
             <span class="chip">Продаж: ${day.salesCount || 0}</span>
+            <span class="chip">Товаров: ${day.itemsCount || 0}</span>
           </div>
           <div style="text-align:right;font-size:11px;color:var(--color-text-faint);">
             обновлено: ${day.updatedAt ? escapeHtml(String(day.updatedAt)) : '—'}
           </div>
         `;
-        card.addEventListener('click', () => openDay(day.date));
+        card.addEventListener('click', () => openDay(day));
         els.daysList.appendChild(card);
       });
     }
 
-    async function openDay(date) {
-      state.currentDay = date;
-      els.dayTitle.textContent = `Продажи дня ${date}`;
-      els.daySubtitle.textContent = 'Продажи этого дня по saleId.';
-      els.saleDate.value = date;
+    async function openDay(dayObj) {
+      state.currentDay = dayObj.date;
+      state.currentDayStats = dayObj;
+      els.dayTitle.textContent = 'День ' + dayObj.date;
+      els.daySubtitle.textContent =
+        `Выручка: ${formatMoney(dayObj.total || 0)}, продаж: ${dayObj.salesCount || 0}, товаров: ${dayObj.itemsCount || 0}, касса: ${formatMoney(dayObj.cashAtStart || 0)}.`;
+      els.saleDate.value = dayObj.date;
       switchScreen('daySales');
-      await loadSalesByDay(date);
+      await loadSalesByDay(dayObj.date);
     }
 
     async function loadSalesByDay(date) {
@@ -977,6 +906,7 @@
       sales.forEach(sale => {
         const card = document.createElement('div');
         card.className = 'sale-card';
+        const itemsCount = Array.isArray(sale.items) ? sale.items.length : 0;
         card.innerHTML = `
           <div class="sale-main">
             <strong>${escapeHtml(sale.saleId)}</strong>
@@ -984,7 +914,7 @@
           </div>
           <div class="sale-meta">
             <span class="chip">${escapeHtml(sale.paymentTypes || 'Тип оплаты не указан')}</span>
-            <span class="chip">Касса: ${formatMoney(sale.cashAtStart || 0)}</span>
+            <span class="chip">Товаров: ${itemsCount}</span>
           </div>
           <div class="sale-comment">
             ${sale.comment ? escapeHtml(sale.comment) : ''}
@@ -1053,57 +983,30 @@
       });
       const types = (typesStr || '').split('|').map(s => s.trim()).filter(Boolean);
       types.forEach(t => {
-        result.push({
-          id: uid(),
-          type: t,
-          amount: map[t] != null ? map[t] : 0
-        });
+        result.push({ id: uid(), type: t, amount: map[t] != null ? map[t] : 0 });
       });
       return result;
     }
 
     function emptyItem() {
-      return {
-        id: uid(),
-        article: '',
-        title: '',
-        color: '',
-        size: '',
-        price: 0,
-        sizeOptions: [],
-        query: ''
-      };
+      return { id: uid(), article: '', title: '', color: '', size: '', price: 0, sizeOptions: [], query: '' };
     }
     function emptyPayment() {
-      return {
-        id: uid(),
-        type: state.paymentTypes[0] || '',
-        amount: 0
-      };
+      return { id: uid(), type: state.paymentTypes[0] || '', amount: 0 };
     }
 
-    function addItem() {
-      state.items.push(emptyItem());
-      renderItems();
-      calculateTotals();
-    }
+    function addItem() { state.items.push(emptyItem()); renderItems(); calculateTotals(); }
     function removeItem(id) {
       state.items = state.items.filter(i => i.id !== id);
       if (!state.items.length) state.items.push(emptyItem());
-      renderItems();
-      calculateTotals();
+      renderItems(); calculateTotals();
     }
 
-    function addPayment() {
-      state.payments.push(emptyPayment());
-      renderPayments();
-      calculateTotals();
-    }
+    function addPayment() { state.payments.push(emptyPayment()); renderPayments(); calculateTotals(); }
     function removePayment(id) {
       state.payments = state.payments.filter(p => p.id !== id);
       if (!state.payments.length) state.payments.push(emptyPayment());
-      renderPayments();
-      calculateTotals();
+      renderPayments(); calculateTotals();
     }
 
     function renderItems() {
@@ -1186,16 +1089,17 @@
                 <span style="color:var(--color-text-muted);">${escapeHtml(p.color)} · ${formatMoney(p.price)}</span>
               </button>
             `).join('');
-            resultsBox.style.position = 'absolute';
-            resultsBox.style.zIndex = '5';
-            resultsBox.style.background = 'var(--color-surface)';
-            resultsBox.style.border = '1px solid var(--color-border)';
-            resultsBox.style.borderRadius = '14px';
-            resultsBox.style.marginTop = '4px';
-            resultsBox.style.maxHeight = '220px';
-            resultsBox.style.overflowY = 'auto';
-            resultsBox.style.display = 'block';
-
+            Object.assign(resultsBox.style, {
+              position: 'absolute',
+              zIndex: 5,
+              background: 'var(--color-surface)',
+              border: '1px solid var(--color-border)',
+              borderRadius: '14px',
+              marginTop: '4px',
+              maxHeight: '220px',
+              overflowY: 'auto',
+              display: 'block'
+            });
             Array.from(resultsBox.querySelectorAll('button[data-article]')).forEach(btn => {
               btn.addEventListener('click', () => {
                 const article = btn.getAttribute('data-article');
@@ -1218,9 +1122,7 @@
           calculateTotals();
         });
 
-        queryInput.addEventListener('blur', () => {
-          setTimeout(() => resultsBox.style.display = 'none', 120);
-        });
+        queryInput.addEventListener('blur', () => setTimeout(() => resultsBox.style.display = 'none', 120));
         queryInput.addEventListener('focus', () => {
           if (resultsBox.innerHTML.trim()) resultsBox.style.display = 'block';
         });
@@ -1229,7 +1131,6 @@
           item.size = e.target.value;
           calculateTotals();
         });
-
         priceInput.addEventListener('input', (e) => {
           item.price = Number(e.target.value || 0);
           calculateTotals();
@@ -1244,7 +1145,6 @@
       const p = state.stock.find(x => x.article === article);
       return p ? p.group : '';
     }
-
     function getSizePreview(item) {
       if (!item.size) return '—';
       const opt = (item.sizeOptions || []).find(s => s.size === item.size);
@@ -1342,7 +1242,6 @@
         validateSale();
         clearStatus(els.saleStatus);
         const total = state.items.reduce((sum, i) => sum + Number(i.price || 0), 0);
-        const paymentsTotal = state.payments.reduce((sum, p) => sum + Number(p.amount || 0), 0);
         const cashPart = state.payments
           .filter(p => String(p.type || '').toLowerCase() === 'нал')
           .reduce((sum, p) => sum + Number(p.amount || 0), 0);
@@ -1353,9 +1252,9 @@
           saleId: state.currentSaleId || undefined,
           date: state.currentDay,
           cashAtStart: Number(els.cashAtStart.value || 0),
-          total: total,
-          received: received,
-          change: change,
+          total,
+          received,
+          change,
           comment: els.comment.value || '',
           items: state.items.map(i => ({
             article: i.article,
@@ -1371,9 +1270,7 @@
         };
 
         const isUpdate = !!state.currentSaleId;
-        const url = isUpdate
-          ? `${API_URL}?action=updateSale`
-          : API_URL;
+        const url = isUpdate ? `${API_URL}?action=updateSale` : API_URL;
         const res = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1383,13 +1280,13 @@
         if (!data.ok) throw new Error(data.error || 'Ошибка сохранения');
 
         setStatus(els.saleStatus,
-          isUpdate
-            ? `Продажа обновлена. saleId: ${data.result.saleId}`
-            : `Продажа создана. saleId: ${data.result.saleId}`,
+          isUpdate ? `Продажа обновлена. saleId: ${data.result.saleId}` :
+                     `Продажа создана. saleId: ${data.result.saleId}`,
           'ok');
 
         state.currentSaleId = data.result.saleId;
         await loadSalesByDay(state.currentDay);
+        await loadDays(); // обновить агрегаты по дням
       } catch (err) {
         setStatus(els.saleStatus, err.message || String(err), 'error');
       }
@@ -1409,6 +1306,7 @@
         if (!data.ok) throw new Error(data.error || 'Ошибка удаления');
         state.currentSaleId = null;
         await loadSalesByDay(state.currentDay);
+        await loadDays();
         switchScreen('daySales');
       } catch (err) {
         alert(err.message || String(err));
@@ -1419,7 +1317,7 @@
       if (!state.currentDay) return;
       state.currentSaleId = null;
       els.saleDate.value = state.currentDay;
-      els.cashAtStart.value = '';
+      els.cashAtStart.value = state.currentDayStats ? Number(state.currentDayStats.cashAtStart || 0) : '';
       els.received.value = '';
       els.comment.value = '';
       state.items = [emptyItem()];
@@ -1436,9 +1334,7 @@
       els.dayCashInput.value = day ? Number(day.cashAtStart || 0) : '';
       els.dayModal.classList.add('show');
     }
-    function closeDayModal() {
-      els.dayModal.classList.remove('show');
-    }
+    function closeDayModal() { els.dayModal.classList.remove('show'); }
     async function saveDayFromModal() {
       try {
         const date = els.dayDateInput.value;
@@ -1467,26 +1363,20 @@
         .replaceAll('"', '&quot;')
         .replaceAll("'", '&#39;');
     }
-    function formatMoney(v) {
-      return (Number(v) || 0).toFixed(2);
-    }
-    function uid() {
-      return Math.random().toString(36).slice(2, 10);
-    }
+    function formatMoney(v) { return (Number(v) || 0).toFixed(2); }
+    function uid() { return Math.random().toString(36).slice(2, 10); }
 
-    // events
+    // события
     els.reloadBtn.addEventListener('click', () => {
-      const screen = document.querySelector('.screen.active')?.dataset.screen;
-      if (screen === 'days') loadDays().catch(err => setStatus(els.daysStatus, err.message || String(err), 'error'));
-      if (screen === 'daySales' && state.currentDay) loadSalesByDay(state.currentDay).catch(err => setStatus(els.daySalesStatus, err.message || String(err), 'error'));
+      const s = document.querySelector('.screen.active')?.dataset.screen;
+      if (s === 'days') loadDays().catch(err => setStatus(els.daysStatus, err.message || String(err), 'error'));
+      if (s === 'daySales' && state.currentDay) loadSalesByDay(state.currentDay).catch(err => setStatus(els.daySalesStatus, err.message || String(err), 'error'));
     });
     els.addDayBtn.addEventListener('click', () => openDayModal());
     els.addDayBtnTop.addEventListener('click', () => openDayModal());
     els.cancelDayBtn.addEventListener('click', closeDayModal);
     els.saveDayBtn.addEventListener('click', saveDayFromModal);
-    els.dayModal.addEventListener('click', (e) => {
-      if (e.target === els.dayModal) closeDayModal();
-    });
+    els.dayModal.addEventListener('click', (e) => { if (e.target === els.dayModal) closeDayModal(); });
 
     els.newSaleInDayBtn.addEventListener('click', openNewSaleInCurrentDay);
     els.newSaleBtnPanel.addEventListener('click', openNewSaleInCurrentDay);
