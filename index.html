@@ -1035,7 +1035,7 @@
           <div class="field-row" style="margin-top:8px;">
             <div class="field">
               <label>Артикул</label>
-              <input type="text" value="${escapeHtml(item.article)}" readonly>
+              <input type="text" data-role="articleDisplay" value="${escapeHtml(item.article)}" readonly>
             </div>
             <div class="field">
               <label>Цена</label>
@@ -1045,25 +1045,25 @@
           <div class="field-row" style="margin-top:8px;">
             <div class="field">
               <label>Изделие</label>
-              <input type="text" value="${escapeHtml(item.title)}" readonly>
+              <input type="text" data-role="titleDisplay" value="${escapeHtml(item.title)}" readonly>
             </div>
             <div class="field">
               <label>Цвет</label>
-              <input type="text" value="${escapeHtml(item.color)}" readonly>
+              <input type="text" data-role="colorDisplay" value="${escapeHtml(item.color)}" readonly>
             </div>
           </div>
           <div class="preview-row">
             <div class="preview-box">
               <small>Группа</small>
-              <strong>${escapeHtml(findGroupByArticle(item.article) || '—')}</strong>
+              <strong data-role="groupPreview">${escapeHtml(findGroupByArticle(item.article) || '—')}</strong>
             </div>
             <div class="preview-box">
               <small>Размер / остаток</small>
-              <strong>${escapeHtml(getSizePreview(item))}</strong>
+              <strong data-role="sizePreview">${escapeHtml(getSizePreview(item))}</strong>
             </div>
             <div class="preview-box">
               <small>Сумма позиции</small>
-              <strong>${formatMoney(item.price || 0)}</strong>
+              <strong data-role="sumPreview">${formatMoney(item.price || 0)}</strong>
             </div>
           </div>
         `;
@@ -1072,6 +1072,11 @@
         const sizeSelect = div.querySelector('[data-role="size"]');
         const priceInput = div.querySelector('[data-role="price"]');
         const resultsBox = div.querySelector('.search-results');
+        const titleDisplay = div.querySelector('[data-role="titleDisplay"]');
+        const colorDisplay = div.querySelector('[data-role="colorDisplay"]');
+        const articleDisplay = div.querySelector('[data-role="articleDisplay"]');
+        const sizePreview = div.querySelector('[data-role="sizePreview"]');
+        const sumPreview = div.querySelector('[data-role="sumPreview"]');
 
         queryInput.addEventListener('input', (e) => {
           item.query = e.target.value;
@@ -1097,26 +1102,43 @@
               overflowY: 'auto',
               display: 'block'
             });
-            Array.from(resultsBox.querySelectorAll('button[data-article]')).forEach(btn => {
-              btn.addEventListener('click', () => {
-                const article = btn.getAttribute('data-article');
-                const product = state.stock.find(p => p.article === article);
-                if (product) {
-                  item.article = product.article;
-                  item.title = product.title;
-                  item.color = product.color;
-                  item.price = Number(product.price || 0);
-                  item.size = '';
-                  item.sizeOptions = product.sizes || [];
-                  item.query = `${product.article} ${product.title}`;
-                  renderItems();
-                  calculateTotals();
-                }
-                resultsBox.style.display = 'none';
-              });
-            });
           }
           calculateTotals();
+        });
+
+        // делегирование: выбираем товар по клику на кнопке внутри resultsBox
+        resultsBox.addEventListener('click', (e) => {
+          const btn = e.target.closest('button[data-article]');
+          if (!btn) return;
+          const article = btn.getAttribute('data-article');
+          const product = state.stock.find(p => p.article === article);
+          if (!product) return;
+
+          item.article = product.article;
+          item.title = product.title;
+          item.color = product.color;
+          item.price = Number(product.price || 0);
+          item.size = '';
+          item.sizeOptions = product.sizes || [];
+          item.query = `${product.article} ${product.title}`;
+
+          queryInput.value = item.query;
+          articleDisplay.value = item.article;
+          titleDisplay.value = item.title;
+          colorDisplay.value = item.color;
+          priceInput.value = item.price;
+          sumPreview.textContent = formatMoney(item.price || 0);
+
+          // перерисуем селект размеров
+          sizeSelect.innerHTML = ['<option value="">Размер</option>'].concat(
+            (item.sizeOptions || []).map(s =>
+              `<option value="${escapeHtml(s.size)}">${escapeHtml(s.size)}${s.stockLabel ? ' ('+escapeHtml(s.stockLabel)+')' : ''}</option>`
+            )
+          ).join('');
+          sizePreview.textContent = getSizePreview(item);
+
+          calculateTotals();
+          resultsBox.style.display = 'none';
         });
 
         queryInput.addEventListener('blur', () => setTimeout(() => resultsBox.style.display = 'none', 120));
@@ -1126,10 +1148,12 @@
 
         sizeSelect.addEventListener('change', (e) => {
           item.size = e.target.value;
+          sizePreview.textContent = getSizePreview(item);
           calculateTotals();
         });
         priceInput.addEventListener('input', (e) => {
           item.price = Number(e.target.value || 0);
+          sumPreview.textContent = formatMoney(item.price || 0);
           calculateTotals();
         });
 
@@ -1210,7 +1234,6 @@
       els.paymentsTotal.textContent = formatMoney(paymentsTotal);
       els.cashPartPreview.textContent = formatMoney(cashPart);
 
-      // если пользователь ещё не вводил сдачу, подставляем авто-значение
       if (!els.changeInput.matches(':focus') && !els.changeInput.value) {
         els.changeInput.value = formatMoney(autoChange);
       }
@@ -1286,7 +1309,7 @@
 
         state.currentSaleId = data.result.saleId;
         await loadSalesByDay(state.currentDay);
-        await loadDays(); // чтобы обновились агрегаты по дню
+        await loadDays();
       } catch (err) {
         setStatus(els.saleStatus, err.message || String(err), 'error');
       }
@@ -1366,7 +1389,6 @@
     function formatMoney(v) { return (Number(v) || 0).toFixed(2); }
     function uid() { return Math.random().toString(36).slice(2, 10); }
 
-    // события
     els.reloadBtn.addEventListener('click', () => {
       const s = document.querySelector('.screen.active')?.dataset.screen;
       if (s === 'days') loadDays().catch(err => setStatus(els.daysStatus, err.message || String(err), 'error'));
